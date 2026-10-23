@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warehouse All-Rounder · KW Shift B · Jumbo</title>
+<meta name="description" content="Jumbo is hiring a Warehouse All-Rounder for KW Shift B. Six stations, one role, one shift that never stands still.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   1. FOUNDATION
+
+   HOW THIS STAYS FAST
+   Positions are measured once on load. Per frame the page writes
+   four numbers to the root element: scroll, progress, and the two
+   tilt axes. Every movement after that is pure CSS transform,
+   handled by the graphics card. Nothing reads layout in the loop.
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --ink:    #08090A;
+    --ink-2:  #101113;
+    --line:   rgba(255,255,255,.1);
+    --line-2: rgba(255,255,255,.05);
+    --text:   #F2F1EE;
+    --dim:    rgba(242,241,238,.56);
+    --faint:  rgba(242,241,238,.28);
+    --yellow: #FFD400;
+
+    --display: 'Familjen Grotesk', system-ui, sans-serif;
+    --body: 'Inter Tight', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --pad: clamp(20px, 5vw, 78px);
+    --ease: cubic-bezier(.22,.75,.24,1);
+    --slow: cubic-bezier(.16,1,.3,1);
+
+    --sy: 0; --sp: 0; --tx: 0; --ty: 0;
+}
+
+html { scroll-behavior: smooth; }
+html, body { max-width: 100%; overflow-x: hidden; }
+body { font-family: var(--body); background: var(--ink); color: var(--text); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+img, video, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--yellow); outline-offset: 4px; }
+
+.wrap { max-width: 1300px; margin: 0 auto; }
+.sec { padding: clamp(76px,9vw,160px) var(--pad); position: relative; }
+.lab { font-family: var(--mono); font-size: .67rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
+.lab .n { color: var(--yellow); }
+.d1 { font-family: var(--display); font-weight: 700; font-size: clamp(3rem,10vw,8.6rem); line-height: .88; letter-spacing: -.042em; }
+.d2 { font-family: var(--display); font-weight: 700; font-size: clamp(2.1rem,5vw,4.2rem); line-height: .99; letter-spacing: -.038em; }
+.d3 { font-family: var(--display); font-weight: 700; font-size: 1.32rem; line-height: 1.14; letter-spacing: -.022em; }
+.p { font-weight: 300; font-size: 1.04rem; line-height: 1.76; color: var(--dim); }
+.p-lg { font-weight: 300; font-size: clamp(1.08rem,1.5vw,1.32rem); line-height: 1.6; color: var(--dim); }
+.split { display: grid; grid-template-columns: minmax(140px,.4fr) 1.6fr; gap: clamp(26px,5vw,84px); align-items: start; }
+
+/* ============================================================
+   2. DEPTH ENGINE
+   Every layer moves on scroll by its own rate, and on tilt by its
+   own depth. Two independent axes of parallax in one transform.
+   ============================================================ */
+.par {
+    transform: translate3d(
+        calc(var(--tx) * var(--d, 0) * 26px),
+        calc((var(--sy) - var(--o, 0)) * var(--k, .03) * 1px + var(--ty) * var(--d, 0) * 18px),
+        0);
+}
+/* the whole page leans, the way a card catches light when you turn it */
+html.tilt #stage {
+    transform: perspective(1500px)
+               rotateY(calc(var(--tx) * 4.4deg))
+               rotateX(calc(var(--ty) * -3.4deg));
+    transform-origin: 50% calc(var(--sy) * 1px + 50vh);
+    transform-style: preserve-3d;
+}
+
+/* ============================================================
+   3. FIXED LAYERS
+   ============================================================ */
+.mesh {
+    position: fixed; inset: -10%; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 88px 88px;
+    mask-image: radial-gradient(ellipse 95% 65% at 50% 0%, #000 15%, transparent 78%);
+    transform: translate3d(calc(var(--tx) * -14px), calc(var(--ty) * -10px), 0);
+}
+.prog { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 90; background: var(--yellow); transform: scaleX(var(--sp)); transform-origin: 0 50%; }
+.spot {
+    position: fixed; left: 0; top: 0; width: 640px; height: 640px; margin: -320px 0 0 -320px; z-index: 1;
+    border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity .6s;
+    background: radial-gradient(circle, rgba(255,212,0,.1), transparent 62%);
+}
+.spot.on { opacity: 1; }
+.above { position: relative; z-index: 2; }
+
+/* ============================================================
+   4. NAV
+   ============================================================ */
+.nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 80; height: 66px; padding: 0 var(--pad);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    border-bottom: 1px solid transparent; transition: border-color .4s, background .4s;
+}
+.nav.stuck { background: rgba(8,9,10,.9); backdrop-filter: blur(12px); border-bottom-color: var(--line); }
+.logo { display: flex; align-items: center; gap: 11px; font-family: var(--display); font-weight: 700; font-size: 1rem; letter-spacing: -.02em; }
+.logo b { background: var(--yellow); color: var(--ink); padding: 3px 8px; font-size: .8rem; }
+.menu { display: flex; align-items: center; gap: 26px; list-style: none; }
+.menu a { font-family: var(--mono); font-size: .65rem; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); transition: color .25s; }
+.menu a:hover { color: var(--text); }
+.menu .go { background: var(--yellow); color: var(--ink); padding: 10px 18px; font-weight: 500; transition: transform .25s var(--ease); }
+.menu .go:hover { color: var(--ink); transform: translateY(-2px); }
+.burger { display: none; width: 42px; height: 42px; border: 0; background: none; cursor: pointer; position: relative; }
+.burger i { position: absolute; left: 11px; width: 20px; height: 1.5px; background: var(--text); transition: transform .35s var(--ease); }
+.burger i:nth-child(1) { top: 18px } .burger i:nth-child(2) { top: 24px }
+.burger.on i:nth-child(1) { transform: translateY(3px) rotate(45deg) }
+.burger.on i:nth-child(2) { transform: translateY(-3px) rotate(-45deg) }
+
+/* ============================================================
+   5. HERO
+   ============================================================ */
+.hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 132px var(--pad) 0; position: relative; overflow: hidden; }
+.blob { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
+.blob.a { width: 46vw; height: 46vw; top: -14%; right: -8%; background: radial-gradient(circle, rgba(255,212,0,.17), transparent 68%); animation: drift 28s ease-in-out infinite; }
+.blob.b { width: 36vw; height: 36vw; bottom: -16%; left: -10%; background: radial-gradient(circle, rgba(255,212,0,.08), transparent 68%); animation: drift 28s ease-in-out -14s infinite; }
+@keyframes drift { 0%,100% { transform: translate3d(0,0,0) scale(1) } 50% { transform: translate3d(3%,4%,0) scale(1.13) } }
+
+.chip { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); padding: 8px 16px; margin-bottom: clamp(24px,3.5vw,42px); }
+.chip i { width: 6px; height: 6px; background: var(--yellow); animation: blink 2.4s infinite; }
+@keyframes blink { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+.ln { display: block; overflow: hidden; padding-bottom: .04em; }
+.ln > b { display: block; font-weight: inherit; transform: translateY(105%); transition: transform 1.05s var(--slow); }
+.d1.lit .ln > b { transform: none; }
+.ln .fill { color: var(--yellow); }
+.hero-base { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 30px; margin-top: clamp(32px,4vw,56px); }
+.hero-base p { max-width: 38ch; }
+.hero-facts { display: flex; gap: 36px; }
+.hero-facts dt { font-family: var(--mono); font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
+.hero-facts dd { font-family: var(--display); font-weight: 700; font-size: 1.08rem; margin-top: 6px; }
+.scrolltip { margin-top: clamp(38px,5vw,66px); display: flex; align-items: center; gap: 12px; }
+.scrolltip .bar { width: 42px; height: 1px; background: var(--line); overflow: hidden; position: relative; }
+.scrolltip .bar::after { content: ''; position: absolute; inset: 0; background: var(--yellow); transform: translateX(-100%); animation: sweep 2.4s var(--ease) infinite; }
+@keyframes sweep { 0% { transform: translateX(-100%) } 60%,100% { transform: translateX(100%) } }
+
+/* ============================================================
+   6. VIDEO + MARQUEE
+   ============================================================ */
+.reel { padding: 0 var(--pad) clamp(60px,8vw,104px); }
+.frame { position: relative; overflow: hidden; background: #000; border: 1px solid var(--line); }
+.frame video { width: 100%; height: auto; }
+.frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,9,10,.72), transparent 44%); pointer-events: none; }
+.reel-bar { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: clamp(14px,2.2vw,26px); }
+.sound { display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--line); background: rgba(8,9,10,.55); color: var(--text); padding: 10px 16px; cursor: pointer; font-family: var(--mono); font-size: .63rem; letter-spacing: .13em; text-transform: uppercase; transition: background .25s; }
+.sound:hover { background: rgba(255,255,255,.1); }
+.sound i { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); }
+.sound.live i { background: var(--yellow); }
+
+.mq { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; padding: 18px 0; }
+.mq-t { display: flex; width: max-content; animation: roll 36s linear infinite; }
+.mq-t span { font-family: var(--display); font-weight: 700; font-size: clamp(1.1rem,2vw,1.75rem); letter-spacing: -.028em; color: var(--faint); padding: 0 26px; white-space: nowrap; }
+.mq-t em { color: var(--yellow); font-style: normal; align-self: center; }
+@keyframes roll { to { transform: translate3d(-50%,0,0) } }
+.mq:hover .mq-t { animation-play-state: paused; }
+
+/* ============================================================
+   7. REVEALS + BIG SECTION NUMERALS
+   ============================================================ */
+.up { opacity: 0; transform: translateY(26px); transition: opacity .85s var(--slow), transform .85s var(--slow); }
+.up.in { opacity: 1; transform: none; }
+.u1 { transition-delay: .08s } .u2 { transition-delay: .16s } .u3 { transition-delay: .24s }
+
+.numeral {
+    position: absolute; right: var(--pad); top: 50%; z-index: 0; pointer-events: none;
+    font-family: var(--display); font-weight: 700; font-size: clamp(9rem,26vw,24rem); line-height: 1;
+    letter-spacing: -.06em; color: transparent; -webkit-text-stroke: 1px rgba(242,241,238,.05);
+    transform: translate3d(calc(var(--tx) * var(--d,1.6) * 26px),
+                           calc(-50% + (var(--sy) - var(--o,0)) * var(--k,.07) * 1px + var(--ty) * var(--d,1.6) * 18px), 0);
+}
+
+/* ============================================================
+   8. ROLE
+   ============================================================ */
+.role p + p { margin-top: 22px; }
+.pull {
+    font-family: var(--display); font-weight: 700; font-size: clamp(1.55rem,3vw,2.5rem);
+    line-height: 1.08; letter-spacing: -.032em; color: var(--text);
+    margin: 38px 0; padding: 32px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.pull span { color: var(--yellow); }
+
+/* ============================================================
+   9. STATION ACCORDION
+   ============================================================ */
+.acc { margin-top: clamp(30px,4vw,52px); border-top: 1px solid var(--line); }
+.acc-item { border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+.acc-item::before {
+    content: ''; position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .45s;
+    background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(255,212,0,.08), transparent 62%);
+}
+.acc-item:hover::before { opacity: 1; }
+.acc-btn {
+    display: grid; grid-template-columns: 66px 1fr auto; gap: clamp(14px,3vw,34px); align-items: center;
+    width: 100%; text-align: left; background: none; border: 0; cursor: pointer; color: var(--text);
+    padding: clamp(20px,2.7vw,32px) 4px; position: relative; z-index: 1;
+}
+.acc-btn .num { font-family: var(--mono); font-size: .67rem; letter-spacing: .1em; color: var(--faint); transition: color .35s; }
+.acc-btn .ttl { font-family: var(--display); font-weight: 700; font-size: clamp(1.55rem,3.4vw,2.7rem); letter-spacing: -.038em; line-height: 1; transition: color .35s, transform .5s var(--ease); }
+.acc-btn .sign { width: 36px; height: 36px; border: 1px solid var(--line); display: grid; place-items: center; position: relative; flex-shrink: 0; transition: background .35s, border-color .35s, transform .5s var(--ease); }
+.acc-btn .sign::before, .acc-btn .sign::after { content: ''; position: absolute; background: var(--text); transition: transform .45s var(--ease), background .35s; }
+.acc-btn .sign::before { width: 13px; height: 1.5px; }
+.acc-btn .sign::after { width: 1.5px; height: 13px; }
+.acc-item:hover .acc-btn .ttl { transform: translateX(10px); }
+.acc-item:hover .acc-btn .num { color: var(--yellow); }
+.acc-item.open .acc-btn .ttl, .acc-item.open .acc-btn .num { color: var(--yellow); }
+.acc-item.open .sign { background: var(--yellow); border-color: var(--yellow); transform: rotate(180deg); }
+.acc-item.open .sign::before, .acc-item.open .sign::after { background: var(--ink); }
+.acc-item.open .sign::after { transform: scaleY(0); }
+.acc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .58s var(--slow); position: relative; z-index: 1; }
+.acc-item.open .acc-body { grid-template-rows: 1fr; }
+.acc-inner { overflow: hidden; }
+.acc-pad { display: grid; grid-template-columns: 66px 1fr; gap: clamp(14px,3vw,34px); padding: 0 4px clamp(26px,3vw,36px); }
+.acc-pad p { font-weight: 300; line-height: 1.76; color: var(--dim); font-size: 1.03rem; max-width: 62ch; }
+.acc-pad .kit { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+.acc-pad .kit span { font-family: var(--mono); font-size: .57rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); border: 1px solid var(--line); padding: 7px 12px; }
+
+/* ============================================================
+   10. FIGURES + CARDS + LEADERS
+   ============================================================ */
+.figs { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: clamp(30px,4vw,52px); }
+.fig { background: var(--ink); padding: clamp(28px,3vw,46px) clamp(20px,2vw,32px); transition: background .5s; }
+.fig:hover { background: var(--ink-2); }
+.fig b { display: block; font-family: var(--display); font-weight: 700; font-size: clamp(2.6rem,5.6vw,4.6rem); line-height: 1; letter-spacing: -.05em; color: var(--yellow); }
+.fig span { display: block; margin-top: 13px; font-family: var(--mono); font-size: .58rem; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
+
+.cards { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: clamp(30px,4vw,52px); }
+.card { background: var(--ink); padding: clamp(30px,3vw,46px); position: relative; overflow: hidden; transition: background .5s; }
+.card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .45s; pointer-events: none; background: radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(255,212,0,.1), transparent 62%); }
+.card:hover { background: var(--ink-2); }
+.card:hover::before { opacity: 1; }
+.card .k { font-family: var(--mono); font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--yellow); }
+.card h3 { margin: 17px 0 12px; }
+.card p { font-weight: 300; font-size: .98rem; line-height: 1.7; color: var(--dim); }
+
+.crew { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: clamp(30px,4vw,52px); }
+.who { background: var(--ink); padding: clamp(30px,3vw,46px); transition: background .5s; }
+.who:hover { background: var(--ink-2); }
+.who .in { width: 52px; height: 52px; border: 1px solid var(--line); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.18rem; color: var(--yellow); margin-bottom: 24px; transition: background .45s, color .45s, border-color .45s; }
+.who:hover .in { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
+.who h3 { font-family: var(--display); font-weight: 700; font-size: clamp(1.65rem,2.9vw,2.2rem); letter-spacing: -.038em; }
+.who span { display: block; margin-top: 6px; font-family: var(--mono); font-size: .58rem; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
+
+/* ============================================================
+   11. QUIZ
+   ============================================================ */
+.quiz { margin-top: clamp(30px,4vw,50px); border: 1px solid var(--line); background: var(--ink-2); }
+.quiz-top { display: flex; align-items: center; gap: 18px; padding: 18px clamp(20px,3vw,32px); border-bottom: 1px solid var(--line); }
+.qtrack { flex: 1; height: 2px; background: var(--line); overflow: hidden; }
+.qtrack i { display: block; height: 100%; width: 0; background: var(--yellow); transition: width .55s var(--slow); }
+.quiz-body { padding: clamp(24px,3.4vw,44px); min-height: 320px; }
+.qin { animation: qin .45s var(--slow); }
+@keyframes qin { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+.qin h3 { font-family: var(--display); font-weight: 700; font-size: clamp(1.32rem,2.7vw,2rem); line-height: 1.12; letter-spacing: -.032em; max-width: 26ch; }
+.opts { display: grid; gap: 8px; margin-top: 28px; }
+.opt {
+    display: flex; align-items: center; gap: 15px; width: 100%; text-align: left; cursor: pointer;
+    background: var(--ink); border: 1px solid var(--line); color: var(--text);
+    padding: 17px 19px; font-family: var(--body); font-weight: 300; font-size: 1rem;
+    transition: border-color .25s, background .25s, transform .3s var(--ease);
+}
+.opt:hover { border-color: var(--yellow); transform: translateX(7px); }
+.opt.pick { border-color: var(--yellow); background: rgba(255,212,0,.09); }
+.opt em { flex-shrink: 0; width: 28px; height: 28px; border: 1px solid var(--line); display: grid; place-items: center; font-family: var(--mono); font-style: normal; font-size: .65rem; color: var(--faint); transition: background .25s, color .25s, border-color .25s; }
+.opt:hover em { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
+.back { margin-top: 18px; background: none; border: 0; cursor: pointer; font-family: var(--mono); font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; color: var(--faint); }
+.back:hover { color: var(--text); }
+.res h3 { font-family: var(--display); font-weight: 700; font-size: clamp(1.85rem,3.9vw,2.9rem); line-height: 1.02; letter-spacing: -.042em; margin: 12px 0 15px; }
+.res h3 mark { background: none; color: var(--yellow); }
+.meters { display: grid; gap: 10px; margin: 28px 0 24px; }
+.meter { display: grid; grid-template-columns: 126px 1fr 42px; align-items: center; gap: 14px; }
+.meter b { font-family: var(--mono); font-size: .61rem; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); font-weight: 400; }
+.meter span { height: 4px; background: var(--line); overflow: hidden; }
+.meter span i { display: block; height: 100%; width: 0; background: var(--yellow); transition: width 1s var(--slow); }
+.meter em { font-family: var(--mono); font-style: normal; font-size: .61rem; color: var(--faint); text-align: right; }
+.res-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ============================================================
+   12. APPLY + FOOTER
+   ============================================================ */
+.apply { position: relative; overflow: hidden; padding: clamp(76px,10vw,168px) var(--pad); }
+.apply::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(65% 100% at 50% 100%, rgba(255,212,0,.1), transparent 70%); }
+.apply-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(30px,5vw,88px); align-items: start; }
+.apply h2 { font-family: var(--display); font-weight: 700; font-size: clamp(2.4rem,6.2vw,5.2rem); line-height: .95; letter-spacing: -.048em; }
+.apply h2 span { color: var(--yellow); }
+.need { border-top: 1px solid var(--line); }
+.need > div { display: grid; grid-template-columns: 46px 1fr; gap: 14px; padding: 23px 0; border-bottom: 1px solid var(--line); }
+.need .i { font-family: var(--mono); font-size: .61rem; letter-spacing: .14em; color: var(--yellow); padding-top: 4px; }
+.need p { font-weight: 300; font-size: .99rem; line-height: 1.68; color: var(--dim); }
+.need strong { color: var(--text); font-weight: 500; }
+.big {
+    margin-top: 36px; display: inline-flex; align-items: center; gap: 18px; border: 0; cursor: pointer;
+    background: var(--yellow); color: var(--ink); padding: 21px 34px;
+    font-family: var(--display); font-weight: 700; font-size: 1.06rem; letter-spacing: -.018em;
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.big:hover { box-shadow: 0 16px 44px rgba(255,212,0,.25); }
+.big .arw { transition: transform .3s var(--ease); }
+.big:hover .arw { transform: translateX(5px); }
+
+.foot { border-top: 1px solid var(--line); padding: clamp(46px,5vw,68px) var(--pad) 38px; }
+.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: center; }
+.foot-row b { font-family: var(--display); font-weight: 700; font-size: 1.06rem; }
+.foot a { color: var(--yellow); }
+.foot small { display: block; margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line-2); font-family: var(--mono); font-size: .57rem; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+
+/* ============================================================
+   13. DIALOG
+   ============================================================ */
+.veil { position: fixed; inset: 0; z-index: 95; display: none; background: rgba(4,4,5,.84); overflow-y: auto; padding: 4vh 16px; }
+.veil.open { display: block; }
+.sheet { max-width: 600px; margin: 0 auto; background: var(--ink-2); border: 1px solid var(--line); animation: qin .45s var(--slow); }
+.sheet-top { display: flex; align-items: center; justify-content: space-between; padding: 17px 24px; border-bottom: 1px solid var(--line); }
+.x { width: 34px; height: 34px; border: 1px solid var(--line); background: none; color: var(--text); cursor: pointer; font-size: 1.1rem; line-height: 1; transition: background .25s, transform .35s var(--ease); }
+.x:hover { background: rgba(255,255,255,.08); transform: rotate(90deg); }
+.sheet-in { padding: clamp(24px,3.4vw,36px); }
+.sheet-in h2 { font-family: var(--display); font-weight: 700; font-size: 1.58rem; letter-spacing: -.032em; }
+.sheet-in .note { margin: 11px 0 24px; font-weight: 300; font-size: .94rem; line-height: 1.64; color: var(--dim); }
+.stepv { display: none } .stepv.on { display: block; animation: qin .4s var(--slow) }
+.fld { margin-bottom: 14px; }
+.fld label { display: block; font-family: var(--mono); font-size: .59rem; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+.fld input, .fld textarea { width: 100%; padding: 13px 15px; background: var(--ink); border: 1px solid var(--line); color: var(--text); font-family: var(--body); font-size: .96rem; transition: border-color .25s; }
+.fld textarea { resize: vertical; min-height: 94px; }
+.fld input::placeholder, .fld textarea::placeholder { color: rgba(242,241,238,.25); }
+.fld input:focus, .fld textarea:focus { outline: none; border-color: var(--yellow); }
+.fld input:-webkit-autofill { -webkit-text-fill-color: var(--text); -webkit-box-shadow: 0 0 0 100px #121416 inset; caret-color: var(--text); }
+.hp { position: absolute; left: -9999px; opacity: 0; height: 0; }
+.alert { border: 1px solid rgba(255,212,0,.4); background: rgba(255,212,0,.08); padding: 13px 15px; font-size: .89rem; line-height: 1.55; margin-bottom: 16px; }
+.alert b { display: block; color: var(--yellow); margin-bottom: 3px; }
+.alert button { background: none; border: 0; padding: 0; font: inherit; color: var(--yellow); text-decoration: underline; cursor: pointer; }
+.acts { display: flex; gap: 10px; margin-top: 20px; }
+.acts button, .res-btns button { padding: 15px 24px; border: 0; cursor: pointer; font-family: var(--display); font-weight: 700; font-size: .94rem; transition: transform .28s var(--ease), background .25s; }
+.acts button { flex: 1; }
+.bline { background: none; border: 1px solid var(--line); color: var(--text); }
+.bline:hover { background: rgba(255,255,255,.06); }
+.bfill { background: var(--yellow); color: var(--ink); }
+.bfill:hover { transform: translateY(-2px); }
+.bfill:disabled { opacity: .45; transform: none; cursor: default; }
+.wait { text-align: center; padding: 42px 0; }
+.dots { display: inline-flex; gap: 6px; }
+.dots i { width: 8px; height: 8px; background: var(--yellow); animation: hop .9s infinite; }
+.dots i:nth-child(2) { animation-delay: .15s } .dots i:nth-child(3) { animation-delay: .3s }
+@keyframes hop { 0%,100% { transform: translateY(0); opacity: .3 } 50% { transform: translateY(-7px); opacity: 1 } }
+.tick { width: 46px; height: 46px; background: var(--yellow); color: var(--ink); display: grid; place-items: center; font-size: 1.3rem; margin-bottom: 20px; }
+.refbox { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; border: 1px solid var(--line); padding: 16px 18px; margin: 20px 0; }
+.refbox b { font-family: var(--display); font-weight: 700; font-size: 1.3rem; letter-spacing: .03em; color: var(--yellow); }
+.mailers { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin: 18px 0 8px; }
+.mailer { display: flex; align-items: center; gap: 11px; padding: 15px; border: 1px solid var(--line); background: var(--ink); color: var(--text); cursor: pointer; text-align: left; font-size: .93rem; transition: border-color .25s, transform .28s var(--ease); }
+.mailer:hover { border-color: var(--yellow); transform: translateY(-2px); }
+.mailer svg { width: 20px; height: 20px; flex-shrink: 0; }
+.mailer small { display: block; color: var(--faint); font-size: .72rem; }
+.copyline { width: 100%; margin-top: 8px; padding: 13px; border: 1px dashed var(--line); background: none; color: var(--faint); cursor: pointer; font-family: var(--mono); font-size: .61rem; letter-spacing: .14em; text-transform: uppercase; transition: color .25s, border-color .25s; }
+.copyline:hover { color: var(--text); border-color: var(--yellow); }
+
+/* ============================================================
+   14. RESPONSIVE
+   ============================================================ */
+@media (max-width: 1000px) {
+    .split, .apply-grid { grid-template-columns: 1fr; }
+    .cards, .crew { grid-template-columns: 1fr; }
+    .figs { grid-template-columns: repeat(2,1fr); }
+    .hero-base { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 720px) {
+    .burger { display: block; }
+    .menu {
+        position: fixed; top: 66px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0;
+        background: rgba(8,9,10,.97); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
+        padding: 8px var(--pad) 22px; display: none;
+    }
+    .menu.open { display: flex; }
+    .menu a { display: block; padding: 15px 0; font-size: .73rem; border-bottom: 1px solid var(--line-2); }
+    .menu .go { text-align: center; margin-top: 12px; padding: 16px; border-bottom: 0; }
+    .hero-facts { gap: 22px; flex-wrap: wrap; }
+    .acc-btn { grid-template-columns: 44px 1fr auto; }
+    .acc-pad { grid-template-columns: 1fr; }
+    .mailers, .acts, .res-btns { grid-template-columns: 1fr; flex-direction: column; }
+    .meter { grid-template-columns: 92px 1fr 36px; gap: 10px; }
+    .spot { display: none; }
+    .numeral { font-size: 34vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .up { opacity: 1; transform: none; }
+    .ln > b { transform: none; }
+    .par, .numeral, .mesh { transform: none; }
+    html.tilt #stage { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="mesh" aria-hidden="true"></div>
+<div class="prog" aria-hidden="true"></div>
+<div class="spot" id="spot" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+    <div class="logo"><b>Jumbo</b> KW Shift B</div>
+    <nav>
+        <ul class="menu" id="menu">
+            <li><a href="#role">The role</a></li>
+            <li><a href="#stations">Stations</a></li>
+            <li><a href="#why">Why join</a></li>
+            <li><a href="#fit">Station fit</a></li>
+            <li><a href="#apply" class="go">Apply</a></li>
+        </ul>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+</header>
+
+<div id="stage">
+
+<!-- HERO -->
+<section class="hero">
+    <div class="blob a" aria-hidden="true"></div>
+    <div class="blob b" aria-hidden="true"></div>
+    <div class="wrap above">
+        <span class="chip lab par" data-k=".01" data-d="2.4"><i></i> Now hiring</span>
+        <h1 class="d1 par" id="h1" data-k=".015" data-d="1.5">
+            <span class="ln"><b>Warehouse</b></span>
+            <span class="ln"><b class="fill">All-Rounder</b></span>
+        </h1>
+        <div class="hero-base par" data-k=".02" data-d="2.8">
+            <p class="p-lg">Six stations. One role. The person KW Shift B leans on when it matters.</p>
+            <dl class="hero-facts">
+                <div><dt>Shift</dt><dd>KW, Shift B</dd></div>
+                <div><dt>Stations</dt><dd>Six, rotating</dd></div>
+                <div><dt>Start</dt><dd>When you are ready</dd></div>
+            </dl>
+        </div>
+        <div class="scrolltip lab par" data-k=".03" data-d="3.4"><span class="bar"></span> Scroll</div>
+    </div>
+</section>
+
+<!-- VIDEO -->
+<section class="reel above">
+    <div class="wrap">
+        <div class="frame par" data-k=".035" data-d="1.1">
+            <video id="vid" autoplay muted loop playsinline></video>
+            <div class="reel-bar">
+                <span class="lab">Inside the shift</span>
+                <button class="sound" id="sound" aria-pressed="false"><i aria-hidden="true"></i> Sound off</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq above" aria-hidden="true"><div class="mq-t" id="mqt"></div></div>
+
+<!-- ROLE -->
+<section class="sec above" id="role">
+    <span class="numeral" data-k=".08" data-d="1.2" aria-hidden="true">01</span>
+    <div class="wrap split">
+        <span class="lab up par" data-k=".05" data-d="2.6"><span class="n">01</span> The role</span>
+        <div class="role">
+            <h2 class="d2 up par" data-k=".025" data-d="1.4">Not a job title. A position on the floor.</h2>
+            <div style="margin-top:32px">
+                <p class="p up u1 par" data-k="-.02" data-d="1.9">Ready to take your warehouse skills further? An All-Rounder is the person the shift leans on, the one who steps in wherever the work is and keeps everything moving.</p>
+                <blockquote class="pull up u1 par" data-k=".03" data-d="2.2">You are the <span>glue</span> that holds the shift together.</blockquote>
+                <p class="p up u1 par" data-k="-.02" data-d="1.9">When it gets busy or something goes wrong, you are the one the team looks to. You will not just be doing a job. You will learn the entire Jumbo operation from the inside out, station by station.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATIONS -->
+<section class="sec above" id="stations" style="padding-top:0">
+    <span class="numeral" data-k=".07" data-d="1.4" style="right:auto;left:var(--pad)" aria-hidden="true">02</span>
+    <div class="wrap">
+        <div class="split">
+            <span class="lab up par" data-k=".05" data-d="2.6"><span class="n">02</span> The six stations</span>
+            <div>
+                <h2 class="d2 up par" data-k=".025" data-d="1.4">You rotate through all of them.</h2>
+                <p class="p up u1 par" data-k="-.015" data-d="2" style="margin-top:16px;max-width:50ch">Every station runs at the same time, all shift long. There is no fixed order. You go where the floor needs you.</p>
+            </div>
+        </div>
+        <div class="acc up u1 par" data-k=".012" data-d=".8" id="acc"></div>
+    </div>
+</section>
+
+<!-- FIGURES -->
+<section class="sec above" style="padding-top:0">
+    <div class="wrap figs par" data-k="-.022" data-d="1.3">
+        <div class="fig"><b data-count="6">0</b><span>Stations to master</span></div>
+        <div class="fig"><b data-count="3">0</b><span>Leaders behind you</span></div>
+        <div class="fig"><b data-count="1">0</b><span>Role, whole floor</span></div>
+        <div class="fig"><b data-count="0">0</b><span>Boring shifts</span></div>
+    </div>
+</section>
+
+<!-- WHY -->
+<section class="sec above" id="why">
+    <span class="numeral" data-k=".08" data-d="1.2" aria-hidden="true">03</span>
+    <div class="wrap split">
+        <span class="lab up par" data-k=".05" data-d="2.6"><span class="n">03</span> Why join</span>
+        <div>
+            <h2 class="d2 up par" data-k=".025" data-d="1.4">Most people learn one job. You learn the operation.</h2>
+            <div class="cards up u1 par" data-k=".014" data-d="1">
+                <article class="glow card"><span class="k">Range</span><h3 class="d3">Six skill sets, one role</h3><p>Help desk, reach truck, ontvangst, AGF, order control, housekeeping. You do not specialise into a corner. You build skills that stay with you wherever you go next.</p></article>
+                <article class="glow card"><span class="k">Trust</span><h3 class="d3">Be the one they call</h3><p>When a scanner stops working or the floor does not match the system, the shift looks for you. That trust is earned fast, and it does not go unnoticed.</p></article>
+                <article class="glow card"><span class="k">Teamwork</span><h3 class="d3">Nobody works alone here</h3><p>Ontvangst and reach truck work side by side all day. AGF runs as a pair. The whole operation is built on people covering for each other.</p></article>
+                <article class="glow card"><span class="k">Perspective</span><h3 class="d3">See how it fits together</h3><p>Standing in every station teaches you why the operation works the way it does, and where the pressure lands when a shift gets busy.</p></article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LEADERS -->
+<section class="sec above" style="padding-top:0">
+    <div class="wrap split">
+        <span class="lab up par" data-k=".05" data-d="2.6"><span class="n">04</span> Your shift leaders</span>
+        <div>
+            <h2 class="d2 up par" data-k=".025" data-d="1.4">The people who have your back</h2>
+            <div class="crew up u1 par" data-k=".014" data-d="1.1">
+                <div class="who"><div class="in">M</div><h3>Miroslaw</h3><span>Team lead</span></div>
+                <div class="who"><div class="in">S</div><h3>Soufiane</h3><span>Team lead</span></div>
+                <div class="who"><div class="in">E</div><h3>Ed</h3><span>Team lead</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec above" id="fit">
+    <span class="numeral" data-k=".07" data-d="1.3" style="right:auto;left:var(--pad)" aria-hidden="true">05</span>
+    <div class="wrap split">
+        <span class="lab up par" data-k=".05" data-d="2.6"><span class="n">05</span> Station fit</span>
+        <div>
+            <h2 class="d2 up par" data-k=".025" data-d="1.4">Which station would you start strongest at?</h2>
+            <p class="p up u1 par" data-k="-.015" data-d="2" style="margin-top:16px;max-width:48ch">Six quick questions. You rotate through every station anyway, but this is where you would hit the ground running.</p>
+            <div class="quiz up u1 par" data-k=".012" data-d=".9">
+                <div class="quiz-top">
+                    <span class="lab" id="qCount">Question 1 of 6</span>
+                    <div class="qtrack"><i id="qBar"></i></div>
+                </div>
+                <div class="quiz-body" id="qBody"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- APPLY -->
+<section class="apply above" id="apply">
+    <span class="numeral" data-k=".07" data-d="1.2" aria-hidden="true">06</span>
+    <div class="wrap apply-grid">
+        <div class="up par" data-k=".02" data-d="1.8">
+            <span class="lab"><span class="n">06</span> Join us</span>
+            <h2 style="margin-top:18px">This is your <span>shift</span>. Make it count.</h2>
+            <p class="p-lg" style="margin-top:22px;max-width:36ch">Send your details in under a minute. You choose which email account sends your documents.</p>
+            <button class="big" id="openBtn">Start your application <span class="arw" aria-hidden="true">&#8594;</span></button>
+        </div>
+        <div class="need up u1 par" data-k="-.025" data-d="1.2">
+            <div><span class="i">01</span><p><strong>Your CV.</strong> Your warehouse experience and the skills you bring to the team.</p></div>
+            <div><span class="i">02</span><p><strong>A motivation letter.</strong> Why this role excites you and what makes you the right fit.</p></div>
+            <div><span class="i">03</span><p><strong>Your contact details.</strong> So Miroslaw can reach you and take the next step.</p></div>
+        </div>
+    </div>
+</section>
+
+<footer class="foot above">
+    <div class="wrap">
+        <div class="foot-row">
+            <b>Jumbo, KW Shift B</b>
+            <span class="lab">Questions? <a href="mailto:miroslaw.medrzechowski@jumbo.com">miroslaw.medrzechowski@jumbo.com</a></span>
+        </div>
+        <small>Web page made and published by Moldovan Arpad Benjamin</small>
+    </div>
+</footer>
+
+</div><!-- /stage -->
+
+<!-- DIALOG -->
+<div class="veil" id="veil" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+    <div class="sheet">
+        <div class="sheet-top">
+            <span class="lab">Application, KW Shift B</span>
+            <button class="x" id="x" aria-label="Close">&times;</button>
+        </div>
+        <div class="sheet-in">
+            <div class="stepv on" id="v1">
+                <h2 id="dTitle">Your details</h2>
+                <p class="note">Step 1 of 2. This goes straight to Miroslaw with your email address attached, so he replies to you and not to whichever account your phone uses.</p>
+                <div class="alert" id="alert" hidden></div>
+                <form id="form">
+                    <div class="fld"><label for="name">Full name</label><input id="name" type="text" required placeholder="Jan Novak"></div>
+                    <div class="fld"><label for="email">Your email</label><input id="email" type="email" required placeholder="jan@example.com"></div>
+                    <div class="fld"><label for="phone">Phone</label><input id="phone" type="tel" required placeholder="+31 6 12345678"></div>
+                    <div class="fld"><label for="exp">Warehouse experience</label><textarea id="exp" required placeholder="Where you have worked and what you did there"></textarea></div>
+                    <div class="fld"><label for="mot">Why KW Shift B?</label><textarea id="mot" required placeholder="What draws you to this role"></textarea></div>
+                    <input type="checkbox" class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <div class="acts">
+                        <button type="button" class="bline" id="cancel">Cancel</button>
+                        <button type="submit" class="bfill" id="send">Send my details</button>
+                    </div>
+                </form>
+            </div>
+            <div class="stepv" id="v2">
+                <div class="wait"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><p class="note" style="margin-top:22px">Sending your details</p></div>
+            </div>
+            <div class="stepv" id="v3">
+                <div class="tick" aria-hidden="true">&check;</div>
+                <h2>Sent. Now attach your CV.</h2>
+                <p class="note">Step 2 of 2. Your full application is already written into the message. Pick where to send it from, attach your CV and motivation letter, and send.</p>
+                <div class="refbox"><span class="lab">Your reference</span><b id="refOut">...</b></div>
+                <div class="mailers">
+                    <button class="mailer" data-p="gmail"><svg viewBox="0 0 24 24" fill="none"><path d="M2 6.5 12 13l10-6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="4.5" width="20" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/></svg><span>Gmail<small>New tab</small></span></button>
+                    <button class="mailer" data-p="outlook"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4.5" width="20" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M2 8h20" stroke="currentColor" stroke-width="1.7"/></svg><span>Outlook<small>New tab</small></span></button>
+                    <button class="mailer" data-p="yahoo"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6l8 7 8-7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/></svg><span>Yahoo Mail<small>New tab</small></span></button>
+                    <button class="mailer" data-p="app"><svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="2.5" width="15" height="19" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M10 18.5h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>My mail app<small>Default app</small></span></button>
+                </div>
+                <button class="copyline" id="copyBtn">Copy the message instead</button>
+                <div class="acts"><button type="button" class="bline" id="later">I will send it later</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+'use strict';
+
+/* ============================================================
+   SETUP. One thing to do before publishing.
+   Get a free access key at https://web3forms.com. Enter
+   miroslaw.medrzechowski@jumbo.com as the destination and confirm
+   the link that arrives in that inbox. Free plan, no card needed.
+   ============================================================ */
+var ACCESS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+var TO = 'miroslaw.medrzechowski@jumbo.com';
+var VIDEO = 'recruitment_video.mp4';
+
+/* The six stations. Edit here and the page follows. */
+var STATIONS = [
+    { code: 'HD', name: 'Help desk',
+      text: 'The one in the pink vest, walking the floor with the laptop. You make sure what is happening on the floor matches what the system says about stock, and you are the person anyone can come to with a picking, filling or refilling problem.',
+      kit: ['Pink vest', 'Laptop', 'Stock in the system'] },
+    { code: 'RT', name: 'Reach truck',
+      text: 'On the truck all day, working hand in hand with the person on ontvangst. You fill and refill the pallets and keep the floor supplied.',
+      kit: ['Reach truck', 'Pallets', 'Works with ontvangst'] },
+    { code: 'ONT', name: 'Ontvangst',
+      text: 'You receive the trucks with the filling containers and get them to the splitting area, so all the filling is there on time. After that you fill the pallets together with the reach truck driver.',
+      kit: ['Inbound trucks', 'Splitting area', 'On time'] },
+    { code: 'AGF', name: 'AGF',
+      text: 'The fruit and vegetables area. You make sure the pickers always have the product they need and that the quality going to the customer is the best it can be. Two people work AGF, and one is always on the reach truck filling and refilling pallets there.',
+      kit: ['Fruit and veg', 'Quality first', 'Two person team'] },
+    { code: 'OC', name: 'Order control',
+      text: 'You arrange all the scanners the rest of the team works with, and you check the quality of the finished trolleys before they go anywhere.',
+      kit: ['Scanners', 'Trolley quality', 'Last check'] },
+    { code: 'HHD', name: 'Housekeeping',
+      text: 'You make sure the place we all work in stays clean and maintained, every shift.',
+      kit: ['Clean', 'Maintained', 'Whole department'] }
+];
+
+var $ = function (id) { return document.getElementById(id); };
+var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+var PHONE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+var root = document.documentElement;
+
+/* marquee, two identical halves so the loop is seamless */
+var half = STATIONS.map(function (s) { return '<span>' + s.name + '</span><em>/</em>'; }).join('');
+$('mqt').innerHTML = half + half;
+
+/* ------------------------------------------------------------
+   STATION ACCORDION
+   ------------------------------------------------------------ */
+var acc = $('acc');
+STATIONS.forEach(function (s, i) {
+    var item = document.createElement('div');
+    item.className = 'acc-item glow' + (i === 0 ? ' open' : '');
+    item.innerHTML =
+        '<button class="acc-btn" aria-expanded="' + (i === 0) + '">' +
+            '<span class="num">' + s.code + '</span>' +
+            '<span class="ttl">' + s.name + '</span>' +
+            '<span class="sign" aria-hidden="true"></span>' +
+        '</button>' +
+        '<div class="acc-body"><div class="acc-inner"><div class="acc-pad">' +
+            '<span></span><div><p>' + s.text + '</p>' +
+            '<div class="kit">' + s.kit.map(function (k) { return '<span>' + k + '</span>'; }).join('') + '</div></div>' +
+        '</div></div></div>';
+    acc.appendChild(item);
+});
+var items = [].slice.call(acc.children);
+items.forEach(function (item) {
+    item.querySelector('.acc-btn').addEventListener('click', function () {
+        var open = item.classList.contains('open');
+        items.forEach(function (o) {
+            o.classList.remove('open');
+            o.querySelector('.acc-btn').setAttribute('aria-expanded', 'false');
+        });
+        if (!open) {
+            item.classList.add('open');
+            item.querySelector('.acc-btn').setAttribute('aria-expanded', 'true');
+        }
+    });
+});
+
+/* ------------------------------------------------------------
+   VIDEO
+   ------------------------------------------------------------ */
+var vid = $('vid'), sound = $('sound');
+vid.src = VIDEO;
+var pl = vid.play(); if (pl && pl.catch) pl.catch(function () {});
+sound.addEventListener('click', function () {
+    vid.muted = !vid.muted;
+    sound.classList.toggle('live', !vid.muted);
+    sound.lastChild.textContent = vid.muted ? ' Sound off' : ' Sound on';
+    sound.setAttribute('aria-pressed', String(!vid.muted));
+});
+
+/* ------------------------------------------------------------
+   REVEALS. Observed once, then released.
+   ------------------------------------------------------------ */
+requestAnimationFrame(function () { $('h1').classList.add('lit'); });
+var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: .12, rootMargin: '0px 0px -5% 0px' });
+document.querySelectorAll('.up').forEach(function (el) { io.observe(el); });
+
+var cio = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        cio.unobserve(e.target);
+        var el = e.target, to = +el.dataset.count, t0 = null;
+        if (reduce || !to) { el.textContent = to; return; }
+        requestAnimationFrame(function tick(t) {
+            t0 = t0 || t;
+            var k = Math.min((t - t0) / 950, 1);
+            el.textContent = Math.round(to * (1 - Math.pow(1 - k, 4)));
+            if (k < 1) requestAnimationFrame(tick);
+        });
+    });
+}, { threshold: .5 });
+document.querySelectorAll('[data-count]').forEach(function (el) { cio.observe(el); });
+
+/* ------------------------------------------------------------
+   DEPTH. Each layer gets its own scroll rate and its own tilt
+   depth, measured once here and once on resize.
+   ------------------------------------------------------------ */
+var layers = [].slice.call(document.querySelectorAll('.par, .numeral'));
+function measure() {
+    layers.forEach(function (el) {
+        var top = 0, node = el;
+        while (node) { top += node.offsetTop; node = node.offsetParent; }
+        el.style.setProperty('--o', Math.round(top - innerHeight / 2));
+        el.style.setProperty('--k', el.dataset.k || '.03');
+        el.style.setProperty('--d', el.dataset.d || '1');
+    });
+}
+measure();
+addEventListener('resize', measure);
+addEventListener('load', measure);
+
+/* ------------------------------------------------------------
+   DEVICE TILT. No switch to find. Android hands the sensor over
+   straight away. iOS only releases it inside a real gesture, so
+   the first touch anywhere asks for it, once and quietly.
+   ------------------------------------------------------------ */
+var tx = 0, ty = 0, aimX = 0, aimY = 0, tiltLive = false;
+function clamp1(v) { return v < -1 ? -1 : v > 1 ? 1 : v; }
+function onOrient(e) {
+    if (e.gamma === null && e.beta === null) return;
+    var g = e.gamma || 0, b = e.beta || 0;
+    var rot = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
+    if (Math.abs(rot) === 90) { var t = g; g = b * (rot > 0 ? -1 : 1); b = t * (rot > 0 ? 1 : -1); }
+    aimX = clamp1(g / 22);
+    aimY = clamp1((b - 42) / 22);
+    if (!tiltLive) { tiltLive = true; root.classList.add('tilt'); }
+    request();
+}
+if (!fine && 'DeviceOrientationEvent' in window && !reduce) {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        var ask = function () {
+            removeEventListener('touchend', ask); removeEventListener('click', ask);
+            DeviceOrientationEvent.requestPermission()
+                .then(function (r) { if (r === 'granted') addEventListener('deviceorientation', onOrient); })
+                .catch(function () {});
+        };
+        addEventListener('touchend', ask, { passive: true });
+        addEventListener('click', ask);
+    } else {
+        addEventListener('deviceorientation', onOrient);
+    }
+}
+
+/* ------------------------------------------------------------
+   THE ONLY FRAME LOOP. It writes four numbers and stops, and it
+   stops scheduling itself the moment everything has settled.
+   ------------------------------------------------------------ */
+var nav = $('nav'), stuck = false, ticking = false;
+var spot = $('spot'), spx = 0, spy = 0, mx = 0, my = 0, spotSeen = false;
+
+function frame() {
+    ticking = false;
+    var y = scrollY;
+    var max = document.body.scrollHeight - innerHeight;
+    root.style.setProperty('--sy', y);
+    root.style.setProperty('--sp', max > 0 ? (y / max).toFixed(4) : 0);
+
+    var now = y > 20;
+    if (now !== stuck) { stuck = now; nav.classList.toggle('stuck', now); }
+
+    var busy = false;
+    if (tiltLive) {
+        tx += (aimX - tx) * .08;
+        ty += (aimY - ty) * .08;
+        root.style.setProperty('--tx', tx.toFixed(4));
+        root.style.setProperty('--ty', ty.toFixed(4));
+        if (Math.abs(aimX - tx) > .0015 || Math.abs(aimY - ty) > .0015) busy = true;
+    }
+    if (spotSeen) {
+        spx += (mx - spx) * .12; spy += (my - spy) * .12;
+        spot.style.transform = 'translate3d(' + spx.toFixed(1) + 'px,' + spy.toFixed(1) + 'px,0)';
+        if (Math.abs(mx - spx) > .5 || Math.abs(my - spy) > .5) busy = true;
+    }
+    if (busy) request();
+}
+function request() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+addEventListener('scroll', request, { passive: true });
+frame();
+
+/* pointer effects, desktop only */
+if (fine && !reduce) {
+    addEventListener('pointermove', function (e) {
+        mx = e.clientX; my = e.clientY;
+        if (!spotSeen) { spx = mx; spy = my; spotSeen = true; spot.classList.add('on'); }
+        request();
+    }, { passive: true });
+    document.querySelectorAll('.glow').forEach(function (c) {
+        c.addEventListener('pointermove', function (e) {
+            var r = c.getBoundingClientRect();
+            c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+            c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        }, { passive: true });
+    });
+    var mag = $('openBtn');
+    mag.addEventListener('pointermove', function (e) {
+        var r = mag.getBoundingClientRect();
+        mag.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .16).toFixed(1) + 'px,' +
+                                             ((e.clientY - r.top - r.height / 2) * .26).toFixed(1) + 'px)';
+    }, { passive: true });
+    mag.addEventListener('pointerleave', function () { mag.style.transform = ''; });
+}
+
+/* menu */
+var burger = $('burger'), menu = $('menu');
+burger.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    burger.classList.toggle('on', open);
+    burger.setAttribute('aria-expanded', String(open));
+});
+menu.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') { menu.classList.remove('open'); burger.classList.remove('on'); }
+});
+
+/* ------------------------------------------------------------
+   STATION FIT
+   ------------------------------------------------------------ */
+var NAMES = { hd: 'Help desk', rt: 'Reach truck', ont: 'Ontvangst', agf: 'AGF', oc: 'Order control', hk: 'Housekeeping' };
+var LINES = {
+    hd:  'You go where the problem is. People find you before they find the manual.',
+    rt:  'You like the controls in your hands and the floor moving because of you.',
+    ont: 'You want the doors, the pace, and the containers on the splitting area before they are due.',
+    agf: 'You care that the produce reaching the customer is the best on the shelf.',
+    oc:  'Nothing wrong leaves on your watch. You catch what everyone else walks past.',
+    hk:  'You keep the place we work in clean and safe, which is what lets everyone else move fast.'
+};
+var QS = [
+    { q: 'It is the busiest hour of the shift. Where do you want to be?', a: [
+        ['Sorting out whatever does not match the system', 'hd'],
+        ['On the reach truck keeping the pallets filled', 'rt'],
+        ['At the doors taking the trucks in', 'ont'],
+        ['In the fruit and veg making sure the pickers have product', 'agf'] ] },
+    { q: 'What do colleagues usually come to you for?', a: [
+        ['A problem with picking, filling or refilling', 'hd'],
+        ['A scanner that will not work', 'oc'],
+        ['A steady hand on the truck', 'rt'],
+        ['Pace when a container has to be moved', 'ont'] ] },
+    { q: 'Which would bother you the least?', a: [
+        ['Checking the same trolley quality one more time', 'oc'],
+        ['Long quiet stretches alone in the aisles', 'rt'],
+        ['Explaining the system again to someone new', 'hd'],
+        ['Keeping the whole department clean and tidy', 'hk'] ] },
+    { q: 'What matters most to you at the end of a shift?', a: [
+        ['The floor and the system finally agree', 'hd'],
+        ['Every pallet ended up where it belongs', 'rt'],
+        ['Nothing was left waiting at the docks', 'ont'],
+        ['A department you would be proud to hand over', 'hk'] ] },
+    { q: 'Which of these would you take personally?', a: [
+        ['A customer getting poor quality fruit or veg', 'agf'],
+        ['A trolley going out with a mistake on it', 'oc'],
+        ['A picker standing around waiting for help', 'hd'],
+        ['A mess left behind for the next shift', 'hk'] ] },
+    { q: 'How do you like to work?', a: [
+        ['On my own with a machine', 'rt'],
+        ['Side by side with one other person', 'agf'],
+        ['Moving between everyone, solving things', 'hd'],
+        ['My own patch, done properly', 'hk'] ] }
+];
+var qBody = $('qBody'), qBar = $('qBar'), qCount = $('qCount');
+var qi = 0, picks = [], score = { hd: 0, rt: 0, ont: 0, agf: 0, oc: 0, hk: 0 }, keys = null;
+
+function askQ() {
+    var item = QS[qi];
+    qCount.textContent = 'Question ' + (qi + 1) + ' of ' + QS.length;
+    qBar.style.width = (qi / QS.length * 100) + '%';
+    qBody.innerHTML = '<div class="qin"><h3>' + item.q + '</h3><div class="opts">' +
+        item.a.map(function (a, i) {
+            return '<button class="opt" data-k="' + a[1] + '"><em>' + 'ABCD'[i] + '</em><span>' + a[0] + '</span></button>';
+        }).join('') + '</div>' +
+        (qi > 0 ? '<button class="back" id="back">Back one question</button>' : '') + '</div>';
+
+    qBody.querySelectorAll('.opt').forEach(function (b) {
+        b.addEventListener('click', function () {
+            b.classList.add('pick');
+            score[b.dataset.k]++; picks.push(b.dataset.k);
+            setTimeout(function () { qi++; qi < QS.length ? askQ() : showRes(); }, 200);
+        });
+    });
+    var back = $('back');
+    if (back) back.addEventListener('click', function () { qi--; score[picks.pop()]--; askQ(); });
+
+    if (keys) removeEventListener('keydown', keys);
+    keys = function (e) {
+        var n = 'abcd'.indexOf(e.key.toLowerCase());
+        var opts = qBody.querySelectorAll('.opt');
+        if (n > -1 && opts[n] && !$('veil').classList.contains('open')) { e.preventDefault(); opts[n].click(); }
+    };
+    addEventListener('keydown', keys);
+}
+function showRes() {
+    qCount.textContent = 'Your result';
+    qBar.style.width = '100%';
+    if (keys) { removeEventListener('keydown', keys); keys = null; }
+    var order = Object.keys(score).sort(function (a, b) { return score[b] - score[a]; });
+    var top = order[0];
+    qBody.innerHTML = '<div class="qin res"><span class="lab">Strongest match</span>' +
+        '<h3>You would start strongest at <mark>' + NAMES[top] + '</mark></h3>' +
+        '<p class="p">' + LINES[top] + ' You will still rotate through every station, but this is the one where you would be useful on day one.</p>' +
+        '<div class="meters">' + order.slice(0, 4).map(function (k) {
+            var pc = Math.round(score[k] / QS.length * 100);
+            return '<div class="meter"><b>' + NAMES[k] + '</b><span><i data-w="' + pc + '"></i></span><em>' + pc + '%</em></div>';
+        }).join('') + '</div>' +
+        '<div class="res-btns"><button class="bfill" id="qApply">Apply for the role</button>' +
+        '<button class="bline" id="qAgain">Take it again</button></div></div>';
+    requestAnimationFrame(function () {
+        qBody.querySelectorAll('.meter i').forEach(function (f) { f.style.width = f.dataset.w + '%'; });
+    });
+    $('qAgain').addEventListener('click', function () {
+        qi = 0; picks = []; score = { hd: 0, rt: 0, ont: 0, agf: 0, oc: 0, hk: 0 }; askQ();
+    });
+    $('qApply').addEventListener('click', openApp);
+}
+askQ();
+
+/* ------------------------------------------------------------
+   APPLICATION
+   Step 1 posts the details with replyto set to the address the
+   applicant typed, so the Reply button reaches the right person.
+   Step 2 opens a compose window wherever they choose, carrying
+   the whole application plus a reference for the attachments.
+   ------------------------------------------------------------ */
+var v1 = $('v1'), v2 = $('v2'), v3 = $('v3'), alertBox = $('alert'), sendBtn = $('send');
+var veil = $('veil'), app = {}, lastFocus = null;
+
+function view(el) { [v1, v2, v3].forEach(function (s) { s.classList.toggle('on', s === el); }); }
+function openApp() {
+    lastFocus = document.activeElement;
+    veil.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    view(v1); alertBox.hidden = true;
+    sendBtn.disabled = false; sendBtn.textContent = 'Send my details';
+    $('name').focus();
+}
+function closeApp() {
+    veil.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+}
+$('openBtn').addEventListener('click', openApp);
+$('x').addEventListener('click', closeApp);
+$('cancel').addEventListener('click', closeApp);
+$('later').addEventListener('click', closeApp);
+veil.addEventListener('click', function (e) { if (e.target === veil) closeApp(); });
+addEventListener('keydown', function (e) { if (e.key === 'Escape' && veil.classList.contains('open')) closeApp(); });
+
+function makeRef() {
+    return ('KWB' + Date.now().toString(36).slice(-3) + Math.random().toString(36).slice(2, 5)).toUpperCase();
+}
+function subject() { return 'Application ' + app.ref + ': All-Rounder, KW Shift B, ' + app.name; }
+function bodyText() {
+    return 'Dear Miroslaw,\n\n' +
+        'I would like to apply for the Warehouse All-Rounder position on KW Shift B. ' +
+        'My CV and motivation letter are attached to this email.\n\n' +
+        'Application reference: ' + app.ref + '\n' +
+        'Please reply to me at: ' + app.email + '\n\n' +
+        'CONTACT DETAILS\n' +
+        'Name:  ' + app.name + '\n' +
+        'Email: ' + app.email + '\n' +
+        'Phone: ' + app.phone + '\n\n' +
+        'WAREHOUSE EXPERIENCE\n' + app.exp + '\n\n' +
+        'WHY KW SHIFT B\n' + app.mot + '\n\n' +
+        'Kind regards,\n' + app.name;
+}
+function tryApp(scheme, web) {
+    var left = false, hide = function () { left = true; };
+    document.addEventListener('visibilitychange', hide, { once: true });
+    addEventListener('pagehide', hide, { once: true });
+    var t = setTimeout(function () {
+        document.removeEventListener('visibilitychange', hide);
+        if (!left && document.visibilityState === 'visible') location.href = web;
+    }, 1400);
+    location.href = scheme;
+    setTimeout(function () { if (left) clearTimeout(t); }, 1200);
+}
+function compose(provider) {
+    var s = encodeURIComponent(subject()), b = encodeURIComponent(bodyText()), t = encodeURIComponent(TO);
+    var mailto = 'mailto:' + TO + '?subject=' + s + '&body=' + b;
+    if (provider === 'app') { location.href = mailto; return; }
+    var web = {
+        gmail:   'https://mail.google.com/mail/?view=cm&fs=1&to=' + t + '&su=' + s + '&body=' + b,
+        outlook: 'https://outlook.live.com/mail/0/deeplink/compose?to=' + t + '&subject=' + s + '&body=' + b,
+        yahoo:   'https://compose.mail.yahoo.com/?to=' + t + '&subj=' + s + '&body=' + b
+    }[provider];
+    if (!web) { location.href = mailto; return; }
+    if (PHONE) {
+        tryApp({
+            gmail:   'googlegmail://co?to=' + t + '&subject=' + s + '&body=' + b,
+            outlook: 'ms-outlook://compose?to=' + t + '&subject=' + s + '&body=' + b,
+            yahoo:   'ymail://mail/compose?to=' + t + '&subject=' + s + '&body=' + b
+        }[provider], web);
+    } else { open(web, '_blank', 'noopener'); }
+}
+document.querySelectorAll('.mailer').forEach(function (b) {
+    b.addEventListener('click', function () { compose(b.dataset.p); });
+});
+if (PHONE) {
+    var box = document.querySelector('.mailers');
+    var appBtn = box.querySelector('[data-p="app"]');
+    box.insertBefore(appBtn, box.firstElementChild);
+    appBtn.querySelector('small').textContent = 'Your default app';
+    box.querySelectorAll('.mailer').forEach(function (b) {
+        if (b !== appBtn) b.querySelector('small').textContent = 'Opens the app';
+    });
+}
+$('copyBtn').addEventListener('click', function () {
+    var btn = $('copyBtn');
+    navigator.clipboard.writeText('To: ' + TO + '\nSubject: ' + subject() + '\n\n' + bodyText())
+        .then(function () {
+            btn.textContent = 'Copied. Paste it into your email';
+            setTimeout(function () { btn.textContent = 'Copy the message instead'; }, 3000);
+        })
+        .catch(function () { btn.textContent = 'Copy failed. Select the text manually'; });
+});
+
+$('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if ($('hp').checked) return;
+    var val = function (id) { return $(id).value.trim(); };
+    app = { name: val('name'), email: val('email'), phone: val('phone'), exp: val('exp'), mot: val('mot'), ref: makeRef() };
+    alertBox.hidden = true;
+
+    if (ACCESS_KEY.indexOf('PASTE_') === 0) { $('refOut').textContent = app.ref; view(v3); return; }
+
+    sendBtn.disabled = true;
+    view(v2);
+    fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+            access_key: ACCESS_KEY,
+            from_name: 'KW Shift B careers page',
+            subject: subject(),
+            replyto: app.email,
+            Reference: app.ref,
+            Name: app.name,
+            Email: app.email,
+            Phone: app.phone,
+            'Warehouse experience': app.exp,
+            'Why KW Shift B': app.mot
+        })
+    })
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+    .then(function (res) {
+        if (!res.ok || res.d.success === false) throw new Error('rejected');
+        $('refOut').textContent = app.ref;
+        sendBtn.disabled = false;
+        view(v3);
+    })
+    .catch(function () {
+        alertBox.innerHTML = '<b>Your details did not send.</b>Check your connection and try again, or ' +
+                             '<button type="button" id="fallback">send everything by email instead</button>.';
+        alertBox.hidden = false;
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Try again';
+        view(v1);
+        $('fallback').addEventListener('click', function () { compose('app'); });
+    });
+});
+})();
+</script>
+</body>
+</html>
