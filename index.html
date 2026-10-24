@@ -4,548 +4,632 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Warehouse All-Rounder, KW Shift B, Jumbo</title>
-<meta name="description" content="Jumbo is hiring a Warehouse All-Rounder for KW Shift B. Six stations, one role, one shift that never stands still.">
-<meta name="theme-color" content="#000000">
+<meta name="description" content="Jumbo is hiring a Warehouse All-Rounder for KW Shift B. Six stations, one role, and a team that has your back.">
+<meta name="theme-color" content="#FFD400">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    TOKENS
-   Jumbo yellow and true black carry the brand. Pink appears in one
-   place only: the help desk vest, the way it does on the real floor.
+   White page, Jumbo yellow, warm and plain-spoken.
    ============================================================ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
 :root {
-    --black:  #000000;
-    --panel:  rgba(0, 0, 0, .78);
-    --line:   rgba(255, 255, 255, .13);
-    --line-2: rgba(255, 255, 255, .06);
-    --text:   #F5F4F0;
-    --dim:    rgba(245, 244, 240, .64);
-    --faint:  rgba(245, 244, 240, .38);
+    --paper: #FFFFFF;
+    --wash: #FFF5C7;
+    --surface: #F6F5F1;
+    --ink: #1B1B1A;
+    --muted: #5E5D58;
+    --line: #E8E5DC;
     --yellow: #FFD400;
-    --pink:   #FF4FA0;
+    --yellow-2: #F2C700;
+    --pink: #FF5FA8;
+    --pink-wash: #FFE3F0;
 
-    --sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --code: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
-
-    --pad: clamp(20px, 5vw, 76px);
+    --head: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+    --body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --pad: clamp(20px, 5vw, 72px);
+    --r-lg: 28px; --r-md: 18px; --r-sm: 12px;
     --ease: cubic-bezier(.22, .75, .24, 1);
-    --slow: cubic-bezier(.16, 1, .3, 1);
+    --shadow: 0 1px 2px rgba(27, 27, 26, .04), 0 10px 30px -12px rgba(27, 27, 26, .14);
 }
-
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 html, body { max-width: 100%; overflow-x: clip; }
-body {
-    font-family: var(--sans); font-stretch: 100%;
-    background: var(--black); color: var(--text);
-    line-height: 1.6; -webkit-font-smoothing: antialiased;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-}
+body { font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.6; font-size: 1.04rem; -webkit-font-smoothing: antialiased; }
 img, video, svg { display: block; max-width: 100%; }
 a { color: inherit; }
 button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1200px; margin: 0 auto; }
+section { scroll-margin-top: 76px; }
+.sec { padding: clamp(72px, 9vw, 130px) var(--pad); }
+.h2 { font-family: var(--head); font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.3rem); line-height: 1.05; letter-spacing: -.025em; max-width: 20ch; }
+.lead { margin-top: 16px; font-size: clamp(1.05rem, 1.4vw, 1.18rem); color: var(--muted); max-width: 56ch; line-height: 1.6; }
+.p { color: var(--muted); line-height: 1.72; max-width: 60ch; }
+.p + .p { margin-top: 18px; }
+.sec-head { margin-bottom: clamp(32px, 4.5vw, 56px); }
 
-/* ============================================================
-   THE FLOOR
-   One WebGL canvas, fixed behind everything. Its opacity and its
-   camera follow the section you are reading.
-   ============================================================ */
-#scene {
-    position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0;
-    display: block; opacity: 1; transition: opacity .9s var(--slow);
-}
-body.dim #scene { opacity: .2; }
-body.reelmode #scene { opacity: .42; }
-
-.tags { position: fixed; inset: 0; z-index: 3; pointer-events: none; transition: opacity .5s; }
-body.dim .tags, body.reelmode .tags, body.no3d .tags { opacity: 0; visibility: hidden; }
-.tag {
-    position: absolute; left: 0; top: 0; pointer-events: auto; cursor: pointer;
-    display: flex; align-items: center; gap: 8px;
-    padding: 6px 10px 6px 6px; background: rgba(0, 0, 0, .7);
-    border: 1px solid var(--line); white-space: nowrap;
-    font-size: .8rem; font-weight: 600; letter-spacing: -.005em;
-    transition: border-color .3s, background .3s, opacity .4s;
-    will-change: transform;
-}
-.tag b { font-family: var(--code); font-weight: 500; font-size: .66rem; background: var(--yellow); color: var(--black); padding: 2px 5px; }
-.tag:hover { border-color: var(--yellow); }
-.tag::after { content: ''; position: absolute; left: 50%; top: 100%; width: 1px; height: 26px; background: linear-gradient(var(--yellow), transparent); }
-body.story .tag { opacity: .35; }
-body.story .tag.on { opacity: 1; border-color: var(--yellow); background: var(--black); }
-
-.vignette {
-    position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(0, 0, 0, .7) 100%);
-}
+/* buttons */
+.btn { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 26px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; text-decoration: none; font-weight: 700; font-size: 1rem; transition: background .25s, border-color .25s, transform .3s var(--ease), box-shadow .3s; }
+.btn.y { background: var(--yellow); color: var(--ink); }
+.btn.y:hover { background: var(--yellow-2); transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(242, 199, 0, .9); }
+.btn.o { border-color: var(--ink); background: transparent; }
+.btn.o:hover { background: var(--ink); color: #fff; }
+.btn.k { background: var(--ink); color: #fff; }
+.btn.k:hover { transform: translateY(-2px); }
 
 /* ============================================================
    NAV
    ============================================================ */
-.nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 80;
-    padding: env(safe-area-inset-top, 0px) var(--pad) 0;
-    height: calc(66px + env(safe-area-inset-top, 0px));
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    border-bottom: 1px solid transparent; transition: border-color .4s, background .4s;
-}
-.nav.stuck { background: rgba(0, 0, 0, .86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--line); }
-.brand { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: .98rem; letter-spacing: -.01em; text-decoration: none; }
-.brand b { background: var(--yellow); color: var(--black); padding: 4px 9px; font-weight: 800; font-stretch: 112%; font-size: .86rem; }
+.nav { position: sticky; top: 0; z-index: 80; background: rgba(255, 255, 255, .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .3s, box-shadow .3s; padding-top: env(safe-area-inset-top, 0px); }
+.nav.stuck { border-bottom-color: var(--line); }
+.nav-in { max-width: 1200px; margin: 0 auto; height: 72px; padding: 0 var(--pad); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+@media (min-width: 1300px) { .nav-in { padding: 0; } }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; color: var(--muted); font-size: .95rem; }
+.brand b { background: var(--yellow); color: var(--ink); font-family: var(--head); font-weight: 800; font-size: 1.05rem; padding: 6px 12px; border-radius: 10px; }
 .menu { display: flex; align-items: center; gap: 28px; list-style: none; }
-.menu a { text-decoration: none; font-size: .88rem; font-weight: 500; color: var(--dim); transition: color .25s; }
-.menu a:hover { color: var(--text); }
-.menu .go { background: var(--yellow); color: var(--black); padding: 10px 18px; font-weight: 700; }
-.menu .go:hover { color: var(--black); }
-.burger { display: none; width: 42px; height: 42px; border: 0; background: none; cursor: pointer; position: relative; }
-.burger i { position: absolute; left: 11px; width: 20px; height: 1.5px; background: var(--text); transition: transform .35s var(--ease); }
+.menu a { text-decoration: none; font-weight: 600; font-size: .96rem; color: var(--muted); transition: color .2s; }
+.menu a:hover { color: var(--ink); }
+.menu .btn { color: var(--ink); padding: 11px 20px; }
+.burger { display: none; width: 44px; height: 44px; border: 0; background: var(--surface); border-radius: 50%; cursor: pointer; position: relative; }
+.burger i { position: absolute; left: 13px; width: 18px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform .35s var(--ease); }
 .burger i:nth-child(1) { top: 18px } .burger i:nth-child(2) { top: 24px }
 .burger.on i:nth-child(1) { transform: translateY(3px) rotate(45deg) }
 .burger.on i:nth-child(2) { transform: translateY(-3px) rotate(-45deg) }
 
-main { position: relative; z-index: 4; }
-
 /* ============================================================
    HERO
-   The model is the hero. Type sits at the bottom edge, out of
-   the way of the floor.
    ============================================================ */
-.hero {
-    min-height: 100svh; position: relative; pointer-events: none;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 120px var(--pad) clamp(28px, 5vh, 56px);
-}
-.hero::before {
-    content: ''; position: absolute; inset: 40% 0 0; z-index: -1;
-    background: linear-gradient(to top, rgba(0, 0, 0, .92), transparent);
-}
-.hero-in { max-width: 1400px; width: 100%; margin: 0 auto; }
-.hiring { display: inline-flex; align-items: center; gap: 10px; font-size: .9rem; font-weight: 600; color: var(--dim); margin-bottom: 18px; }
-.hiring i { width: 8px; height: 8px; background: var(--yellow); animation: blink 2.4s infinite; }
-@keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: .25 } }
-.hero h1 {
-    font-weight: 800; font-stretch: 125%;
-    font-size: clamp(2.5rem, 8.4vw, 8.2rem);
-    line-height: .88; letter-spacing: -.035em;
-}
-.hero h1 span { display: block; }
-.hero-base { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 22px 40px; margin-top: clamp(22px, 3vw, 38px); padding-top: 22px; border-top: 1px solid var(--line); }
-.hero-base p { max-width: 36ch; font-size: clamp(1.02rem, 1.4vw, 1.25rem); font-weight: 400; color: var(--dim); line-height: 1.5; }
-.facts { display: flex; flex-wrap: wrap; gap: 14px 40px; }
-.facts dt { font-size: .78rem; color: var(--faint); }
-.facts dd { font-weight: 700; font-stretch: 112%; font-size: 1.05rem; margin-top: 2px; }
-.hero .cta { pointer-events: auto; }
-.hint3d { margin-top: 18px; font-size: .82rem; color: var(--faint); }
-body.no3d .hint3d { display: none; }
+.hero { padding: clamp(28px, 4vw, 56px) var(--pad) clamp(60px, 7vw, 100px); }
+.hero-card { max-width: 1200px; margin: 0 auto; background: var(--wash); border-radius: clamp(24px, 3vw, 40px); padding: clamp(28px, 5vw, 72px); display: grid; grid-template-columns: 1.02fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; position: relative; overflow: hidden; }
+.hero-card::before { content: ''; position: absolute; width: 520px; height: 520px; right: -140px; top: -180px; border-radius: 50%; background: var(--yellow); opacity: .55; }
+.hero-txt, .hero-media { position: relative; }
+.hello { display: inline-flex; align-items: center; gap: 10px; background: #fff; border-radius: 999px; padding: 8px 16px 8px 10px; font-weight: 600; font-size: .92rem; box-shadow: var(--shadow); }
+.hello i { width: 10px; height: 10px; border-radius: 50%; background: #2DBE60; box-shadow: 0 0 0 4px rgba(45, 190, 96, .18); }
+.hero h1 { margin-top: 22px; font-family: var(--head); font-weight: 800; font-size: clamp(2.5rem, 5.4vw, 4.7rem); line-height: .98; letter-spacing: -.035em; }
+.hero h1 span { display: block; white-space: nowrap; }
+.hero .lead { color: #4A4945; max-width: 34ch; }
+.hero .acts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; list-style: none; }
+.facts li { background: rgba(255, 255, 255, .7); border-radius: var(--r-sm); padding: 10px 16px; font-size: .9rem; color: var(--muted); }
+.facts strong { display: block; color: var(--ink); font-size: 1rem; }
+.frame { position: relative; border-radius: var(--r-lg); overflow: hidden; background: #000; box-shadow: 0 30px 60px -30px rgba(27, 27, 26, .5); }
+.frame video { width: 100%; aspect-ratio: 1048 / 614; height: auto; object-fit: cover; }
+.sound { position: absolute; right: 14px; top: 14px; display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .92); padding: 10px 16px; cursor: pointer; font-weight: 700; font-size: .88rem; transition: background .2s; }
+.sound:hover { background: #fff; }
+.sound svg { width: 18px; height: 18px; }
+.leads-chip { position: absolute; left: clamp(-18px, -1.4vw, -8px); bottom: -22px; display: flex; align-items: center; gap: 12px; background: #fff; border-radius: var(--r-md); padding: 12px 18px 12px 12px; box-shadow: var(--shadow); max-width: 92%; }
+.avs { display: flex; }
+.avs span { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-family: var(--head); font-weight: 800; font-size: .95rem; border: 3px solid #fff; }
+.avs span + span { margin-left: -10px; }
+.avs .a1 { background: var(--yellow); } .avs .a2 { background: #CFE8FF; } .avs .a3 { background: var(--pink-wash); }
+.leads-chip p { font-size: .88rem; line-height: 1.35; color: var(--muted); }
+.leads-chip strong { color: var(--ink); }
 
 /* ============================================================
-   VIDEO, framed like a scanner viewfinder
+   STATIONS
    ============================================================ */
-.reel { padding: clamp(60px, 8vw, 120px) var(--pad); }
-.wrap { max-width: 1300px; margin: 0 auto; }
-.finder { position: relative; padding: clamp(10px, 1.4vw, 18px); }
-.finder > i { position: absolute; width: 34px; height: 34px; border: 0 solid var(--yellow); }
-.finder > i:nth-of-type(1) { top: 0; left: 0; border-width: 2px 0 0 2px; }
-.finder > i:nth-of-type(2) { top: 0; right: 0; border-width: 2px 2px 0 0; }
-.finder > i:nth-of-type(3) { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
-.finder > i:nth-of-type(4) { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
-.frame { position: relative; overflow: hidden; background: var(--black); }
-.frame video { width: 100%; height: auto; }
-.frame::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(0, 0, 0, .7), transparent 42%); }
-.reel-bar { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: clamp(14px, 2.2vw, 26px); }
-.reel-bar span { font-weight: 700; font-stretch: 112%; font-size: clamp(1rem, 1.6vw, 1.3rem); }
-.sound { display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--line); background: rgba(0, 0, 0, .6); padding: 10px 16px; cursor: pointer; font-size: .85rem; font-weight: 600; transition: background .25s, border-color .25s; }
-.sound:hover { border-color: var(--yellow); }
-.sound i { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
-.sound.live i { background: var(--yellow); }
+.stations { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.st { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(24px, 2.6vw, 32px); display: flex; flex-direction: column; transition: transform .35s var(--ease), box-shadow .35s, border-color .3s; }
+.st:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: transparent; }
+.st-top { display: flex; align-items: center; justify-content: space-between; }
+.ic { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; background: var(--wash); }
+.ic svg { width: 28px; height: 28px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.st.pink .ic { background: var(--pink-wash); }
+.code { font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--muted); background: var(--surface); border-radius: 999px; padding: 4px 10px; }
+.st h3 { margin-top: 22px; font-family: var(--head); font-weight: 700; font-size: 1.45rem; letter-spacing: -.02em; line-height: 1.15; }
+.st p { margin-top: 10px; color: var(--muted); font-size: .98rem; line-height: 1.65; flex: 1; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; list-style: none; }
+.chips li { font-size: .8rem; font-weight: 600; background: var(--surface); border-radius: 999px; padding: 5px 11px; }
+.st.pink .chips li:first-child { background: var(--pink-wash); color: #A3125A; }
 
 /* ============================================================
-   STATIONS. Scroll moves the camera from station to station.
+   ROLE + NUMBERS
    ============================================================ */
-.story { position: relative; height: calc(100svh + 6 * 72svh); }
-.pin {
-    position: sticky; top: 0; height: 100svh;
-    display: flex; align-items: center;
-    padding: 86px var(--pad) 30px; pointer-events: none;
-}
-.panel {
-    pointer-events: auto; width: min(450px, 100%);
-    background: var(--panel); border: 1px solid var(--line);
-    padding: clamp(20px, 2.4vw, 30px);
-}
-.panel h2 { font-weight: 800; font-stretch: 118%; font-size: clamp(1.5rem, 2.6vw, 2.15rem); line-height: 1; letter-spacing: -.03em; }
-.panel .lead { margin-top: 12px; font-size: .95rem; color: var(--dim); line-height: 1.55; }
-.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 20px; }
-.tab {
-    display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
-    background: var(--black); border: 0; cursor: pointer; padding: 10px 12px; text-align: left;
-    transition: background .3s, color .3s;
-}
-.tab b { font-family: var(--code); font-weight: 500; font-size: .68rem; color: var(--yellow); transition: color .3s; }
-.tab span { font-size: .84rem; font-weight: 600; line-height: 1.2; }
-.tab:hover { background: #151515; }
-.tab[aria-pressed="true"] { background: var(--yellow); color: var(--black); }
-.tab[aria-pressed="true"] b { color: var(--black); }
-.detail { margin-top: 20px; min-height: 196px; }
-.detail h3 { font-weight: 800; font-stretch: 118%; font-size: clamp(1.5rem, 2.4vw, 2rem); letter-spacing: -.03em; line-height: 1; color: var(--yellow); }
-.detail p { margin-top: 12px; font-size: .98rem; color: var(--dim); line-height: 1.62; }
-.kit { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; list-style: none; }
-.kit li { font-size: .76rem; font-weight: 600; color: var(--text); border: 1px solid var(--line); padding: 5px 10px; }
-.detail.swap { animation: swap .45s var(--slow); }
-@keyframes swap { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
-.legend { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-2); display: grid; gap: 6px; font-size: .8rem; color: var(--faint); line-height: 1.45; }
-.legend span { display: flex; gap: 10px; align-items: baseline; }
-.legend i { flex: none; width: 9px; height: 9px; background: var(--yellow); transform: translateY(1px); }
-.legend i.p { background: var(--pink); border-radius: 50%; }
-body.no3d .legend { display: none; }
+.role { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+.quote { background: var(--yellow); border-radius: var(--r-lg); padding: clamp(30px, 4vw, 52px); position: relative; }
+.quote svg { width: 42px; height: 42px; margin-bottom: 16px; }
+.quote p { font-family: var(--head); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.12; letter-spacing: -.02em; }
+.quote span { display: block; margin-top: 18px; font-weight: 600; font-size: .95rem; }
+.nums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.num { background: var(--surface); border-radius: var(--r-lg); padding: clamp(24px, 3vw, 36px); }
+.num b { display: block; font-family: var(--head); font-weight: 800; font-size: clamp(2.8rem, 5.4vw, 4.4rem); line-height: 1; letter-spacing: -.04em; }
+.num span { display: block; margin-top: 10px; color: var(--muted); font-weight: 500; }
+.num:first-child { background: var(--yellow); }
+.num:first-child span { color: var(--ink); }
 
 /* ============================================================
-   CONTENT SECTIONS
+   WHY + TEAM
    ============================================================ */
-.sec { padding: clamp(80px, 10vw, 160px) var(--pad); position: relative; }
-.sec + .sec { padding-top: 0; }
-.split { display: grid; grid-template-columns: minmax(150px, .38fr) 1.62fr; gap: clamp(24px, 5vw, 84px); align-items: start; }
-.side { font-size: .95rem; font-weight: 700; font-stretch: 112%; color: var(--yellow); padding-top: .6em; }
-.h2 { font-weight: 800; font-stretch: 118%; font-size: clamp(2rem, 4.8vw, 4rem); line-height: .98; letter-spacing: -.035em; max-width: 18ch; }
-.p { font-size: 1.06rem; line-height: 1.74; color: var(--dim); max-width: 60ch; }
-.p + .p { margin-top: 20px; }
-.pull {
-    margin: 34px 0; padding: 26px 0 26px 24px; border-left: 3px solid var(--yellow);
-    font-weight: 700; font-stretch: 112%; font-size: clamp(1.4rem, 2.6vw, 2.1rem); line-height: 1.12; letter-spacing: -.025em;
-}
-
-.figs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-.fig { background: var(--panel); padding: clamp(26px, 3vw, 44px) clamp(18px, 2vw, 30px); }
-.fig b { display: block; font-weight: 800; font-stretch: 125%; font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1; letter-spacing: -.04em; color: var(--yellow); }
-.fig span { display: block; margin-top: 12px; font-size: .92rem; color: var(--dim); }
-
-.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: clamp(30px, 4vw, 50px); }
-.card { background: var(--panel); padding: clamp(26px, 3vw, 42px); }
-.card h3 { font-weight: 800; font-stretch: 112%; font-size: 1.3rem; letter-spacing: -.02em; line-height: 1.15; }
-.card p { margin-top: 10px; font-size: 1rem; line-height: 1.68; color: var(--dim); }
-
-.crew { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: clamp(30px, 4vw, 50px); }
-.who { background: var(--panel); padding: clamp(26px, 3vw, 42px); display: flex; align-items: center; gap: 18px; }
-.who .in { flex: none; width: 54px; height: 54px; display: grid; place-items: center; background: var(--yellow); color: var(--black); font-weight: 800; font-stretch: 125%; font-size: 1.3rem; }
-.who h3 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.4rem, 2.4vw, 1.9rem); letter-spacing: -.03em; line-height: 1.05; }
-.who span { display: block; font-size: .9rem; color: var(--dim); }
+.why { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.w { display: grid; grid-template-columns: 56px 1fr; gap: 20px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(24px, 3vw, 34px); }
+.w h3 { font-family: var(--head); font-weight: 700; font-size: 1.3rem; letter-spacing: -.015em; line-height: 1.2; }
+.w p { margin-top: 8px; color: var(--muted); font-size: .98rem; line-height: 1.65; }
+.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.lead-card { background: var(--surface); border-radius: var(--r-lg); padding: clamp(26px, 3vw, 36px); text-align: center; }
+.lead-card .av { width: 96px; height: 96px; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; font-family: var(--head); font-weight: 800; font-size: 2.2rem; border: 5px solid #fff; box-shadow: var(--shadow); }
+.lead-card h3 { margin-top: 18px; font-family: var(--head); font-weight: 700; font-size: 1.5rem; letter-spacing: -.02em; }
+.lead-card span { color: var(--muted); font-weight: 500; }
+.team-note { margin-top: 22px; text-align: center; color: var(--muted); }
 
 /* ============================================================
-   STATION FIT
+   QUIZ
    ============================================================ */
-.quiz { margin-top: clamp(28px, 4vw, 48px); border: 1px solid var(--line); background: var(--panel); }
-.quiz-top { display: flex; align-items: center; gap: 18px; padding: 16px clamp(20px, 3vw, 30px); border-bottom: 1px solid var(--line); font-size: .85rem; font-weight: 600; color: var(--dim); }
-.qtrack { flex: 1; height: 3px; background: var(--line); overflow: hidden; }
-.qtrack i { display: block; height: 100%; width: 0; background: var(--yellow); transition: width .55s var(--slow); }
-.quiz-body { padding: clamp(22px, 3.2vw, 40px); min-height: 330px; }
-.qin { animation: swap .45s var(--slow); }
-.qin h3 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.3rem, 2.5vw, 1.9rem); line-height: 1.12; letter-spacing: -.025em; max-width: 28ch; }
-.opts { display: grid; gap: 8px; margin-top: 26px; }
-.opt {
-    display: flex; align-items: center; gap: 15px; width: 100%; text-align: left; cursor: pointer;
-    background: var(--black); border: 1px solid var(--line);
-    padding: 16px 18px; font-size: 1rem; font-weight: 400;
-    transition: border-color .25s, background .25s, transform .3s var(--ease);
-}
-.opt:hover { border-color: var(--yellow); transform: translateX(6px); }
-.opt.pick { border-color: var(--yellow); background: rgba(255, 212, 0, .1); }
-.opt em { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--line); font-family: var(--code); font-style: normal; font-size: .7rem; color: var(--faint); transition: background .25s, color .25s, border-color .25s; }
-.opt:hover em { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
-.back { margin-top: 16px; background: none; border: 0; cursor: pointer; font-size: .85rem; font-weight: 600; color: var(--faint); }
-.back:hover { color: var(--text); }
-.res { display: grid; grid-template-columns: 1fr minmax(280px, 470px); gap: clamp(20px, 4vw, 48px); align-items: center; }
-.res small { font-size: .85rem; font-weight: 600; color: var(--faint); }
-.res h3 { font-size: clamp(1.7rem, 3.4vw, 2.6rem); line-height: 1.02; margin: 8px 0 14px; max-width: 18ch; }
-.res h3 mark { background: var(--yellow); color: var(--black); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.quiz-wrap { background: var(--wash); border-radius: clamp(24px, 3vw, 40px); padding: clamp(28px, 5vw, 64px); }
+.quiz { margin-top: clamp(26px, 3.5vw, 40px); background: #fff; border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
+.quiz-top { display: flex; align-items: center; gap: 18px; padding: 18px clamp(20px, 3vw, 32px); border-bottom: 1px solid var(--line); font-weight: 600; font-size: .92rem; color: var(--muted); }
+.qtrack { flex: 1; height: 8px; border-radius: 99px; background: var(--surface); overflow: hidden; }
+.qtrack i { display: block; height: 100%; width: 0; border-radius: 99px; background: var(--yellow); transition: width .5s var(--ease); }
+.quiz-body { padding: clamp(22px, 3.4vw, 40px); min-height: 330px; }
+.qin { animation: qin .4s var(--ease); }
+@keyframes qin { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+.qin h3 { font-family: var(--head); font-weight: 700; font-size: clamp(1.35rem, 2.4vw, 1.85rem); line-height: 1.15; letter-spacing: -.02em; max-width: 28ch; }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+.opt { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; cursor: pointer; background: #fff; border: 2px solid var(--line); border-radius: var(--r-md); padding: 16px 18px; font-size: 1rem; font-weight: 500; transition: border-color .2s, background .2s, transform .3s var(--ease); }
+.opt:hover { border-color: var(--ink); }
+.opt.pick { border-color: var(--yellow-2); background: var(--wash); }
+.opt em { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); font-style: normal; font-weight: 700; font-size: .85rem; transition: background .2s; }
+.opt:hover em { background: var(--yellow); }
+.back { margin-top: 16px; background: none; border: 0; cursor: pointer; font-weight: 600; font-size: .92rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.back:hover { color: var(--ink); }
+.res { display: grid; grid-template-columns: 1fr minmax(280px, 440px); gap: clamp(20px, 4vw, 48px); align-items: center; }
+.res small { font-weight: 600; font-size: .92rem; color: var(--muted); }
+.res h3 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); line-height: 1.05; margin: 8px 0 12px; }
+.res h3 mark { background: var(--yellow); color: var(--ink); padding: 0 .15em; border-radius: 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.res .p { font-size: 1rem; }
 .res-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .radar { width: 100%; height: auto; overflow: visible; }
-.radar .ring { fill: none; stroke: rgba(255, 255, 255, .12); }
-.radar .axis { stroke: rgba(255, 255, 255, .1); }
-.radar .shape { fill: rgba(255, 212, 0, .2); stroke: var(--yellow); stroke-width: 2; stroke-linejoin: round; transform-box: view-box; transform-origin: 150px 150px; transform: scale(0); transition: transform 1.1s var(--slow); }
+.radar .ring { fill: none; stroke: var(--line); }
+.radar .axis { stroke: var(--line); }
+.radar .shape { fill: rgba(255, 212, 0, .55); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; transform-box: view-box; transform-origin: 150px 150px; transform: scale(0); transition: transform 1s var(--ease); }
 .radar.go .shape { transform: scale(1); }
-.radar .dot { fill: var(--yellow); }
-.radar text { fill: var(--dim); font-family: var(--sans); font-size: 12.5px; font-weight: 600; }
-.radar text.top { fill: var(--yellow); }
-.radar tspan.pc { fill: var(--faint); font-weight: 400; }
+.radar .dot { fill: var(--ink); }
+.radar text { fill: var(--muted); font-family: var(--body); font-size: 12.5px; font-weight: 600; }
+.radar text.top { fill: var(--ink); font-weight: 800; }
+.radar tspan.pc { fill: #9A988F; font-weight: 500; }
 
 /* ============================================================
-   APPLY + FOOTER
+   APPLY + CONTACT + FOOTER
    ============================================================ */
-.apply { padding: clamp(80px, 10vw, 168px) var(--pad); position: relative; }
-.apply-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(30px, 5vw, 88px); align-items: start; }
-.apply h2 { font-weight: 800; font-stretch: 125%; font-size: clamp(2.3rem, 6vw, 5rem); line-height: .94; letter-spacing: -.04em; }
-.apply .p { margin-top: 20px; max-width: 38ch; font-size: 1.12rem; }
-.need { border-top: 1px solid var(--line); counter-reset: n; }
-.need > div { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 22px 0; border-bottom: 1px solid var(--line); }
-.need > div::before { counter-increment: n; content: counter(n); font-weight: 800; font-stretch: 125%; color: var(--yellow); font-size: 1.1rem; line-height: 1.5; }
-.need p { font-size: 1rem; line-height: 1.66; color: var(--dim); }
-.need strong { color: var(--text); font-weight: 700; }
-.big {
-    margin-top: 34px; display: inline-flex; align-items: center; border: 0; cursor: pointer;
-    background: var(--yellow); color: var(--black); padding: 20px 32px;
-    font-weight: 800; font-stretch: 112%; font-size: 1.08rem; letter-spacing: -.01em;
-    transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+.apply { background: var(--yellow); border-radius: clamp(24px, 3vw, 40px); padding: clamp(32px, 5.5vw, 76px); display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(30px, 5vw, 72px); align-items: center; }
+.apply h2 { font-family: var(--head); font-weight: 800; font-size: clamp(2.3rem, 5vw, 4rem); line-height: 1; letter-spacing: -.035em; }
+.apply .lead { color: #3D3B33; }
+.apply .btn { margin-top: 30px; padding: 18px 32px; font-size: 1.05rem; }
+.steps { background: #fff; border-radius: var(--r-lg); padding: clamp(22px, 3vw, 34px); list-style: none; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; padding: 16px 0; }
+.steps li + li { border-top: 1px solid var(--line); }
+.steps li::before { counter-increment: s; content: counter(s); width: 34px; height: 34px; border-radius: 50%; background: var(--wash); display: grid; place-items: center; font-family: var(--head); font-weight: 800; }
+.steps p { color: var(--muted); line-height: 1.6; }
+.steps strong { color: var(--ink); }
+.contact { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; background: var(--surface); border-radius: var(--r-lg); padding: clamp(22px, 3vw, 30px) clamp(22px, 3vw, 36px); }
+.contact-l { display: flex; align-items: center; gap: 16px; }
+.contact .av { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--yellow); font-family: var(--head); font-weight: 800; font-size: 1.2rem; }
+.contact h3 { font-family: var(--head); font-weight: 700; font-size: 1.2rem; }
+.contact p { color: var(--muted); font-size: .95rem; }
+.foot { padding: 34px var(--pad) calc(34px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
+.foot-row { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .9rem; }
+.foot-row b { color: var(--ink); }
+
+/* ============================================================
+   EFFECTS
+   ============================================================ */
+/* hero: moving dot grid, drifting light, a spotlight that follows you */
+.hero-card { isolation: isolate; }
+.hero-card .grid-dots { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(27, 27, 26, .16) 1.2px, transparent 1.4px); background-size: 22px 22px;
+    mask-image: radial-gradient(70% 80% at 30% 40%, #000, transparent 75%); -webkit-mask-image: radial-gradient(70% 80% at 30% 40%, #000, transparent 75%);
+    animation: drift 18s linear infinite; }
+@keyframes drift { to { background-position: 22px 44px; } }
+.hero-card .glow { position: absolute; z-index: 0; pointer-events: none; width: 460px; height: 460px; left: 0; top: 0; margin: -230px 0 0 -230px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, .85), transparent 62%); opacity: 0; transition: opacity .5s; transform: translate3d(var(--mx, 0), var(--my, 0), 0); }
+.hero-card:hover .glow { opacity: 1; }
+.blob { position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; filter: blur(2px); }
+.blob.b1 { width: 160px; height: 160px; left: 44%; bottom: -60px; background: #FFE680; animation: float 12s ease-in-out infinite; }
+.blob.b2 { width: 70px; height: 70px; left: 8%; top: 12%; background: #fff; opacity: .7; animation: float 9s ease-in-out -3s infinite; }
+@keyframes float { 50% { transform: translate(18px, -22px) scale(1.06); } }
+.hero-txt, .hero-media { z-index: 1; }
+
+/* headline letters */
+.hero h1 .ch { display: inline-block; opacity: 0; transform: translateY(.5em) rotate(4deg); animation: ch .8s cubic-bezier(.2, .9, .3, 1.2) forwards; animation-delay: calc(var(--i) * 28ms + .15s); }
+@keyframes ch { to { opacity: 1; transform: none; } }
+.hero h1 .l2 { position: relative; }
+.hero h1 .l2::after { content: ''; position: absolute; left: -.06em; right: -.06em; bottom: .06em; height: .22em; z-index: -1; background: var(--yellow); border-radius: 6px; transform: scaleX(0); transform-origin: left; animation: mark .9s var(--ease) 1s forwards; }
+@keyframes mark { to { transform: scaleX(1); } }
+
+/* station bubbles floating around the video */
+.orb { position: absolute; z-index: 3; width: 58px; height: 58px; border-radius: 50%; border: 0; background: #fff; cursor: pointer; display: grid; place-items: center;
+    box-shadow: 0 10px 26px -10px rgba(27, 27, 26, .35); transform: translate3d(calc(var(--px, 0) * var(--d) * 1px), calc(var(--py, 0) * var(--d) * 1px), 0); transition: transform .5s var(--ease); }
+.orb > span { display: grid; place-items: center; animation: bob 4.5s ease-in-out infinite; animation-delay: var(--del); }
+.orb svg { width: 26px; height: 26px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.orb.pink { background: var(--pink-wash); }
+.orb::after { content: attr(data-name); position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(-4px); white-space: nowrap; background: var(--ink); color: #fff; font-size: .78rem; font-weight: 700; padding: 5px 10px; border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .25s var(--ease); }
+.orb:hover::after, .orb:focus-visible::after { opacity: 1; transform: translateX(-50%); }
+.orb:hover { background: var(--yellow); }
+@keyframes bob { 50% { transform: translateY(-8px); } }
+
+/* video as a live camera */
+.hud { position: absolute; inset: 12px; pointer-events: none; z-index: 2; }
+.hud i { position: absolute; width: 22px; height: 22px; border: 0 solid rgba(255, 255, 255, .9); }
+.hud i:nth-child(1) { left: 0; top: 0; border-width: 2px 0 0 2px; border-top-left-radius: 8px; }
+.hud i:nth-child(2) { right: 0; top: 0; border-width: 2px 2px 0 0; border-top-right-radius: 8px; }
+.hud i:nth-child(3) { left: 0; bottom: 0; border-width: 0 0 2px 2px; border-bottom-left-radius: 8px; }
+.hud i:nth-child(4) { right: 0; bottom: 0; border-width: 0 2px 2px 0; border-bottom-right-radius: 8px; }
+.live { position: absolute; left: 14px; top: 14px; z-index: 3; display: inline-flex; align-items: center; gap: 8px; background: rgba(27, 27, 26, .62); color: #fff; backdrop-filter: blur(8px); border-radius: 999px; padding: 7px 13px; font-size: .8rem; font-weight: 700; }
+.live i { width: 8px; height: 8px; border-radius: 50%; background: #FF4D4D; animation: blink 1.4s infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+.frame::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 30%; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, transparent, rgba(255, 212, 0, .22) 85%, rgba(255, 212, 0, .7) 100%); transform: translateY(-110%); animation: scan 5s var(--ease) infinite 1.5s; mix-blend-mode: screen; }
+@keyframes scan { 0% { transform: translateY(-110%); } 45%, 100% { transform: translateY(380%); } }
+
+/* ticker */
+.ticker { background: var(--ink); color: #fff; overflow: hidden; padding: 18px 0; }
+.ticker-t { display: flex; width: max-content; animation: roll 34s linear infinite; }
+.ticker:hover .ticker-t { animation-play-state: paused; }
+.ticker-t span { display: inline-flex; align-items: center; gap: 14px; padding: 0 30px; font-family: var(--head); font-weight: 700; font-size: clamp(1.2rem, 2.2vw, 1.8rem); letter-spacing: -.01em; white-space: nowrap; }
+.ticker-t svg { width: 26px; height: 26px; fill: none; stroke: var(--yellow); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes roll { to { transform: translate3d(-50%, 0, 0); } }
+
+/* station cards: tilt and glare */
+.stations { perspective: 1000px; }
+.st { position: relative; transform-style: preserve-3d; will-change: transform; }
+.st.tilt { transition: transform .12s linear, box-shadow .35s, border-color .3s; }
+.st::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .35s;
+    background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, .9), rgba(255, 245, 199, .35) 30%, transparent 60%); mix-blend-mode: soft-light; }
+.st:hover::after { opacity: 1; }
+.st:hover .ic { animation: hop2 .6s var(--ease); }
+@keyframes hop2 { 40% { transform: translateY(-6px) rotate(-6deg); } }
+.st.ping { animation: ping 1.4s var(--ease); }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255, 212, 0, .9); } 100% { box-shadow: 0 0 0 22px rgba(255, 212, 0, 0); } }
+
+/* scroll reveals and counters */
+.rv { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+.rv.in { opacity: 1; transform: none; }
+
+/* team leads say hi */
+.lead-card { position: relative; transition: transform .35s var(--ease); }
+.lead-card:hover { transform: translateY(-4px); }
+.lead-card .hi { position: absolute; left: 50%; top: 8px; transform: translate(-50%, 6px) scale(.9); background: var(--ink); color: #fff; font-weight: 700; font-size: .85rem; padding: 7px 13px; border-radius: 999px; white-space: nowrap; opacity: 0; transition: opacity .25s, transform .35s var(--ease); }
+.lead-card .hi::after { content: ''; position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; margin-left: -5px; background: var(--ink); transform: rotate(45deg); border-radius: 2px; }
+.lead-card:hover .hi, .lead-card:focus .hi { opacity: 1; transform: translate(-50%, -26px); }
+.lead-card:hover .av, .lead-card:focus .av { animation: wave .9s var(--ease); }
+@keyframes wave { 20% { transform: rotate(-10deg); } 45% { transform: rotate(8deg); } 70% { transform: rotate(-4deg); } }
+
+/* magnetic buttons */
+.mag { transition: transform .35s var(--ease), background .25s, border-color .25s, box-shadow .3s; }
+
+/* confetti */
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+
+/* ============================================================
+   THE FLOOR GAME
+   ============================================================ */
+.fg { background: var(--ink); border-radius: clamp(24px, 3vw, 40px); padding: clamp(12px, 2vw, 22px); color: #fff; position: relative; }
+.fg-hud { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 4px 4px 14px; }
+.fg-pill { display: flex; align-items: baseline; gap: 8px; background: rgba(255, 255, 255, .08); border-radius: 999px; padding: 8px 16px; font-weight: 600; font-size: .86rem; color: rgba(255, 255, 255, .65); }
+.fg-pill b { font-family: var(--head); font-weight: 800; font-size: 1.25rem; color: #fff; font-variant-numeric: tabular-nums; }
+.fg-pill.low b { color: #FF6B5E; }
+.fg-flow { flex: 1; min-width: 160px; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: .86rem; color: rgba(255, 255, 255, .65); }
+.fg-flow span { flex: 1; height: 10px; border-radius: 99px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.fg-flow i { display: block; height: 100%; width: 100%; border-radius: 99px; background: linear-gradient(90deg, #2DBE60, var(--yellow)); transition: width .4s var(--ease), background .4s; }
+.fg-flow.bad i { background: linear-gradient(90deg, #FF5A4F, #FF8A00); }
+.fg-combo { background: var(--yellow); color: var(--ink); border-radius: 999px; padding: 8px 16px; font-family: var(--head); font-weight: 800; opacity: 0; transform: scale(.7); transition: opacity .2s, transform .35s cubic-bezier(.2, .9, .3, 1.5); }
+.fg-combo.on { opacity: 1; transform: none; }
+.fg-stage { position: relative; border-radius: 22px; overflow: hidden; background: #F1EFE9; }
+#fg { display: block; width: 100%; aspect-ratio: 90.5 / 30; touch-action: none; cursor: crosshair; }
+.fg-toast { position: absolute; left: 50%; top: 14px; transform: translate(-50%, -10px); background: var(--ink); color: #fff; padding: 9px 16px; border-radius: 999px; font-weight: 700; font-size: .88rem; opacity: 0; pointer-events: none; transition: opacity .25s, transform .3s var(--ease); white-space: nowrap; max-width: 92%; overflow: hidden; text-overflow: ellipsis; }
+.fg-toast.on { opacity: 1; transform: translate(-50%, 0); }
+.fg-over { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; background: rgba(241, 239, 233, .7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); transition: opacity .35s; overflow-y: auto; }
+.fg-over.hide { opacity: 0; pointer-events: none; }
+.fg-card { width: min(520px, 100%); background: #fff; color: var(--ink); border-radius: var(--r-lg); padding: clamp(22px, 3vw, 34px); box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .35); animation: qin .45s var(--ease); }
+.fg-card h3 { font-family: var(--head); font-weight: 800; font-size: clamp(1.5rem, 2.8vw, 2.1rem); letter-spacing: -.025em; line-height: 1.05; }
+.fg-card > p { margin-top: 10px; color: var(--muted); }
+.fg-how { list-style: none; display: grid; gap: 8px; margin: 18px 0 4px; }
+.fg-how li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; font-size: .95rem; color: var(--muted); line-height: 1.45; }
+.fg-how li b { color: var(--ink); }
+.fg-how li::before { content: ''; width: 26px; height: 26px; border-radius: 8px; background: var(--wash) center / 16px no-repeat; }
+.fg-how li:nth-child(1)::before { background-color: #E3EEFF; }
+.fg-how li:nth-child(2)::before { background-color: var(--wash); }
+.fg-how li:nth-child(3)::before { background-color: #FFE3E0; }
+.fg-card .res-btns { margin-top: 20px; }
+.fg-score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+.fg-score div { background: var(--surface); border-radius: 14px; padding: 12px; text-align: center; font-size: .8rem; font-weight: 600; color: var(--muted); }
+.fg-score b { display: block; font-family: var(--head); font-weight: 800; font-size: 1.5rem; color: var(--ink); }
+.fg-stars { display: flex; gap: 6px; margin-bottom: 10px; }
+.fg-stars svg { width: 36px; height: 36px; animation: qin .5s var(--ease) both; }
+.fg-stars svg:nth-child(2) { animation-delay: .12s; } .fg-stars svg:nth-child(3) { animation-delay: .24s; }
+.fg-stars path { fill: var(--surface); stroke: #CFCBBF; stroke-width: 1.4; stroke-linejoin: round; }
+.fg-stars .on path { fill: var(--yellow); stroke: var(--ink); }
+.fg-tasks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 12px; min-height: 92px; }
+.fg-empty { grid-column: 1 / -1; display: grid; place-items: center; color: rgba(255, 255, 255, .45); font-size: .9rem; border: 1px dashed rgba(255, 255, 255, .15); border-radius: 18px; }
+.task { position: relative; overflow: hidden; text-align: left; cursor: pointer; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); border-radius: 18px; padding: 12px 14px 16px; color: #fff; transition: background .2s, border-color .2s, transform .3s var(--ease); animation: tin .4s cubic-bezier(.2, .9, .3, 1.3); }
+@keyframes tin { from { opacity: 0; transform: translateY(12px) scale(.96); } }
+.task:hover { background: rgba(255, 255, 255, .12); }
+.task.carry { border-color: var(--yellow); background: rgba(255, 212, 0, .12); }
+.task .tc { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .04em; padding: 3px 8px; border-radius: 99px; color: #fff; }
+.task h4 { margin-top: 7px; font-family: var(--head); font-weight: 700; font-size: 1rem; line-height: 1.2; }
+.task p { margin-top: 3px; font-size: .8rem; color: rgba(255, 255, 255, .62); line-height: 1.35; }
+.task .bar { position: absolute; left: 0; bottom: 0; height: 4px; background: #2DBE60; border-radius: 0 4px 0 0; }
+.task.urgent .bar { background: #FF5A4F; }
+.task.urgent { animation: urge 1s infinite; }
+@keyframes urge { 50% { border-color: rgba(255, 90, 79, .8); } }
+.fg-help { margin-top: 12px; font-size: .84rem; color: rgba(255, 255, 255, .5); text-align: center; }
+@media (max-width: 1000px) { .fg-tasks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+    #fg { aspect-ratio: auto; height: min(58svh, 470px); }
+    .fg { padding: 10px; border-radius: 24px; }
+    .fg-pill { padding: 7px 12px; } .fg-pill b { font-size: 1.05rem; }
+    .fg-flow { order: 9; min-width: 100%; }
+    .task h4 { font-size: .92rem; }
 }
-.big:hover { transform: translateY(-2px); box-shadow: 0 14px 44px rgba(255, 212, 0, .28); }
 
-.foot { position: relative; z-index: 2; border-top: 1px solid var(--line); background: var(--black); padding: clamp(40px, 5vw, 64px) var(--pad) 34px; }
-.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; }
-.foot-row b { font-weight: 800; font-stretch: 112%; }
-.foot-row span { font-size: .92rem; color: var(--dim); }
-.foot a { color: var(--yellow); }
-.foot small { display: block; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line-2); font-size: .82rem; color: var(--faint); }
+@media (max-width: 760px) {
+    .orb { display: none; }
+    .live { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .rv { opacity: 1; transform: none; }
+    .hero h1 .ch { opacity: 1; transform: none; }
+    .hero h1 .l2::after { transform: none; }
+    .frame::after { display: none; }
+}
 
 /* ============================================================
-   APPLICATION DIALOG
+   DIALOG
    ============================================================ */
-.veil { position: fixed; inset: 0; z-index: 95; display: none; background: rgba(0, 0, 0, .86); overflow-y: auto; padding: max(4vh, env(safe-area-inset-top, 0px)) 16px max(4vh, env(safe-area-inset-bottom, 0px)); }
+.veil { position: fixed; inset: 0; z-index: 95; display: none; background: rgba(27, 27, 26, .5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); overflow-y: auto; padding: max(4vh, env(safe-area-inset-top, 0px)) 16px max(4vh, env(safe-area-inset-bottom, 0px)); }
 .veil.open { display: block; }
-.sheet { max-width: 600px; margin: 0 auto; background: #0d0d0d; border: 1px solid var(--line); border-top: 3px solid var(--yellow); animation: swap .45s var(--slow); }
-.sheet-top { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--line); font-size: .88rem; font-weight: 600; color: var(--dim); }
-.x { width: 34px; height: 34px; border: 1px solid var(--line); background: none; cursor: pointer; font-size: 1.1rem; line-height: 1; transition: background .25s; }
-.x:hover { background: rgba(255, 255, 255, .08); }
+.sheet { max-width: 600px; margin: 0 auto; background: #fff; border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .35); animation: qin .4s var(--ease); }
+.sheet-top { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; background: var(--wash); font-weight: 600; font-size: .92rem; }
+.x { width: 38px; height: 38px; border-radius: 50%; border: 0; background: #fff; cursor: pointer; font-size: 1.2rem; line-height: 1; transition: background .2s; }
+.x:hover { background: var(--yellow); }
 .sheet-in { padding: clamp(22px, 3.4vw, 34px); }
-.sheet-in h2 { font-weight: 800; font-stretch: 112%; font-size: 1.6rem; letter-spacing: -.025em; }
-.sheet-in .note { margin: 10px 0 22px; font-size: .95rem; line-height: 1.62; color: var(--dim); }
-.stepv { display: none } .stepv.on { display: block; animation: swap .4s var(--slow) }
+.sheet-in h2 { font-family: var(--head); font-weight: 700; font-size: 1.75rem; letter-spacing: -.02em; }
+.sheet-in .note { margin: 8px 0 22px; font-size: .97rem; line-height: 1.6; color: var(--muted); }
+.stepv { display: none } .stepv.on { display: block; animation: qin .35s var(--ease) }
 .fld { margin-bottom: 14px; }
-.fld label { display: block; font-size: .85rem; font-weight: 600; color: var(--dim); margin-bottom: 7px; }
-.fld input, .fld textarea { width: 100%; padding: 13px 15px; background: var(--black); border: 1px solid var(--line); color: var(--text); font-family: var(--sans); font-size: 1rem; transition: border-color .25s; }
-.fld textarea { resize: vertical; min-height: 94px; }
-.fld input::placeholder, .fld textarea::placeholder { color: rgba(245, 244, 240, .26); }
-.fld input:focus, .fld textarea:focus { outline: none; border-color: var(--yellow); }
-.fld input:-webkit-autofill { -webkit-text-fill-color: var(--text); -webkit-box-shadow: 0 0 0 100px #111 inset; caret-color: var(--text); }
+.fld label { display: block; font-weight: 600; font-size: .92rem; margin-bottom: 6px; }
+.fld input, .fld textarea { width: 100%; padding: 13px 15px; background: #fff; border: 2px solid var(--line); border-radius: var(--r-sm); color: var(--ink); font-family: var(--body); font-size: 1rem; transition: border-color .2s, box-shadow .2s; }
+.fld textarea { resize: vertical; min-height: 96px; }
+.fld input::placeholder, .fld textarea::placeholder { color: #A9A79F; }
+.fld input:focus, .fld textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 4px rgba(255, 212, 0, .45); }
 .hp { position: absolute; left: -9999px; opacity: 0; height: 0; }
-.alert { border: 1px solid rgba(255, 212, 0, .45); background: rgba(255, 212, 0, .08); padding: 13px 15px; font-size: .92rem; line-height: 1.55; margin-bottom: 16px; }
-.alert b { display: block; color: var(--yellow); margin-bottom: 3px; }
-.alert button { background: none; border: 0; padding: 0; font: inherit; color: var(--yellow); text-decoration: underline; cursor: pointer; }
-.acts { display: flex; gap: 10px; margin-top: 20px; }
-.acts button, .res-btns button { padding: 15px 24px; border: 0; cursor: pointer; font-weight: 700; font-size: .96rem; transition: transform .28s var(--ease), background .25s, border-color .25s; }
-.acts button { flex: 1; }
-.bline { background: none; border: 1px solid var(--line) !important; }
-.bline:hover { border-color: var(--yellow) !important; }
-.bfill { background: var(--yellow); color: var(--black); }
-.bfill:hover { transform: translateY(-2px); }
-.bfill:disabled { opacity: .45; transform: none; cursor: default; }
+.alert { border-radius: var(--r-sm); background: #FFF0EE; border: 1px solid #F3C2BC; padding: 13px 15px; font-size: .94rem; line-height: 1.55; margin-bottom: 16px; }
+.alert b { display: block; color: #B3261E; margin-bottom: 3px; }
+.alert button { background: none; border: 0; padding: 0; font: inherit; color: #B3261E; text-decoration: underline; cursor: pointer; }
+.acts-d { display: flex; gap: 10px; margin-top: 20px; }
+.acts-d button, .res-btns button { padding: 14px 24px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; font-weight: 700; font-size: .98rem; transition: background .2s, transform .3s var(--ease), border-color .2s; }
+.acts-d button { flex: 1; }
+.bline { background: #fff; border-color: var(--ink) !important; }
+.bline:hover { background: var(--surface); }
+.bfill { background: var(--yellow); color: var(--ink); }
+.bfill:hover { background: var(--yellow-2); transform: translateY(-2px); }
+.bfill:disabled { opacity: .5; transform: none; cursor: default; }
 .wait { text-align: center; padding: 42px 0; }
-.dots { display: inline-flex; gap: 6px; }
-.dots i { width: 8px; height: 8px; background: var(--yellow); animation: hop .9s infinite; }
+.dots { display: inline-flex; gap: 7px; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--yellow-2); animation: hop .9s infinite; }
 .dots i:nth-child(2) { animation-delay: .15s } .dots i:nth-child(3) { animation-delay: .3s }
-@keyframes hop { 0%, 100% { transform: translateY(0); opacity: .3 } 50% { transform: translateY(-7px); opacity: 1 } }
-.tick { width: 46px; height: 46px; background: var(--yellow); color: var(--black); display: grid; place-items: center; font-size: 1.3rem; margin-bottom: 18px; }
-.refbox { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; border: 1px solid var(--line); padding: 15px 18px; margin: 18px 0; font-size: .88rem; color: var(--dim); }
-.refbox b { font-family: var(--code); font-weight: 500; font-size: 1.2rem; letter-spacing: .04em; color: var(--yellow); }
+@keyframes hop { 0%, 100% { transform: translateY(0); opacity: .4 } 50% { transform: translateY(-7px); opacity: 1 } }
+.tick { width: 52px; height: 52px; border-radius: 50%; background: #2DBE60; color: #fff; display: grid; place-items: center; font-size: 1.4rem; margin-bottom: 16px; }
+.refbox { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; background: var(--wash); border-radius: var(--r-sm); padding: 15px 18px; margin: 18px 0; font-weight: 600; font-size: .92rem; }
+.refbox b { font-family: var(--head); font-weight: 800; font-size: 1.3rem; letter-spacing: .04em; }
 .mailers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 18px 0 8px; }
-.mailer { display: flex; align-items: center; gap: 11px; padding: 15px; border: 1px solid var(--line); background: var(--black); cursor: pointer; text-align: left; font-size: .95rem; transition: border-color .25s, transform .28s var(--ease); }
-.mailer:hover { border-color: var(--yellow); transform: translateY(-2px); }
+.mailer { display: flex; align-items: center; gap: 11px; padding: 14px 15px; border: 2px solid var(--line); border-radius: var(--r-md); background: #fff; cursor: pointer; text-align: left; font-weight: 600; font-size: .96rem; transition: border-color .2s, transform .3s var(--ease); }
+.mailer:hover { border-color: var(--ink); transform: translateY(-2px); }
 .mailer svg { width: 20px; height: 20px; flex-shrink: 0; }
-.mailer small { display: block; color: var(--faint); font-size: .76rem; }
-.copyline { width: 100%; margin-top: 8px; padding: 13px; border: 1px dashed var(--line); background: none; color: var(--dim); cursor: pointer; font-size: .88rem; font-weight: 600; transition: color .25s, border-color .25s; }
-.copyline:hover { color: var(--text); border-color: var(--yellow); }
+.mailer small { display: block; color: var(--muted); font-weight: 500; font-size: .78rem; }
+.copyline { width: 100%; margin-top: 8px; padding: 13px; border-radius: var(--r-md); border: 2px dashed var(--line); background: none; color: var(--muted); cursor: pointer; font-weight: 600; font-size: .92rem; transition: color .2s, border-color .2s; }
+.copyline:hover { color: var(--ink); border-color: var(--ink); }
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1000px) {
-    .split, .apply-grid, .res { grid-template-columns: 1fr; }
-    .grid2, .crew { grid-template-columns: 1fr; }
-    .figs { grid-template-columns: repeat(2, 1fr); }
-    .radar { max-width: 360px; }
+    .hero-card, .role, .apply, .res { grid-template-columns: 1fr; }
+    .stations { grid-template-columns: repeat(2, 1fr); }
+    .nums { grid-template-columns: repeat(2, 1fr); }
+    .why, .team { grid-template-columns: 1fr; }
+    .radar { max-width: 380px; margin: 0 auto; }
+    .leads-chip { left: 12px; }
 }
 @media (max-width: 760px) {
     .burger { display: block; }
-    .menu {
-        position: fixed; top: calc(66px + env(safe-area-inset-top, 0px)); left: 0; right: 0;
-        flex-direction: column; align-items: stretch; gap: 0;
-        background: rgba(0, 0, 0, .97); border-bottom: 1px solid var(--line);
-        padding: 8px var(--pad) 22px; display: none;
-    }
+    .menu { position: fixed; top: calc(72px + env(safe-area-inset-top, 0px)); left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: #fff; border-bottom: 1px solid var(--line); box-shadow: var(--shadow); padding: 6px var(--pad) 20px; display: none; }
     .menu.open { display: flex; }
-    .menu a { display: block; padding: 15px 0; font-size: 1rem; border-bottom: 1px solid var(--line-2); }
-    .menu .go { text-align: center; margin-top: 12px; padding: 16px; border-bottom: 0; }
-    .pin { align-items: flex-end; padding: 80px 12px 12px; }
-    .panel { width: 100%; padding: 16px; }
-    .panel h2 { font-size: 1.25rem; }
-    .panel .lead, .legend { display: none; }
-    .tabs { margin-top: 12px; }
-    .tab { padding: 8px 9px; }
-    .tab span { font-size: .78rem; }
-    .detail { margin-top: 14px; min-height: 0; }
-    .detail h3 { font-size: 1.35rem; }
-    .detail p { font-size: .92rem; margin-top: 8px; }
-    .kit { margin-top: 10px; }
-    .tag { font-size: .72rem; padding: 4px 8px 4px 4px; }
-    .mailers, .acts, .res-btns { grid-template-columns: 1fr; flex-direction: column; }
-    .who { padding: 22px; }
+    .menu a { display: block; padding: 15px 0; font-size: 1.05rem; border-bottom: 1px solid var(--line); }
+    .menu .btn { margin-top: 14px; border-bottom: 0; }
+    .stations, .opts { grid-template-columns: 1fr; }
+    .hero { padding-left: 12px; padding-right: 12px; }
+    .hero-card::before { width: 320px; height: 320px; right: -120px; top: -140px; }
+    .hero .acts .btn { flex: 1; padding: 14px 18px; }
+    .leads-chip { position: static; margin-top: 12px; max-width: none; box-shadow: none; }
+    .w { grid-template-columns: 1fr; }
+    .mailers, .acts-d, .res-btns { grid-template-columns: 1fr; flex-direction: column; }
+    .contact .btn { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }
 </style>
 </head>
 <body>
 
-<canvas id="scene" aria-hidden="true"></canvas>
-<div class="vignette" aria-hidden="true"></div>
-<div class="tags" id="tags"></div>
-
 <header class="nav" id="nav">
-    <a class="brand" href="#top"><b>Jumbo</b> KW Shift B</a>
-    <nav aria-label="Main">
-        <ul class="menu" id="menu">
-            <li><a href="#stations">Stations</a></li>
-            <li><a href="#role">The role</a></li>
-            <li><a href="#why">Why join</a></li>
-            <li><a href="#fit">Station fit</a></li>
-            <li><a href="#apply" class="go">Apply</a></li>
-        </ul>
-    </nav>
-    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+    <div class="nav-in">
+        <a class="brand" href="#top"><b>Jumbo</b> KW Shift B</a>
+        <nav aria-label="Main">
+            <ul class="menu" id="menu">
+                <li><a href="#stations">Stations</a></li>
+                <li><a href="#play">Play</a></li>
+                <li><a href="#why">Why join</a></li>
+                <li><a href="#team">Your team</a></li>
+                <li><a href="#fit">Station fit</a></li>
+                <li><a href="#apply" class="btn y">Apply now</a></li>
+            </ul>
+        </nav>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+    </div>
 </header>
 
-<main>
+<main id="top">
 
-<!-- HERO -->
-<section class="hero" id="top">
-    <div class="hero-in">
-        <p class="hiring"><i aria-hidden="true"></i> Now hiring at Jumbo</p>
-        <h1><span>Warehouse</span><span>All-Rounder</span></h1>
-        <div class="hero-base">
-            <p>Six stations. One role. The person KW Shift B leans on when it matters.</p>
-            <dl class="facts">
-                <div><dt>Shift</dt><dd>KW, Shift B</dd></div>
-                <div><dt>Stations</dt><dd>Six, rotating</dd></div>
-                <div><dt>Start</dt><dd>When you are ready</dd></div>
-            </dl>
+<section class="hero">
+    <div class="hero-card" id="heroCard">
+        <div class="grid-dots" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div><span class="blob b1" aria-hidden="true"></span><span class="blob b2" aria-hidden="true"></span>
+        <div class="hero-txt">
+            <span class="hello"><i aria-hidden="true"></i> We are hiring at Jumbo</span>
+            <h1 id="h1" aria-label="Warehouse All-Rounder"><span class="l1">Warehouse</span><span class="l2">All-Rounder</span></h1>
+            <p class="lead">Six stations. One role. The person KW Shift B leans on when it matters, and a team that has your back from day one.</p>
+            <div class="acts">
+                <a class="btn k mag" href="#apply">Apply now</a>
+                <a class="btn o mag" href="#play">Play a shift</a>
+            </div>
+            <ul class="facts">
+                <li>Shift<strong>KW, Shift B</strong></li>
+                <li>Stations<strong>Six, rotating</strong></li>
+                <li>Start<strong>When you are ready</strong></li>
+            </ul>
         </div>
-        <p class="hint3d">This is the floor. Tap a station to step inside it.</p>
-    </div>
-</section>
-
-<!-- VIDEO -->
-<section class="reel" id="reel">
-    <div class="wrap">
-        <div class="finder">
-            <i></i><i></i><i></i><i></i>
+        <div class="hero-media" id="heroMedia">
+            <div id="orbs"></div>
             <div class="frame">
-                <video id="vid" autoplay muted loop playsinline></video>
-                <div class="reel-bar">
-                    <span>Inside the shift</span>
-                    <button class="sound" id="sound" aria-pressed="false"><i aria-hidden="true"></i> Sound off</button>
-                </div>
+                <span class="live"><i aria-hidden="true"></i> Inside KW Shift B</span>
+                <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                <video id="vid" autoplay muted loop playsinline aria-label="A look inside the KW Shift B warehouse"></video>
+                <button class="sound" id="sound" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path id="wave" d="M16 9a4 4 0 0 1 0 6" opacity=".25"/></svg><span>Sound off</span></button>
+            </div>
+            <div class="leads-chip">
+                <div class="avs" aria-hidden="true"><span class="a1">M</span><span class="a2">S</span><span class="a3">E</span></div>
+                <p><strong>Miroslaw, Soufiane and Ed</strong><br>lead the shift and will show you the ropes.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- STATIONS -->
-<section class="story" id="stations" aria-label="The six stations">
-    <div class="pin">
-        <div class="panel">
-            <h2>You rotate through all six stations.</h2>
-            <p class="lead">Every station runs at the same time, all shift long. There is no fixed order. You go where the floor needs you.</p>
-            <div class="tabs" id="tabs"></div>
-            <div class="detail" id="detail" aria-live="polite"></div>
-            <div class="legend">
-                <span><i></i>Moving lights trace goods from the trucks at ontvangst to the finished trolleys.</span>
-                <span><i class="p"></i>The pink dot is help desk, walking the whole floor.</span>
+<div class="ticker" aria-hidden="true"><div class="ticker-t" id="ticker"></div></div>
+
+<section class="sec" id="stations" style="padding-top:clamp(40px,5vw,70px)">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <h2 class="h2">Meet the six stations</h2>
+            <p class="lead">Every station runs at the same time, all shift long. There is no fixed order. You rotate through all of them and go where the floor needs you.</p>
+        </div>
+        <div class="stations" id="stationGrid"></div>
+    </div>
+</section>
+
+<section class="sec" id="play" style="padding-top:0">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <h2 class="h2">Work a shift on the KW floor</h2>
+            <p class="lead">This is our hall, aisle codes and all. Trucks arrive at the docks, pallets need putting away, scanners break, spills happen. Walk the floor and keep the shift flowing for two minutes.</p>
+        </div>
+        <div class="fg rv" id="fgBox">
+            <div class="fg-hud">
+                <div class="fg-pill" id="fgTimeP"><b id="fgTime">2:00</b>left</div>
+                <div class="fg-pill"><b id="fgScore">0</b>points</div>
+                <div class="fg-pill"><b id="fgDone">0</b>jobs done</div>
+                <div class="fg-flow" id="fgFlowW">Shift flow <span><i id="fgFlow"></i></span></div>
+                <div class="fg-combo" id="fgCombo">Combo x2</div>
             </div>
+            <div class="fg-stage">
+                <canvas id="fg" aria-label="Top-down map of the KW warehouse floor. Use the job cards below the map to walk to each job."></canvas>
+                <div class="fg-toast" id="fgToast" role="status"></div>
+                <div class="fg-over" id="fgOver"></div>
+            </div>
+            <div class="fg-tasks" id="fgTasks"><div class="fg-empty">Jobs appear here. Tap one to walk straight to it.</div></div>
+            <p class="fg-help">Click the floor or a job card to walk there. On a keyboard, use WASD or the arrow keys.</p>
         </div>
     </div>
 </section>
 
-<!-- ROLE -->
-<section class="sec" id="role">
-    <div class="wrap split">
-        <p class="side">The role</p>
+<section class="sec" id="role" style="padding-top:0">
+    <div class="wrap role">
         <div>
             <h2 class="h2">Not a job title. A position on the floor.</h2>
-            <div style="margin-top:30px">
-                <p class="p">Ready to take your warehouse skills further? An All-Rounder is the person the shift leans on, the one who steps in wherever the work is and keeps everything moving.</p>
-                <blockquote class="pull">You are the glue that holds the shift together.</blockquote>
-                <p class="p">When it gets busy or something goes wrong, you are the one the team looks to. You will not just be doing a job. You will learn the entire Jumbo operation from the inside out, station by station.</p>
-            </div>
+            <p class="p" style="margin-top:22px">Ready to take your warehouse skills further? An All-Rounder is the person the shift leans on, the one who steps in wherever the work is and keeps everything moving.</p>
+            <p class="p">When it gets busy or something goes wrong, you are the one the team looks to. You will not just be doing a job. You will learn the entire Jumbo operation from the inside out, station by station.</p>
         </div>
+        <figure class="quote rv">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18v-5c0-4 2-7 6-8l1 2c-2 1-3 2-3 4h3v7zm9 0v-5c0-4 2-7 6-8l1 2c-2 1-3 2-3 4h3v7z" fill="#1B1B1A"/></svg>
+            <p>You are the glue that holds the shift together.</p>
+            <span>What an All-Rounder means to KW Shift B</span>
+        </figure>
     </div>
 </section>
 
-<!-- FIGURES -->
-<section class="sec">
-    <div class="wrap figs">
-        <div class="fig"><b>6</b><span>Stations to master</span></div>
-        <div class="fig"><b>3</b><span>Leaders behind you</span></div>
-        <div class="fig"><b>1</b><span>Role, whole floor</span></div>
-        <div class="fig"><b>0</b><span>Boring shifts</span></div>
+<section class="sec" style="padding-top:0">
+    <div class="wrap nums rv">
+        <div class="num"><b data-to="6">6</b><span>Stations to master</span></div>
+        <div class="num"><b data-to="3">3</b><span>Leaders behind you</span></div>
+        <div class="num"><b data-to="1">1</b><span>Role, whole floor</span></div>
+        <div class="num"><b>0</b><span>Boring shifts</span></div>
     </div>
 </section>
 
-<!-- WHY -->
-<section class="sec" id="why">
-    <div class="wrap split">
-        <p class="side">Why join</p>
-        <div>
+<section class="sec" id="why" style="padding-top:0">
+    <div class="wrap">
+        <div class="sec-head">
             <h2 class="h2">Most people learn one job. You learn the operation.</h2>
-            <div class="grid2">
-                <article class="card"><h3>Six skill sets, one role</h3><p>Help desk, reach truck, ontvangst, AGF, order control, housekeeping. You do not specialise into a corner. You build skills that stay with you wherever you go next.</p></article>
-                <article class="card"><h3>Be the one they call</h3><p>When a scanner stops working or the floor does not match the system, the shift looks for you. That trust is earned fast, and it does not go unnoticed.</p></article>
-                <article class="card"><h3>Nobody works alone here</h3><p>Ontvangst and reach truck work side by side all day. AGF runs as a pair. The whole operation is built on people covering for each other.</p></article>
-                <article class="card"><h3>See how it fits together</h3><p>Standing in every station teaches you why the operation works the way it does, and where the pressure lands when a shift gets busy.</p></article>
-            </div>
+        </div>
+        <div class="why">
+            <article class="w"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5z"/><path d="m3 13 9 5 9-5"/></svg></div><div><h3>Six skill sets, one role</h3><p>Help desk, reach truck, ontvangst, AGF, order control, housekeeping. You do not specialise into a corner. You build skills that stay with you wherever you go next.</p></div></article>
+            <article class="w"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg></div><div><h3>Be the one they call</h3><p>When a scanner stops working or the floor does not match the system, the shift looks for you. That trust is earned fast, and it does not go unnoticed.</p></div></article>
+            <article class="w"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M15 14.2c.6-.2 1.3-.2 2-.2 2.8 0 4 2 4 4.5"/></svg></div><div><h3>Nobody works alone here</h3><p>Ontvangst and reach truck work side by side all day. AGF runs as a pair. The whole operation is built on people covering for each other.</p></div></article>
+            <article class="w"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></div><div><h3>See how it fits together</h3><p>Standing in every station teaches you why the operation works the way it does, and where the pressure lands when a shift gets busy.</p></div></article>
         </div>
     </div>
 </section>
 
-<!-- LEADERS -->
-<section class="sec">
-    <div class="wrap split">
-        <p class="side">Your shift leaders</p>
-        <div>
-            <h2 class="h2">The people who have your back</h2>
-            <div class="crew">
-                <div class="who"><div class="in" aria-hidden="true">M</div><div><h3>Miroslaw</h3><span>Team lead</span></div></div>
-                <div class="who"><div class="in" aria-hidden="true">S</div><div><h3>Soufiane</h3><span>Team lead</span></div></div>
-                <div class="who"><div class="in" aria-hidden="true">E</div><div><h3>Ed</h3><span>Team lead</span></div></div>
-            </div>
+<section class="sec" id="team" style="padding-top:0">
+    <div class="wrap">
+        <div class="sec-head">
+            <h2 class="h2">Say hello to your shift leaders</h2>
+            <p class="lead">The people who have your back, on your first shift and every one after.</p>
+        </div>
+        <div class="team">
+            <div class="lead-card rv" tabindex="0"><span class="hi">Hi, I am Miroslaw!</span><div class="av" style="background:var(--yellow)" aria-hidden="true">M</div><h3>Miroslaw</h3><span>Team lead</span></div>
+            <div class="lead-card rv" tabindex="0"><span class="hi">Hi, I am Soufiane!</span><div class="av" style="background:#CFE8FF" aria-hidden="true">S</div><h3>Soufiane</h3><span>Team lead</span></div>
+            <div class="lead-card rv" tabindex="0"><span class="hi">Hi, I am Ed!</span><div class="av" style="background:var(--pink-wash)" aria-hidden="true">E</div><h3>Ed</h3><span>Team lead</span></div>
         </div>
     </div>
 </section>
 
-<!-- QUIZ -->
-<section class="sec" id="fit">
-    <div class="wrap split">
-        <p class="side">Station fit</p>
-        <div>
-            <h2 class="h2">Which station would you start strongest at?</h2>
-            <p class="p" style="margin-top:16px;max-width:48ch">Six quick questions. You rotate through every station anyway, but this is where you would hit the ground running.</p>
-            <div class="quiz">
-                <div class="quiz-top">
-                    <span id="qCount">Question 1 of 6</span>
-                    <div class="qtrack"><i id="qBar"></i></div>
-                </div>
-                <div class="quiz-body" id="qBody"></div>
+<section class="sec" id="fit" style="padding-top:0">
+    <div class="wrap quiz-wrap rv">
+        <h2 class="h2">Which station would you start strongest at?</h2>
+        <p class="lead">Six quick questions. You rotate through every station anyway, but this is where you would hit the ground running.</p>
+        <div class="quiz">
+            <div class="quiz-top">
+                <span id="qCount">Question 1 of 6</span>
+                <div class="qtrack"><i id="qBar"></i></div>
             </div>
+            <div class="quiz-body" id="qBody"></div>
         </div>
     </div>
 </section>
 
-<!-- APPLY -->
-<section class="apply" id="apply">
-    <div class="wrap apply-grid">
-        <div>
-            <h2>This is your shift. Make it count.</h2>
-            <p class="p">Send your details in under a minute. You choose which email account sends your documents.</p>
-            <button class="big" id="openBtn">Start your application</button>
+<section class="sec" id="apply" style="padding-top:0">
+    <div class="wrap">
+        <div class="apply rv">
+            <div>
+                <h2>This is your shift. Make it count.</h2>
+                <p class="lead">Send your details in under a minute. You choose which email account sends your documents.</p>
+                <button class="btn k mag" id="openBtn">Start your application</button>
+            </div>
+            <ol class="steps">
+                <li><p><strong>Your CV.</strong> Your warehouse experience and the skills you bring to the team.</p></li>
+                <li><p><strong>A motivation letter.</strong> Why this role excites you and what makes you the right fit.</p></li>
+                <li><p><strong>Your contact details.</strong> So Miroslaw can reach you and take the next step.</p></li>
+            </ol>
         </div>
-        <div class="need">
-            <div><p><strong>Your CV.</strong> Your warehouse experience and the skills you bring to the team.</p></div>
-            <div><p><strong>A motivation letter.</strong> Why this role excites you and what makes you the right fit.</p></div>
-            <div><p><strong>Your contact details.</strong> So Miroslaw can reach you and take the next step.</p></div>
+        <div class="contact">
+            <div class="contact-l">
+                <div class="av" aria-hidden="true">M</div>
+                <div><h3>Questions first? Ask Miroslaw.</h3><p>miroslaw.medrzechowski@jumbo.com</p></div>
+            </div>
+            <a class="btn o" href="mailto:miroslaw.medrzechowski@jumbo.com">Send an email</a>
         </div>
     </div>
 </section>
@@ -553,14 +637,12 @@ body.no3d .legend { display: none; }
 </main>
 
 <footer class="foot">
-    <div class="wrap">
-        <div class="foot-row">
-            <b>Jumbo, KW Shift B</b>
-            <span>Questions? <a href="mailto:miroslaw.medrzechowski@jumbo.com">miroslaw.medrzechowski@jumbo.com</a></span>
-        </div>
-        <small>Web page made and published by Moldovan Arpad Benjamin</small>
+    <div class="foot-row">
+        <span><b>Jumbo, KW Shift B</b></span>
+        <span>Web page made and published by Moldovan Arpad Benjamin</span>
     </div>
 </footer>
+<canvas id="confetti" aria-hidden="true"></canvas>
 
 <!-- DIALOG -->
 <div class="veil" id="veil" role="dialog" aria-modal="true" aria-labelledby="dTitle">
@@ -581,7 +663,7 @@ body.no3d .legend { display: none; }
                     <div class="fld"><label for="exp">Warehouse experience</label><textarea id="exp" required placeholder="Where you have worked and what you did there"></textarea></div>
                     <div class="fld"><label for="mot">Why KW Shift B?</label><textarea id="mot" required placeholder="What draws you to this role"></textarea></div>
                     <input type="checkbox" class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-                    <div class="acts">
+                    <div class="acts-d">
                         <button type="button" class="bline" id="cancel">Cancel</button>
                         <button type="submit" class="bfill" id="send">Send my details</button>
                     </div>
@@ -602,13 +684,12 @@ body.no3d .legend { display: none; }
                     <button class="mailer" data-p="app"><svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="2.5" width="15" height="19" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M10 18.5h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>My mail app<small>Default app</small></span></button>
                 </div>
                 <button class="copyline" id="copyBtn">Copy the message instead</button>
-                <div class="acts"><button type="button" class="bline" id="later">I will send it later</button></div>
+                <div class="acts-d"><button type="button" class="bline" id="later">I will send it later</button></div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
 'use strict';
@@ -623,488 +704,878 @@ var ACCESS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
 var TO = 'miroslaw.medrzechowski@jumbo.com';
 var VIDEO = 'recruitment_video.mp4';
 
-/* The six stations. Edit here and the page and the 3D floor follow.
-   zone is the station's spot on the floor plan, x then z. */
+/* The six stations. Edit here and the page follows. */
+var ICONS = {
+    laptop:  '<rect x="4" y="5" width="16" height="10.5" rx="1.6"/><path d="M2 19h20"/>',
+    truck:   '<path d="M3 18V9.5h6.5L13 14v4"/><path d="M9.5 9.5V6H6"/><path d="M17 4v14h4"/><path d="M13 16h4"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="12.2" cy="18.5" r="1.8"/>',
+    lorry:   '<path d="M2 6.5h11.5v10H2z"/><path d="M13.5 10h4l3.5 3.5v3h-7.5"/><circle cx="6" cy="18" r="1.9"/><circle cx="17.5" cy="18" r="1.9"/>',
+    apple:   '<path d="M12 8c-2.6-1.8-8-1.3-8 4.6 0 4 2.8 8.4 5.6 8.4 1.1 0 1.6-.5 2.4-.5s1.3.5 2.4.5c2.8 0 5.6-4.4 5.6-8.4 0-5.9-5.4-6.4-8-4.6z"/><path d="M12 8c0-2 .8-4 3-5"/>',
+    scan:    '<path d="M3 7.5V4h3.5M17.5 4H21v3.5M21 16.5V20h-3.5M6.5 20H3v-3.5"/><path d="M7.5 8v8M10.5 8v8M13.5 8v8M16.5 8v8"/>',
+    shine:   '<path d="M11 3.5l1.9 5.1 5.1 1.9-5.1 1.9L11 17.5l-1.9-5.1L4 10.5l5.1-1.9z"/><path d="M18.5 15l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/>'
+};
 var STATIONS = [
-    { code: 'HD', key: 'hd', name: 'Help desk', zone: [-13, 6],
+    { code: 'HD', name: 'Help desk', icon: 'laptop', pink: true,
       text: 'The one in the pink vest, walking the floor with the laptop. You make sure what is happening on the floor matches what the system says about stock, and you are the person anyone can come to with a picking, filling or refilling problem.',
       kit: ['Pink vest', 'Laptop', 'Stock in the system'] },
-    { code: 'RT', key: 'rt', name: 'Reach truck', zone: [0, -6],
+    { code: 'RT', name: 'Reach truck', icon: 'truck',
       text: 'On the truck all day, working hand in hand with the person on ontvangst. You fill and refill the pallets and keep the floor supplied.',
       kit: ['Reach truck', 'Pallets', 'Works with ontvangst'] },
-    { code: 'ONT', key: 'ont', name: 'Ontvangst', zone: [-13, -6],
+    { code: 'ONT', name: 'Ontvangst', icon: 'lorry',
       text: 'You receive the trucks with the filling containers and get them to the splitting area, so all the filling is there on time. After that you fill the pallets together with the reach truck driver.',
       kit: ['Inbound trucks', 'Splitting area', 'On time'] },
-    { code: 'AGF', key: 'agf', name: 'AGF', zone: [13, -6],
+    { code: 'AGF', name: 'AGF', icon: 'apple',
       text: 'The fruit and vegetables area. You make sure the pickers always have the product they need and that the quality going to the customer is the best it can be. Two people work AGF, and one is always on the reach truck filling and refilling pallets there.',
       kit: ['Fruit and veg', 'Quality first', 'Two person team'] },
-    { code: 'OC', key: 'oc', name: 'Order control', zone: [0, 6],
+    { code: 'OC', name: 'Order control', icon: 'scan',
       text: 'You arrange all the scanners the rest of the team works with, and you check the quality of the finished trolleys before they go anywhere.',
       kit: ['Scanners', 'Trolley quality', 'Last check'] },
-    { code: 'HHD', key: 'hk', name: 'Housekeeping', zone: [13, 6],
+    { code: 'HHD', name: 'Housekeeping', icon: 'shine',
       text: 'You make sure the place we all work in stays clean and maintained, every shift.',
       kit: ['Clean', 'Maintained', 'Whole department'] }
 ];
 
 var $ = function (id) { return document.getElementById(id); };
+var PHONE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+/* stations */
+$('stationGrid').innerHTML = STATIONS.map(function (s) {
+    return '<article class="st rv' + (s.pink ? ' pink' : '') + '" id="st-' + s.code + '" style="--d:' + (STATIONS.indexOf(s) % 3 * .08) + 's">' +
+        '<div class="st-top"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[s.icon] + '</svg></div>' +
+        '<span class="code">' + s.code + '</span></div>' +
+        '<h3>' + s.name + '</h3><p>' + s.text + '</p>' +
+        '<ul class="chips">' + s.kit.map(function (k) { return '<li>' + k + '</li>'; }).join('') + '</ul></article>';
+}).join('');
+
+/* ------------------------------------------------------------
+   EFFECTS
+   ------------------------------------------------------------ */
 var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-var PHONE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-var body = document.body;
+function svgIcon(name, cls) { return '<svg viewBox="0 0 24 24" aria-hidden="true"' + (cls ? ' class="' + cls + '"' : '') + '>' + ICONS[name] + '</svg>'; }
 
-/* ------------------------------------------------------------
-   STATION PANEL
-   ------------------------------------------------------------ */
-var floor = null, tagEls = [];
-var tabs = $('tabs'), detail = $('detail'), current = -1;
+/* headline, letter by letter */
+[].forEach.call($('h1').children, function (line, li) {
+    var txt = line.textContent, off = li * 9;
+    line.setAttribute('aria-hidden', 'true');
+    line.innerHTML = txt.split('').map(function (c, i) { return '<span class="ch" style="--i:' + (i + off) + '">' + c + '</span>'; }).join('');
+});
+
+/* hero spotlight and floating station bubbles */
+var heroCard = $('heroCard'), orbs = $('orbs');
+var ORB_POS = [['-8%', '-19%'], ['28%', '-20%'], ['62%', '-20%'], ['98%', '22%'], ['97%', '62%'], ['-9%', '40%']];
 STATIONS.forEach(function (s, i) {
     var b = document.createElement('button');
-    b.className = 'tab';
-    b.setAttribute('aria-pressed', 'false');
-    b.innerHTML = '<b>' + s.code + '</b><span>' + s.name + '</span>';
-    b.addEventListener('click', function () { goStation(i); });
-    tabs.appendChild(b);
+    b.className = 'orb' + (s.pink ? ' pink' : '');
+    b.style.left = ORB_POS[i][0]; b.style.top = ORB_POS[i][1];
+    b.style.setProperty('--d', (6 + (i % 3) * 5));
+    b.style.setProperty('--del', (-i * .7) + 's');
+    b.setAttribute('data-name', s.name);
+    b.setAttribute('aria-label', 'Go to ' + s.name);
+    b.innerHTML = '<span>' + svgIcon(s.icon) + '</span>';
+    b.addEventListener('click', function () { goToStation(i); });
+    orbs.appendChild(b);
 });
-function showStation(i) {
-    if (i === current) return;
-    current = i;
-    var s = STATIONS[i];
-    [].forEach.call(tabs.children, function (b, k) { b.setAttribute('aria-pressed', String(k === i)); });
-    detail.innerHTML = '<h3>' + s.name + '</h3><p>' + s.text + '</p><ul class="kit">' +
-        s.kit.map(function (k) { return '<li>' + k + '</li>'; }).join('') + '</ul>';
-    detail.classList.remove('swap'); void detail.offsetWidth; detail.classList.add('swap');
-    if (floor) floor.focus(i);
-    tagEls.forEach(function (t, k) { t.classList.toggle('on', k === i); });
+if (fine && !reduce) {
+    heroCard.addEventListener('pointermove', function (e) {
+        var r = heroCard.getBoundingClientRect();
+        heroCard.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        heroCard.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        heroCard.style.setProperty('--px', ((e.clientX - r.left) / r.width - .5) * 2);
+        heroCard.style.setProperty('--py', ((e.clientY - r.top) / r.height - .5) * 2);
+    }, { passive: true });
+    heroCard.addEventListener('pointerleave', function () { heroCard.style.setProperty('--px', 0); heroCard.style.setProperty('--py', 0); });
+}
+function goToStation(i) {
+    var el = $('st-' + STATIONS[i].code);
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    setTimeout(function () { el.classList.remove('ping'); void el.offsetWidth; el.classList.add('ping'); }, reduce ? 0 : 650);
 }
 
-/* Scroll position inside the stations section picks the station. */
-var story = $('stations'), storyTop = 0, storyLen = 1, heroH = 1, reelBottom = 1;
-function measure() {
-    var r = story.getBoundingClientRect();
-    storyTop = r.top + scrollY;
-    storyLen = Math.max(1, story.offsetHeight - innerHeight);
-    heroH = $('top').offsetHeight;
-    reelBottom = $('reel').getBoundingClientRect().bottom + scrollY;
+/* ticker, two identical halves so it loops seamlessly */
+var half = STATIONS.map(function (s) { return '<span>' + svgIcon(s.icon) + s.name + '</span>'; }).join('');
+$('ticker').innerHTML = half + half;
+
+/* station cards tilt toward the cursor */
+if (fine && !reduce) {
+    document.querySelectorAll('.st').forEach(function (c) {
+        c.addEventListener('pointermove', function (e) {
+            var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+            c.classList.add('tilt');
+            c.style.transform = 'rotateX(' + ((.5 - y) * 10).toFixed(2) + 'deg) rotateY(' + ((x - .5) * 12).toFixed(2) + 'deg) translateZ(6px)';
+            c.style.setProperty('--gx', (x * 100) + '%'); c.style.setProperty('--gy', (y * 100) + '%');
+        }, { passive: true });
+        c.addEventListener('pointerleave', function () { c.classList.remove('tilt'); c.style.transform = ''; });
+    });
+    /* buttons lean toward the cursor */
+    document.querySelectorAll('.mag').forEach(function (m) {
+        m.addEventListener('pointermove', function (e) {
+            var r = m.getBoundingClientRect();
+            m.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .22).toFixed(1) + 'px,' + ((e.clientY - r.top - r.height / 2) * .32).toFixed(1) + 'px)';
+        }, { passive: true });
+        m.addEventListener('pointerleave', function () { m.style.transform = ''; });
+    });
 }
-function goStation(i) {
-    measure();
-    scrollTo({ top: storyTop + ((i + .5) / STATIONS.length) * storyLen, behavior: reduce ? 'auto' : 'smooth' });
+
+/* reveal on scroll, count up the numbers */
+var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        e.target.classList.add('in');
+        e.target.querySelectorAll('[data-to]').forEach(function (b) {
+            var to = +b.dataset.to, t0 = null;
+            if (reduce) return;
+            b.textContent = '0';
+            requestAnimationFrame(function step(t) {
+                t0 = t0 || t;
+                var k = Math.min(1, (t - t0) / 1100);
+                b.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+                if (k < 1) requestAnimationFrame(step);
+            });
+        });
+    });
+}, { threshold: .15 });
+document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+
+/* confetti in Jumbo colours */
+var cv = $('confetti'), cx = cv.getContext('2d'), parts = [], craf = 0;
+function sizeCv() { var d = Math.min(devicePixelRatio || 1, 2); cv.width = innerWidth * d; cv.height = innerHeight * d; cx.setTransform(d, 0, 0, d, 0, 0); }
+sizeCv(); addEventListener('resize', sizeCv);
+var CCOL = ['#FFD400', '#FFD400', '#1B1B1A', '#FF5FA8', '#FFFFFF', '#2DBE60'];
+function confetti(x, y, n) {
+    if (reduce) return;
+    for (var i = 0; i < n; i++) {
+        var a = -Math.PI / 2 + (Math.random() - .5) * 2.2, v = 6 + Math.random() * 10;
+        parts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, w: 6 + Math.random() * 7, h: 4 + Math.random() * 5,
+            r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: CCOL[i % CCOL.length], life: 1 });
+    }
+    if (!craf) craf = requestAnimationFrame(stepC);
 }
-showStation(0);
+function stepC() {
+    cx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(function (p) { return p.life > 0 && p.y < innerHeight + 30; });
+    parts.forEach(function (p) {
+        p.vy += .32; p.vx *= .985; p.vy *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= .007;
+        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r); cx.globalAlpha = Math.min(1, p.life * 2);
+        cx.fillStyle = p.c; cx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r * 2))); cx.restore();
+    });
+    craf = parts.length ? requestAnimationFrame(stepC) : 0;
+}
+function burstAt(el, n) { var r = el.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + r.height / 3, n || 120); }
 
 /* ------------------------------------------------------------
-   THE 3D FLOOR
-   A wireframe model of the shift: racks, docks, trolleys, a reach
-   truck at work, goods flowing between stations. Built from plain
-   boxes so it loads fast and runs on a phone.
+   THE FLOOR GAME
+   A top-down model of the KW hall: rack pairs running front to
+   back, the cross aisle, the splitting area, docks on the left,
+   the AGF cooler and the scanner rack on the right. Jobs from all
+   six stations appear; you walk the floor and do them.
+   Units are metres of make-believe. The hall is 84 by 27.
    ------------------------------------------------------------ */
-function webgl() {
-    try { var c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl'))); }
-    catch (e) { return false; }
-}
-if (window.THREE && webgl()) { floor = buildFloor(); } else { body.classList.add('no3d'); }
+(function floorGame() {
+    var cv = $('fg'), ctx = cv.getContext('2d'), box = $('fgBox');
+    var HW = 84, HH = 27, CELL = .5, GW = HW / CELL, GH = HH / CELL;
+    var VIEW = { x0: -5.5, x1: 85, y0: -1.5, y1: 28.5 };
+    var BACK = [1.7, 11.4], FRONT = [14.6, 23];
+    var SPLIT = { x0: 39.5, x1: 52, y0: 1.7, y1: 11.4 };
+    var CODES = ['M', 'MG', 'CQ', 'CL', 'CK', 'CJ', 'CI', 'CG', 'CF', 'CE', 'CD', 'CB', 'CS', 'CU', 'EF', 'ED', 'EC', 'EB'];
+    var PRODUCE = ['bananas', 'tomatoes', 'apples', 'cucumbers', 'lettuce', 'peppers', 'grapes'];
+    var TYPES = {
+        ont: { code: 'ONT', color: '#2F7DF6', time: 36, pts: 160 },
+        rt:  { code: 'RT',  color: '#FF8A00', time: 36, pts: 160 },
+        agf: { code: 'AGF', color: '#22A653', time: 32, pts: 140 },
+        oc:  { code: 'OC',  color: '#8B5CF6', time: 30, pts: 130 },
+        hd:  { code: 'HD',  color: '#FF4F9E', time: 24, pts: 110 },
+        hhd: { code: 'HHD', color: '#0EA5A4', time: 26, pts: 110 }
+    };
+    var LENGTH = 120, WALK = 10, DRIVE = 12.5;
 
-function buildFloor() {
-    var T = THREE;
-    var canvas = $('scene');
-    var renderer = new T.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance' });
-    renderer.setClearColor(0x000000, 1);
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
+    var seed = 9;
+    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 
-    var scene = new T.Scene();
-    scene.fog = new T.Fog(0x000000, 38, 92);
-    var camera = new T.PerspectiveCamera(36, 1, .1, 220);
+    /* ---- layout ---- */
+    var PAIRS = [], racks = [], obstacles = [];
+    for (var px = 7; px + 2.1 <= 80; px += 4.7) PAIRS.push(px);
+    var TOTE = ['#FFD400', '#FFD400', '#3B82F6', '#3B82F6', '#C9A36A'];
+    function makeRows(x, y0, y1) {
+        var rows = [];
+        [x, x + 1.1].forEach(function (rx) {
+            var t = [];
+            for (var y = y0 + .12; y + .8 < y1; y += .95) if (rnd() > .14) t.push({ y: y, c: TOTE[Math.floor(rnd() * TOTE.length)], h: .55 + rnd() * .3 });
+            rows.push({ x: rx, totes: t });
+        });
+        return rows;
+    }
+    PAIRS.forEach(function (x, i) {
+        var split = x >= SPLIT.x0 && x + 2.1 <= SPLIT.x1;
+        if (!split) racks.push({ x: x, y: BACK[0], w: 2.1, h: BACK[1] - BACK[0], i: i, agf: i >= 13, rows: makeRows(x, BACK[0], BACK[1]) });
+        racks.push({ x: x, y: FRONT[0], w: 2.1, h: FRONT[1] - FRONT[0], i: i, rows: makeRows(x, FRONT[0], FRONT[1]) });
+    });
+    racks.forEach(function (r) { obstacles.push(r); });
+    var DESK = { x: 1.4, y: 3, w: 2.6, h: 1.1 }, SCANRACK = { x: 82.3, y: 22.9, w: 1.5, h: 1.6 };
+    obstacles.push(DESK, SCANRACK);
+    var TROLLEYS = [];
+    for (var tx = 56; tx < 78; tx += 1.15) TROLLEYS.push({ x: tx, y: 26.05, w: .85, h: .75 });
+    obstacles.push({ x: 56, y: 26.05, w: 22, h: .75 });
 
-    var YEL = new T.Color(0xffd400), WHITE = new T.Color(0xf5f4f0), PINK = 0xff4fa0;
-
-    /* ---- helpers ---- */
-    function mats() {
-        return {
-            line: new T.LineBasicMaterial({ color: WHITE.clone(), transparent: true, opacity: .5 }),
-            face: new T.MeshBasicMaterial({ color: WHITE.clone(), transparent: true, opacity: .035, depthWrite: false }),
-            solid: new T.MeshBasicMaterial({ color: WHITE.clone(), transparent: true, opacity: .6 })
-        };
-    }
-    function box(m, w, h, d, x, y, z, parent) {
-        var g = new T.BoxGeometry(w, h, d), grp = new T.Group();
-        grp.add(new T.Mesh(g, m.face));
-        grp.add(new T.LineSegments(new T.EdgesGeometry(g), m.line));
-        grp.position.set(x, y + h / 2, z);
-        parent.add(grp);
-        return grp;
-    }
-    function loop(mat, pts, parent, closed) {
-        var g = new T.BufferGeometry().setFromPoints(pts.map(function (p) { return new T.Vector3(p[0], p[1], p[2]); }));
-        var l = closed ? new T.LineLoop(g, mat) : new T.Line(g, mat);
-        parent.add(l); return l;
-    }
-    function floorRect(mat, w, d, x, z, parent) {
-        return loop(mat, [[x - w/2, .03, z - d/2], [x + w/2, .03, z - d/2], [x + w/2, .03, z + d/2], [x - w/2, .03, z + d/2]], parent, true);
-    }
-    function person(mat, x, z, parent) {
-        var g = new T.Group();
-        var b = new T.Mesh(new T.CylinderGeometry(.24, .28, 1.15, 10), mat); b.position.y = .58;
-        var h = new T.Mesh(new T.SphereGeometry(.22, 12, 10), mat); h.position.y = 1.42;
-        g.add(b); g.add(h); g.position.set(x, 0, z); parent.add(g); return g;
-    }
-    function rack(m, len, depth, height, levels, bays, x, z, parent, rnd) {
-        var g = new T.Group(); g.position.set(x, 0, z); parent.add(g);
-        var bay = len / bays;
-        for (var i = 0; i <= bays; i++) {
-            var px = -len / 2 + i * bay;
-            box(m, .09, height, .09, px, 0, -depth / 2, g);
-            box(m, .09, height, .09, px, 0, depth / 2, g);
+    var DOCKS = [{ x: 1.2, y: 16.6 }, { x: 1.2, y: 20.6 }, { x: 1.2, y: 24.6 }];
+    var SPLITSPOT = { x: 45.75, y: 6.5, code: 'Splitting' };
+    var COOLER = { x: 82.9, y: 6.5, code: 'Cooler' };
+    var SCANNERS = { x: 81.3, y: 23.7, code: 'Scanners' };
+    function aisleX(i) { return PAIRS[i] + 3.4; }
+    function loc(kind) {
+        var choices = [];
+        for (var i = 0; i < PAIRS.length - 1; i++) {
+            var inSplit = aisleX(i) > SPLIT.x0 && aisleX(i) < SPLIT.x1;
+            if (kind === 'agf') { if (i >= 12) choices.push([i, 'b']); continue; }
+            if (!inSplit && i < 12) choices.push([i, 'b']);
+            choices.push([i, 'f']);
         }
-        for (var l = 1; l <= levels; l++) {
-            var ly = l * height / (levels + .3);
-            box(m, len, .07, .07, 0, ly, -depth / 2, g);
-            box(m, len, .07, .07, 0, ly, depth / 2, g);
+        var c = pick(choices), h = c[1] === 'b' ? BACK : FRONT;
+        var y = h[0] + 1 + Math.random() * (h[1] - h[0] - 2);
+        var n = 1 + Math.floor((y - h[0]) / (h[1] - h[0]) * 12) + (c[1] === 'f' ? 12 : 0);
+        return { x: aisleX(c[0]), y: y, code: (kind === 'agf' ? 'AGF ' : '') + CODES[c[0] + 1] + '-' + (n < 10 ? '0' : '') + n };
+    }
+
+    /* ---- walkable grid and pathfinding ---- */
+    var walk = new Uint8Array(GW * GH);
+    for (var gy = 0; gy < GH; gy++) for (var gx = 0; gx < GW; gx++) {
+        var cx = (gx + .5) * CELL, cy = (gy + .5) * CELL, ok = cx > .45 && cx < HW - .45 && cy > .45 && cy < HH - .45;
+        for (var o = 0; ok && o < obstacles.length; o++) {
+            var b = obstacles[o];
+            if (cx > b.x - .35 && cx < b.x + b.w + .35 && cy > b.y - .35 && cy < b.y + b.h + .35) ok = false;
         }
-        for (var lv = 0; lv < levels; lv++) {
-            for (var bb = 0; bb < bays; bb++) {
-                if (rnd() < .28) continue;
-                var y0 = lv === 0 ? .05 : lv * height / (levels + .3) + .05;
-                box(m, bay * .78, height / (levels + .3) * .62, depth * .82, -len / 2 + (bb + .5) * bay, y0, 0, g);
+        walk[gy * GW + gx] = ok ? 1 : 0;
+    }
+    function cellOf(x, y) { return [Math.max(0, Math.min(GW - 1, Math.floor(x / CELL))), Math.max(0, Math.min(GH - 1, Math.floor(y / CELL)))]; }
+    function isWalk(x, y) { if (x < 0 || y < 0 || x >= HW || y >= HH) return false; var c = cellOf(x, y); return walk[c[1] * GW + c[0]] === 1; }
+    function nearestWalk(x, y) {
+        var c = cellOf(x, y);
+        for (var r = 0; r < 14; r++) for (var dy = -r; dy <= r; dy++) for (var dx = -r; dx <= r; dx++) {
+            if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+            var X = c[0] + dx, Y = c[1] + dy;
+            if (X >= 0 && Y >= 0 && X < GW && Y < GH && walk[Y * GW + X]) return [X, Y];
+        }
+        return null;
+    }
+    function los(a, b) {
+        var d = Math.hypot(b.x - a.x, b.y - a.y), n = Math.ceil(d / (CELL * .5));
+        for (var i = 1; i < n; i++) if (!isWalk(a.x + (b.x - a.x) * i / n, a.y + (b.y - a.y) * i / n)) return false;
+        return true;
+    }
+    function findPath(from, to) {
+        var s = nearestWalk(from.x, from.y), e = nearestWalk(to.x, to.y);
+        if (!s || !e) return [];
+        var S = s[1] * GW + s[0], E = e[1] * GW + e[0], N = GW * GH;
+        var g = new Float32Array(N).fill(Infinity), came = new Int32Array(N).fill(-1), closed = new Uint8Array(N);
+        var heap = [], ex = e[0], ey = e[1];
+        function hfn(i) { var dx = Math.abs(i % GW - ex), dy = Math.abs((i / GW | 0) - ey); return dx + dy + (1.4142 - 2) * Math.min(dx, dy); }
+        function push(i, f) { heap.push([f, i]); var k = heap.length - 1; while (k > 0) { var p = (k - 1) >> 1; if (heap[p][0] <= heap[k][0]) break; var t = heap[p]; heap[p] = heap[k]; heap[k] = t; k = p; } }
+        function pop() { var top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; var k = 0; for (;;) { var l = 2 * k + 1, r = l + 1, m = k; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === k) break; var t = heap[m]; heap[m] = heap[k]; heap[k] = t; k = m; } } return top[1]; }
+        g[S] = 0; push(S, hfn(S));
+        var DIRS = [[1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1], [1, 1, 1.4142], [1, -1, 1.4142], [-1, 1, 1.4142], [-1, -1, 1.4142]];
+        while (heap.length) {
+            var cur = pop();
+            if (cur === E) break;
+            if (closed[cur]) continue;
+            closed[cur] = 1;
+            var cxg = cur % GW, cyg = cur / GW | 0;
+            for (var d = 0; d < 8; d++) {
+                var nx = cxg + DIRS[d][0], ny = cyg + DIRS[d][1];
+                if (nx < 0 || ny < 0 || nx >= GW || ny >= GH) continue;
+                var ni = ny * GW + nx;
+                if (!walk[ni] || closed[ni]) continue;
+                if (d >= 4 && (!walk[cyg * GW + nx] || !walk[ny * GW + cxg])) continue;
+                var ng = g[cur] + DIRS[d][2];
+                if (ng < g[ni]) { g[ni] = ng; came[ni] = cur; push(ni, ng + hfn(ni)); }
             }
         }
-        return g;
-    }
-    /* deterministic random so the floor looks the same every visit */
-    var seed = 7;
-    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-
-    /* ---- the ground ---- */
-    var grid = new T.GridHelper(80, 40, 0x2a2a2a, 0x141414);
-    scene.add(grid);
-    var edgeMat = new T.LineBasicMaterial({ color: YEL, transparent: true, opacity: .55 });
-    floorRect(edgeMat, 42, 29, 0, 0, scene);
-    var scanMat = new T.MeshBasicMaterial({ color: YEL, transparent: true, opacity: .16, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide });
-    var scan = new T.Mesh(new T.PlaneGeometry(.5, 29), scanMat);
-    scan.rotation.x = -Math.PI / 2; scan.position.y = .04; scene.add(scan);
-
-    /* ---- six zones ---- */
-    var zones = STATIONS.map(function (s) {
-        var m = mats(), g = new T.Group();
-        scene.add(g);
-        var deco = new T.LineBasicMaterial({ color: YEL.clone(), transparent: true, opacity: .25 });
-        floorRect(deco, 11.4, 9.4, s.zone[0], s.zone[1], g);
-        return { s: s, m: m, deco: deco, g: g, cx: s.zone[0], cz: s.zone[1], h: 2 };
-    });
-    var Z = {}; zones.forEach(function (z) { Z[z.s.key] = z; });
-
-    /* Ontvangst: dock wall, three doors, containers in the splitting area */
-    (function (z) {
-        var m = z.m, x = z.cx, zz = z.cz;
-        box(m, 11, 4.4, .2, x, 0, zz - 4.6, z.g);
-        [-3.6, 0, 3.6].forEach(function (dx) {
-            loop(m.line, [[x + dx - 1.1, 0, zz - 4.45], [x + dx - 1.1, 3, zz - 4.45], [x + dx + 1.1, 3, zz - 4.45], [x + dx + 1.1, 0, zz - 4.45]], z.g, false);
-        });
-        for (var r = 0; r < 3; r++) for (var c = 0; c < 4; c++) {
-            if (rnd() < .2) continue;
-            box(m, .85, 1.7, .7, x - 3 + c * 1.5, 0, zz - 1.5 + r * 1.3, z.g);
+        if (came[E] === -1 && E !== S) return [];
+        var pts = [], k = E;
+        while (k !== -1) { pts.push({ x: (k % GW + .5) * CELL, y: ((k / GW | 0) + .5) * CELL }); k = came[k]; }
+        pts.reverse();
+        pts[pts.length - 1] = isWalk(to.x, to.y) ? { x: to.x, y: to.y } : pts[pts.length - 1];
+        /* pull the string tight so the walk looks natural */
+        var out = [], a = { x: from.x, y: from.y }, idx = 0;
+        while (idx < pts.length - 1) {
+            var far = idx + 1;
+            for (var j = pts.length - 1; j > idx + 1; j--) if (los(a, pts[j])) { far = j; break; }
+            out.push(pts[far]); a = pts[far]; idx = far;
         }
-        person(m.solid, x + 3.4, zz + 1.5, z.g);
-        z.h = 4.8;
-    })(Z.ont);
-
-    /* Reach truck: two rack rows and the truck working the aisle */
-    var truck, forks;
-    (function (z) {
-        var m = z.m, x = z.cx, zz = z.cz;
-        rack(m, 10, 1.2, 4.8, 3, 4, x, zz - 3.4, z.g, rnd);
-        rack(m, 10, 1.2, 4.8, 3, 4, x, zz + 3.4, z.g, rnd);
-        truck = new T.Group(); truck.position.set(x, 0, zz); z.g.add(truck);
-        box(m, 1.1, 1.0, 1.7, 0, .15, .3, truck);
-        box(m, .5, .7, .5, 0, 1.15, .7, truck);
-        box(m, .1, 3.6, .1, -.42, 0, -.65, truck);
-        box(m, .1, 3.6, .1, .42, 0, -.65, truck);
-        forks = new T.Group(); truck.add(forks);
-        box(m, .1, .05, 1.1, -.3, 0, -1.25, forks);
-        box(m, .1, .05, 1.1, .3, 0, -1.25, forks);
-        box(m, .95, .7, .95, 0, .06, -1.25, forks);
-        z.h = 5.6;
-    })(Z.rt);
-
-    /* AGF: produce rack, stacked crates, the pair who run it */
-    (function (z) {
-        var m = z.m, x = z.cx, zz = z.cz;
-        rack(m, 10, 1.2, 3.4, 2, 4, x, zz - 3.4, z.g, rnd);
-        for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) {
-            var n = 1 + Math.floor(rnd() * 3);
-            for (var k = 0; k < n; k++) box(m, .8, .45, .6, x - 4 + c * 1.6, k * .5, zz - .4 + r * 1.2, z.g);
-        }
-        person(m.solid, x - 1.2, zz + 3.4, z.g);
-        person(m.solid, x + .6, zz + 3.6, z.g);
-        z.h = 4.2;
-    })(Z.agf);
-
-    /* Help desk: standing desk with the laptop */
-    (function (z) {
-        var m = z.m, x = z.cx, zz = z.cz;
-        box(m, 1.8, 1.05, .8, x, 0, zz, z.g);
-        var lap = box(m, .7, .04, .5, x, 1.06, zz, z.g);
-        var scr = box(m, .7, .45, .04, x, 1.08, zz - .25, z.g);
-        scr.rotation.x = -.25;
-        box(m, 2.6, 1.6, .12, x - 2.6, 1.1, zz - 3, z.g);
-        box(m, .12, 1.1, .12, x - 2.6, 0, zz - 3, z.g);
-        z.h = 3.4;
-    })(Z.hd);
-
-    /* Order control: rows of trolleys and the scanner rack */
-    (function (z) {
-        var m = z.m, x = z.cx, zz = z.cz;
-        for (var r = 0; r < 3; r++) for (var c = 0; c < 6; c++) {
-            if (rnd() < .15) continue;
-            box(m, .7, 1.6, .6, x - 3.2 + c * 1.1, .12, zz - 2 + r * 1.6, z.g);
-        }
-        var sr = box(m, 2.2, 2.3, .45, x + 4.2, 0, zz - 3.2, z.g);
-        for (var s = 0; s < 4; s++) box(m, .18, .5, .2, -.75 + s * .5, -.2, .14, sr);
-        person(m.solid, x + 4.2, zz - 1.8, z.g);
-        z.h = 3.6;
-    })(Z.oc);
-
-    /* Housekeeping: a floor scrubber making its rounds */
-    var scrub;
-    (function (z) {
-        var m = z.m;
-        scrub = new T.Group(); z.g.add(scrub);
-        box(m, 1.2, .7, 1.7, 0, .05, 0, scrub);
-        box(m, .7, .5, .5, 0, .75, .3, scrub);
-        loop(z.deco, (function () { var p = []; for (var a = 0; a <= 48; a++) { var t = a / 48 * Math.PI * 2; p.push([z.cx + Math.cos(t) * 3, .04, z.cz + Math.sin(t) * 3]); } return p; })(), z.g, false);
-        z.h = 2.6;
-    })(Z.hk);
-
-    /* ---- paths and movement ---- */
-    function Path(pts, closed) {
-        this.p = pts.map(function (q) { return new T.Vector3(q[0], 0, q[1]); });
-        if (closed) this.p.push(this.p[0].clone());
-        this.c = [0];
-        for (var i = 1; i < this.p.length; i++) this.c.push(this.c[i - 1] + this.p[i].distanceTo(this.p[i - 1]));
-        this.len = this.c[this.c.length - 1];
-    }
-    Path.prototype.at = function (u, out, dir) {
-        var d = (((u % 1) + 1) % 1) * this.len, i = 1;
-        while (i < this.c.length - 1 && this.c[i] < d) i++;
-        var a = this.p[i - 1], b = this.p[i], k = (d - this.c[i - 1]) / Math.max(1e-6, this.c[i] - this.c[i - 1]);
-        out.copy(a).lerp(b, k);
-        if (dir) dir.copy(b).sub(a).normalize();
+        if (!out.length && pts.length) out.push(pts[pts.length - 1]);
         return out;
-    };
-    var flows = [
-        new Path([[-16.5, -10.4], [-14, -7.2], [-10, -4.8], [-5.2, -6], [5.2, -6], [6.6, -1], [3, 2.2], [-5.6, 3], [-5.6, 10], [-12, 13.2]]),
-        new Path([[13, -2.8], [9.6, -1.2], [6.6, -1], [3, 2.2], [-5.6, 3], [-5.6, 10], [-12, 13.2]])
-    ];
-    var dashMat = new T.LineDashedMaterial({ color: YEL, transparent: true, opacity: .4, dashSize: .5, gapSize: .45 });
-    flows.forEach(function (f) {
-        var l = new T.Line(new T.BufferGeometry().setFromPoints(f.p.map(function (v) { return new T.Vector3(v.x, .05, v.z); })), dashMat);
-        l.computeLineDistances(); scene.add(l);
-    });
-    var goodsMat = new T.MeshBasicMaterial({ color: YEL });
-    var goodsGeo = new T.BoxGeometry(.5, .32, .5);
-    var goods = [];
-    [[0, 22], [1, 10]].forEach(function (cfg) {
-        for (var i = 0; i < cfg[1]; i++) {
-            var mesh = new T.Mesh(goodsGeo, goodsMat); scene.add(mesh);
-            goods.push({ m: mesh, f: flows[cfg[0]], o: i / cfg[1] });
+    }
+
+    /* ---- state ---- */
+    var P = { x: 22, y: 13, dir: 0, path: [], carry: null, moving: false, hold: 0, holdTask: null, dust: 0 };
+    var S = { running: false, visible: false, time: LENGTH, score: 0, done: 0, missed: 0, flow: 100, combo: 1, best: 1, lastDone: -99, spawn: 0, tasks: [], tid: 0, clock: 0 };
+    var parts = [], floats = [], flash = 0, shake = 0;
+    var keys = {};
+
+    /* the rest of the crew, for life on the floor */
+    var npcs = [];
+    for (var n = 0; n < 9; n++) {
+        var ai = Math.floor(rnd() * (PAIRS.length - 1)), back = rnd() < .5 && !(aisleX(ai) > SPLIT.x0 && aisleX(ai) < SPLIT.x1);
+        npcs.push({ x: aisleX(ai) + (rnd() - .5) * .8, h: back ? BACK : FRONT, ph: rnd() * 6, v: .12 + rnd() * .15, truck: n < 2 });
+    }
+
+    /* ---- jobs ---- */
+    function freeDock() {
+        var used = S.tasks.filter(function (t) { return t.type === 'ont'; }).map(function (t) { return t.dock; });
+        var free = [0, 1, 2].filter(function (d) { return used.indexOf(d) < 0; });
+        return free.length ? pick(free) : -1;
+    }
+    function makeTask(type) {
+        var t = { id: ++S.tid, type: type, m: TYPES[type], step: 0, age: 0 };
+        t.life = t.left = t.m.time;
+        var L;
+        if (type === 'ont') {
+            var d = freeDock(); if (d < 0) return null;
+            t.dock = d; t.title = 'Truck at dock ' + (d + 1);
+            DOCKS[d].code = 'Dock ' + (d + 1);
+            t.steps = [{ at: DOCKS[d], hold: 1.3, text: 'Unload the truck at dock ' + (d + 1), give: 'container', fx: 'unload' },
+                       { at: SPLITSPOT, hold: .5, text: 'Bring the container to splitting', need: 'container' }];
+        } else if (type === 'rt') {
+            L = loc(); t.title = 'Refill ' + L.code;
+            t.steps = [{ at: SPLITSPOT, hold: .7, text: 'Take a pallet from splitting', give: 'pallet' },
+                       { at: L, hold: 1, text: 'Drive it to ' + L.code + ' and put it away', need: 'pallet' }];
+        } else if (type === 'agf') {
+            var pr = pick(PRODUCE); L = loc('agf'); t.title = 'Pickers need ' + pr;
+            t.steps = [{ at: COOLER, hold: .7, text: 'Get the ' + pr + ' from the cooler', give: 'crate' },
+                       { at: L, hold: .8, text: 'Fill ' + L.code + ' with ' + pr, need: 'crate' }];
+        } else if (type === 'oc') {
+            L = loc(); t.title = 'Scanner down at ' + L.code; t.worker = L;
+            t.steps = [{ at: SCANNERS, hold: .5, text: 'Grab a spare scanner', give: 'scanner' },
+                       { at: L, hold: .6, text: 'Swap the scanner at ' + L.code, need: 'scanner' }];
+        } else if (type === 'hd') {
+            L = loc(); t.title = 'Stock mismatch at ' + L.code;
+            t.steps = [{ at: L, hold: 1.7, text: 'Count the stock and fix the system', fx: 'scan' }];
+        } else {
+            L = loc(); t.title = 'Spill at ' + L.code; t.spill = L;
+            t.steps = [{ at: L, hold: 1.9, text: 'Clean it up before someone slips', fx: 'clean' }];
         }
-    });
+        return t;
+    }
+    function spawn(forced) {
+        if (S.tasks.length >= 4) return;
+        var weights = ['ont', 'ont', 'rt', 'rt', 'agf', 'oc', 'hd', 'hd', 'hhd', 'hhd'];
+        var t = makeTask(forced || pick(weights));
+        if (!t) t = makeTask('hd');
+        S.tasks.push(t);
+        addCard(t);
+        toast(t.m.code + ': ' + t.title);
+    }
 
-    var walker = new T.Group();
-    var pinkMat = new T.MeshBasicMaterial({ color: PINK });
-    person(pinkMat, 0, 0, walker);
-    var halo = new T.Mesh(new T.RingGeometry(.55, .7, 32), new T.MeshBasicMaterial({ color: PINK, transparent: true, opacity: .5, side: T.DoubleSide }));
-    halo.rotation.x = -Math.PI / 2; halo.position.y = .05; walker.add(halo);
-    scene.add(walker);
-    var walk = new Path([[-11, 6], [-8, 0], [-3, -1], [8, -1.2], [9.5, 3], [6, 10], [-2.5, 11], [-9, 10.5]], true);
+    /* ---- cards ---- */
+    var tasksEl = $('fgTasks'), cards = {};
+    function addCard(t) {
+        var empty = tasksEl.querySelector('.fg-empty'); if (empty) empty.remove();
+        var b = document.createElement('button');
+        b.className = 'task';
+        b.innerHTML = '<span class="tc" style="background:' + t.m.color + '">' + t.m.code + '</span><h4>' + t.title + '</h4><p></p><span class="bar"></span>';
+        b.addEventListener('click', function () { if (S.tasks.indexOf(t) > -1 && t.steps[t.step]) route(t.steps[t.step].at); });
+        tasksEl.appendChild(b);
+        cards[t.id] = { el: b, p: b.querySelector('p'), bar: b.querySelector('.bar'), txt: '' };
+    }
+    function dropCard(t) {
+        var c = cards[t.id]; if (!c) return;
+        c.el.style.transition = 'opacity .3s, transform .3s'; c.el.style.opacity = '0'; c.el.style.transform = 'scale(.94)';
+        setTimeout(function () { c.el.remove(); if (!tasksEl.children.length) tasksEl.innerHTML = '<div class="fg-empty">All clear. The next job is on its way.</div>'; }, 300);
+        delete cards[t.id];
+    }
+    function drawCards() {
+        S.tasks.forEach(function (t) {
+            var c = cards[t.id]; if (!c) return;
+            var s = t.steps[t.step], txt = (t.steps.length > 1 ? 'Step ' + (t.step + 1) + ' of 2: ' : '') + s.text;
+            if (txt !== c.txt) { c.txt = txt; c.p.textContent = txt; }
+            c.bar.style.width = (t.left / t.life * 100).toFixed(1) + '%';
+            c.el.classList.toggle('urgent', t.left / t.life < .3);
+            c.el.classList.toggle('carry', !!(P.carry && P.carry.task === t.id));
+        });
+    }
 
-    /* ---- labels ---- */
-    var tagsBox = $('tags');
-    zones.forEach(function (z, i) {
-        var t = document.createElement('button');
-        t.className = 'tag';
-        t.innerHTML = '<b>' + z.s.code + '</b>' + z.s.name;
-        t.setAttribute('aria-label', 'Show station: ' + z.s.name);
-        t.addEventListener('click', function () { goStation(i); });
-        tagsBox.appendChild(t);
-        tagEls.push(t);
-    });
+    /* ---- feedback ---- */
+    var toastEl = $('fgToast'), toastT = 0;
+    function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('on'); }, 2200); }
+    function burst(x, y, color, n) {
+        if (reduce) return;
+        for (var i = 0; i < n; i++) {
+            var a = Math.random() * Math.PI * 2, v = 2 + Math.random() * 6;
+            parts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, kind: 'spark', c: i % 3 ? color : '#FFD400', r: .08 + Math.random() * .12 });
+        }
+        parts.push({ x: x, y: y, life: 1, kind: 'ring', c: color, r: .4 });
+    }
+    function floatText(x, y, txt, color) { floats.push({ x: x, y: y, t: txt, c: color, life: 1 }); }
 
-    /* ---- camera ---- */
-    var camPos = new T.Vector3(30, 26, 34), camLook = new T.Vector3(0, 0, 0);
-    var goalPos = new T.Vector3(), goalLook = new T.Vector3();
-    var view = { x: 0, y: 0 }, viewGoal = { x: 0, y: 0 };
-    var mode = 'hero', focusIdx = 0;
-    var W = 1, H = 1, mobile = false;
+    /* ---- moving ---- */
+    function route(target) {
+        if (!S.running) return;
+        if (Math.hypot(P.x - target.x, P.y - target.y) < 1) { P.path = []; return; }
+        P.path = findPath(P, target);
+        if (!P.path.length) toast('No way through there. Try another spot.');
+    }
 
+    /* ---- game flow ---- */
+    var over = $('fgOver');
+    function overlay(html) { over.innerHTML = '<div class="fg-card">' + html + '</div>'; over.classList.remove('hide'); }
+    function intro() {
+        overlay('<h3>Your shift on the KW floor</h3><p>Jobs come in from all six stations. Some take one stop, some take two.</p>' +
+            '<ul class="fg-how"><li><span><b>Walk</b> by clicking the floor or a job card. Keys work too.</span></li>' +
+            '<li><span><b>Stand on a job</b> to do it. Two-stop jobs mean you carry something, and you can carry one thing at a time.</span></li>' +
+            '<li><span><b>Beat the clock</b> on every job. Misses drain the shift flow. Quick jobs in a row build a combo.</span></li></ul>' +
+            '<div class="res-btns"><button class="bfill" id="fgStart">Start my shift</button></div>');
+        $('fgStart').addEventListener('click', start);
+    }
+    function start() {
+        S.running = true; S.time = LENGTH; S.score = 0; S.done = 0; S.missed = 0; S.flow = 100; S.combo = 1; S.best = 1; S.lastDone = -99; S.clock = 0;
+        S.tasks.forEach(dropCard); S.tasks = []; S.spawn = 6;
+        P.x = 22; P.y = 13; P.path = []; P.carry = null; P.hold = 0; P.holdTask = null;
+        tasksEl.innerHTML = '';
+        over.classList.add('hide');
+        spawn('ont'); spawn('hd');
+        last = performance.now();
+    }
+    function finish(reason) {
+        S.running = false;
+        var stars = S.score >= 2600 ? 3 : S.score >= 1500 ? 2 : S.score >= 600 ? 1 : 0;
+        var line = stars === 3 ? 'The floor never stopped moving. That is exactly what an All-Rounder does.'
+                 : stars === 2 ? 'Busy floor, steady hands. With three team leads behind you, the rest comes fast.'
+                 : 'Hard, right? Nobody learns six stations in two minutes. On Shift B, the team teaches you.';
+        var star = '<path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/>';
+        overlay('<div class="fg-stars">' + [0, 1, 2].map(function (k) { return '<svg viewBox="0 0 24 24"' + (k < stars ? ' class="on"' : '') + '>' + star + '</svg>'; }).join('') + '</div>' +
+            '<h3>' + (reason === 'flow' ? 'The floor got stuck.' : 'Shift complete!') + '</h3><p>' + line + '</p>' +
+            '<div class="fg-score"><div><b>' + S.score + '</b>points</div><div><b>' + S.done + '</b>jobs done</div><div><b>x' + S.best + '</b>best combo</div></div>' +
+            '<div class="res-btns"><button class="bfill" id="fgApply">Apply for the role</button><button class="bline" id="fgAgain">Play again</button></div>');
+        $('fgApply').addEventListener('click', openApp);
+        $('fgAgain').addEventListener('click', start);
+        if (stars >= 2) burstAt(cv, stars === 3 ? 220 : 120);
+        S.tasks.forEach(dropCard); S.tasks = [];
+    }
+
+    function complete(t) {
+        var at = t.steps[t.steps.length - 1].at;
+        var quick = S.clock - S.lastDone < 9;
+        S.combo = quick ? Math.min(4, S.combo + 1) : 1;
+        S.best = Math.max(S.best, S.combo); S.lastDone = S.clock;
+        var pts = Math.round(t.m.pts * (1 + .6 * t.left / t.life) * S.combo / 10) * 10;
+        S.score += pts; S.done++; S.flow = Math.min(100, S.flow + 6);
+        burst(at.x, at.y, t.m.color, 34);
+        floatText(at.x, at.y - .6, '+' + pts + (S.combo > 1 ? '  x' + S.combo : ''), t.m.color);
+        S.tasks.splice(S.tasks.indexOf(t), 1); dropCard(t);
+        if (S.combo >= 3) burstAt(cv, 30);
+    }
+    function miss(t) {
+        S.missed++; S.flow -= 24; S.combo = 1; flash = 1; shake = .5;
+        var at = t.steps[t.step].at;
+        floatText(at.x, at.y - .6, 'Missed', '#E5372B');
+        if (P.carry && P.carry.task === t.id) { P.carry = null; toast('A colleague took over that job.'); }
+        S.tasks.splice(S.tasks.indexOf(t), 1); dropCard(t);
+        if (S.flow <= 0) finish('flow');
+    }
+
+    /* ---- update ---- */
+    var last = performance.now();
+    function update(dt) {
+        S.clock += dt; S.time -= dt;
+        /* spawn faster as the shift goes on */
+        S.spawn -= dt;
+        if (S.spawn <= 0) { spawn(); S.spawn = 8 - 3.6 * (1 - S.time / LENGTH); }
+        if (!S.tasks.length && S.spawn > 1.5) S.spawn = 1.5;
+
+        /* movement: keys first, then the planned path */
+        var kx = (keys.ArrowRight || keys.d ? 1 : 0) - (keys.ArrowLeft || keys.a ? 1 : 0);
+        var ky = (keys.ArrowDown || keys.s ? 1 : 0) - (keys.ArrowUp || keys.w ? 1 : 0);
+        var speed = P.carry && P.carry.item === 'pallet' ? DRIVE : WALK, moved = false;
+        if (kx || ky) {
+            P.path = [];
+            var l = Math.hypot(kx, ky), vx = kx / l * speed * dt, vy = ky / l * speed * dt;
+            if (isWalk(P.x + vx, P.y)) P.x += vx;
+            if (isWalk(P.x, P.y + vy)) P.y += vy;
+            P.dir = Math.atan2(ky, kx); moved = true;
+        } else if (P.path.length) {
+            var w = P.path[0], dx = w.x - P.x, dy = w.y - P.y, d = Math.hypot(dx, dy), st = speed * dt;
+            if (d <= st) { P.x = w.x; P.y = w.y; P.path.shift(); }
+            else { P.x += dx / d * st; P.y += dy / d * st; }
+            P.dir = Math.atan2(dy, dx); moved = true;
+        }
+        P.moving = moved;
+        if (moved && !reduce) {
+            P.dust -= dt;
+            if (P.dust <= 0) { P.dust = .07; parts.push({ x: P.x - Math.cos(P.dir) * .3, y: P.y - Math.sin(P.dir) * .3 + .2, vx: (Math.random() - .5), vy: (Math.random() - .5), life: .8, kind: 'dust', r: .12 + Math.random() * .1 }); }
+        }
+
+        /* doing jobs: stand still on the spot */
+        var working = null;
+        if (!moved) {
+            for (var i = 0; i < S.tasks.length; i++) {
+                var t = S.tasks[i], s = t.steps[t.step];
+                if (Math.hypot(P.x - s.at.x, P.y - s.at.y) > 1.35) continue;
+                if (s.give && P.carry) { if (P.holdTask !== 'full') toast('Hands full. Drop off the ' + P.carry.item + ' first.'); P.holdTask = 'full'; continue; }
+                if (s.need && !(P.carry && P.carry.task === t.id)) continue;
+                working = t; break;
+            }
+        }
+        if (working) {
+            if (P.holdTask !== working.id) { P.holdTask = working.id; P.hold = 0; }
+            P.hold += dt;
+            var s2 = working.steps[working.step];
+            if (s2.fx === 'clean' && !reduce && Math.random() < .5) parts.push({ x: s2.at.x + (Math.random() - .5) * 1.4, y: s2.at.y + (Math.random() - .5) * .8, vx: 0, vy: -.6, life: 1, kind: 'bubble', r: .1 + Math.random() * .15 });
+            if (P.hold >= s2.hold) {
+                P.hold = 0; P.holdTask = null;
+                if (s2.give) { P.carry = { item: s2.give, task: working.id }; floatText(P.x, P.y - 1, s2.give === 'pallet' ? 'On the reach truck' : 'Got it', '#1B1B1A'); }
+                if (s2.need) P.carry = null;
+                working.step++;
+                if (working.step >= working.steps.length) complete(working);
+                else { burst(s2.at.x, s2.at.y, working.m.color, 10); route(working.steps[working.step].at); }
+            }
+        } else if (P.holdTask !== 'full' || moved) { P.hold = 0; P.holdTask = null; }
+
+        /* clocks */
+        for (var k = S.tasks.length - 1; k >= 0; k--) {
+            var tk = S.tasks[k];
+            if (!tk || !S.running) break;
+            tk.age += dt;
+            if (P.holdTask === tk.id) continue;
+            tk.left -= dt;
+            if (tk.left <= 0) miss(tk);
+        }
+        if (S.running && S.time <= 0) { S.time = 0; finish('time'); }
+    }
+
+    /* ---- camera and drawing ---- */
+    var DPR = 1, CW = 1, CH = 1, sc = 10, follow = false, camX = 0, camY = 0;
+    var layer = document.createElement('canvas'), lctx = layer.getContext('2d');
     function resize() {
-        W = innerWidth; H = innerHeight; mobile = W < 761;
-        renderer.setSize(W, H, false);
-        camera.aspect = W / H;
-        camera.fov = mobile ? 52 : 36;
-        camera.updateProjectionMatrix();
+        DPR = Math.min(devicePixelRatio || 1, 2);
+        CW = cv.clientWidth; CH = cv.clientHeight;
+        cv.width = Math.round(CW * DPR); cv.height = Math.round(CH * DPR);
+        var fit = Math.min(CW / (VIEW.x1 - VIEW.x0), CH / (VIEW.y1 - VIEW.y0));
+        follow = fit < 9;
+        sc = follow ? 15 : fit;
+        if (!follow) { camX = (VIEW.x0 + VIEW.x1) / 2; camY = (VIEW.y0 + VIEW.y1) / 2; }
+        else { camX = P.x; camY = P.y; }
+        paintLayer();
     }
-    resize();
-    addEventListener('resize', resize);
+    function X(x) { return (x - camX) * sc + CW / 2; }
+    function Y(y) { return (y - camY) * sc + CH / 2; }
 
-    var aimX = 0, aimY = 0, px = 0, py = 0;
-    var v3 = new T.Vector3(), d3 = new T.Vector3();
-    var t0 = performance.now(), last = t0, frameN = 0;
+    function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+    function pillText(c, x, y, txt, bg, fg, size) {
+        c.font = '800 ' + size + 'px Figtree, Arial, sans-serif';
+        var w = c.measureText(txt).width + size * 1.1, h = size * 1.65;
+        c.fillStyle = bg; rr(c, x - w / 2, y - h / 2, w, h, h / 2); c.fill();
+        c.fillStyle = fg; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(txt, x, y + .5);
+    }
 
-    function setGoals(t) {
-        if (mode === 'story') {
-            var z = zones[focusIdx];
-            var side = z.cx < -1 ? -1 : z.cx > 1 ? 1 : 0;
-            var front = z.cz > 0 ? 1 : .8;
-            goalLook.set(z.cx, 1.1, z.cz);
-            goalPos.set(z.cx + 8 + side * 4 + px * 3, (mobile ? 17 : 13) + py * 2, z.cz + (mobile ? 21 : 17) * front);
-            viewGoal.x = mobile ? 0 : -.19; viewGoal.y = mobile ? .22 : 0;
-        } else {
-            var a = .72 + (reduce ? 0 : t * .035) + px * .35;
-            var r = mobile ? 56 : 50;
-            goalLook.set(0, 0, mobile ? 0 : 1.5);
-            goalPos.set(Math.sin(a) * r, (mobile ? 46 : 33) + py * 4, Math.cos(a) * r);
-            viewGoal.x = 0; viewGoal.y = mode === 'hero' ? (mobile ? .12 : .1) : 0;
+    /* the floor itself is drawn once per size and reused every frame */
+    function paintLayer() {
+        var vw = VIEW.x1 - VIEW.x0, vh = VIEW.y1 - VIEW.y0;
+        layer.width = Math.round(vw * sc * DPR); layer.height = Math.round(vh * sc * DPR);
+        var c = lctx;
+        function lt(txt, x, y, color, size, rot) {
+            c.save(); c.setTransform(DPR, 0, 0, DPR, 0, 0);
+            c.translate((x - VIEW.x0) * sc, (y - VIEW.y0) * sc); if (rot) c.rotate(rot);
+            c.fillStyle = color; c.font = '700 ' + Math.max(8, size * sc) + 'px Figtree, Arial, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+            c.fillText(txt, 0, 0); c.restore();
         }
-    }
+        function lp(txt, x, y, size) {
+            c.save(); c.setTransform(DPR, 0, 0, DPR, 0, 0);
+            pillText(c, (x - VIEW.x0) * sc, (y - VIEW.y0) * sc, txt, '#FFD400', '#1B1B1A', Math.max(7, size * sc)); c.restore();
+        }
+        c.setTransform(DPR * sc, 0, 0, DPR * sc, -VIEW.x0 * sc * DPR, -VIEW.y0 * sc * DPR);
+        c.fillStyle = '#E9E6DE'; c.fillRect(VIEW.x0, VIEW.y0, vw, vh);
+        /* outside: the yard where trucks back in */
+        c.fillStyle = '#DAD6CC'; c.fillRect(VIEW.x0, 14.2, -VIEW.x0, 12.8);
+        c.strokeStyle = 'rgba(255,255,255,.7)'; c.lineWidth = .08; c.setLineDash([.6, .5]);
+        [14.6, 18.6, 22.6, 26.6].forEach(function (y) { c.beginPath(); c.moveTo(VIEW.x0, y); c.lineTo(0, y); c.stroke(); });
+        c.setLineDash([]);
+        /* hall floor with a soft grid */
+        c.fillStyle = '#FBFAF7'; c.fillRect(0, 0, HW, HH);
+        c.strokeStyle = 'rgba(27,27,26,.04)'; c.lineWidth = .04;
+        for (var gx2 = 1; gx2 < HW; gx2++) { c.beginPath(); c.moveTo(gx2, 0); c.lineTo(gx2, HH); c.stroke(); }
+        for (var gy2 = 1; gy2 < HH; gy2++) { c.beginPath(); c.moveTo(0, gy2); c.lineTo(HW, gy2); c.stroke(); }
+        /* tinted aisles, as on the real floor plan */
+        var tints = ['#EFE8CF', '#DCEFE4', '#E3EEF1', '#F2DFB6', '#F4ECC2', '#E6ECF5'], ts = 3;
+        for (var i = 0; i < PAIRS.length - 1; i++) {
+            var ax = PAIRS[i] + 2.1, inSplit = aisleX(i) > SPLIT.x0 && aisleX(i) < SPLIT.x1;
+            ts = (ts * 7 + 3) % 11;
+            if (!inSplit) { c.fillStyle = i >= 12 ? '#D7EFD3' : tints[ts % tints.length]; c.fillRect(ax + .15, BACK[0], 2.3, BACK[1] - BACK[0]); }
+            c.fillStyle = tints[(ts + 2) % tints.length]; c.fillRect(ax + .15, FRONT[0], 2.3, FRONT[1] - FRONT[0]);
+        }
+        /* cross aisle and front aisle */
+        c.strokeStyle = '#FFD400'; c.lineWidth = .14;
+        [BACK[1] + .15, FRONT[0] - .15, FRONT[1] + .15].forEach(function (y) { c.beginPath(); c.moveTo(.3, y); c.lineTo(HW - .3, y); c.stroke(); });
+        /* splitting area */
+        c.fillStyle = '#E4E7EA'; rr(c, SPLIT.x0 + .3, SPLIT.y0, SPLIT.x1 - SPLIT.x0 - .6, SPLIT.y1 - SPLIT.y0, .5); c.fill();
+        c.strokeStyle = '#9AA3AB'; c.lineWidth = .08; c.setLineDash([.4, .3]); c.stroke(); c.setLineDash([]);
+        for (var k = 0; k < 6; k++) { c.fillStyle = '#C3C9CF'; rr(c, SPLIT.x0 + 1.2 + (k % 3) * 1.4, SPLIT.y0 + .8 + Math.floor(k / 3) * 1.6, 1, 1.2, .15); c.fill(); }
+        lt('SPLITTING', (SPLIT.x0 + SPLIT.x1) / 2, SPLIT.y1 - .8, '#6B737B', .8);
+        /* AGF zone label */
 
-    function tick(now) {
-        requestAnimationFrame(tick);
-        if (document.hidden) return;
-        var dt = Math.min(.05, (now - last) / 1000); last = now;
-        var t = (now - t0) / 1000;
-        frameN++;
-        if (mode === 'dim' && frameN % 2) return;
-
-        px += (aimX - px) * .05; py += (aimY - py) * .05;
-        setGoals(t);
-        var k = reduce ? 1 : 1 - Math.pow(.0016, dt);
-        camPos.lerp(goalPos, k); camLook.lerp(goalLook, k);
-        view.x += (viewGoal.x - view.x) * k; view.y += (viewGoal.y - view.y) * k;
-        camera.position.copy(camPos); camera.lookAt(camLook);
-        camera.setViewOffset(W, H, view.x * W, view.y * H, W, H);
-
-        /* zone emphasis */
-        zones.forEach(function (z, i) {
-            var on = mode === 'story' && i === focusIdx;
-            var lineOp = mode === 'story' ? (on ? 1 : .16) : .5;
-            var col = on ? YEL : WHITE;
-            z.m.line.opacity += (lineOp - z.m.line.opacity) * k;
-            z.m.line.color.lerp(col, k);
-            z.m.face.opacity += ((on ? .1 : .035) - z.m.face.opacity) * k;
-            z.m.face.color.lerp(col, k);
-            z.m.solid.color.lerp(col, k);
-            z.m.solid.opacity += ((mode === 'story' && !on ? .2 : .65) - z.m.solid.opacity) * k;
-            z.deco.opacity += ((on ? .9 : mode === 'story' ? .1 : .3) - z.deco.opacity) * k;
-        });
-
-        /* life on the floor */
-        var mt = reduce ? 0 : t;
-        truck.position.x = Z.rt.cx + Math.sin(mt * .28) * 3.6;
-        truck.rotation.y = (Math.floor(mt / 7) % 2) ? Math.PI : 0;
-        forks.position.y = (Math.sin(mt * .9) * .5 + .5) * 2.9;
-        scrub.position.set(Z.hk.cx + Math.cos(mt * .22) * 3, 0, Z.hk.cz + Math.sin(mt * .22) * 3);
-        scrub.rotation.y = -mt * .22;
-        goods.forEach(function (g) {
-            g.f.at(g.o + mt * (2.2 / g.f.len), v3);
-            g.m.position.set(v3.x, .22 + Math.sin(mt * 3 + g.o * 20) * .04, v3.z);
-        });
-        walk.at(mt * (1.3 / walk.len), v3, d3);
-        walker.position.copy(v3);
-        walker.rotation.y = Math.atan2(d3.x, d3.z);
-        halo.scale.setScalar(1 + Math.sin(mt * 3) * .15);
-        scan.position.x = -20 + ((mt * 4) % 40);
-
-        renderer.render(scene, camera);
-
-        /* pin each label above its station */
-        if (mode !== 'dim') {
-            zones.forEach(function (z, i) {
-                v3.set(z.cx, z.h + .9, z.cz).project(camera);
-                var el = tagEls[i];
-                if (v3.z > 1 || v3.x < -1.1 || v3.x > 1.1 || v3.y < -1.1 || v3.y > 1.1) { el.style.visibility = 'hidden'; return; }
-                el.style.visibility = '';
-                var x = (v3.x * .5 + .5) * W, y = (-v3.y * .5 + .5) * H;
-                el.style.transform = 'translate(-50%, -100%) translate(' + x.toFixed(1) + 'px,' + (y - 26).toFixed(1) + 'px)';
+        /* racks: shadow, frame, and the stock on the shelves */
+        racks.forEach(function (r) {
+            c.fillStyle = 'rgba(27,27,26,.13)'; rr(c, r.x + .2, r.y + .28, r.w, r.h, .12); c.fill();
+            c.fillStyle = '#4B5058'; rr(c, r.x, r.y, r.w, r.h, .1); c.fill();
+            r.rows.forEach(function (row) {
+                c.fillStyle = '#353940'; c.fillRect(row.x + .05, r.y + .05, .9, r.h - .1);
+                row.totes.forEach(function (t) {
+                    c.fillStyle = r.agf ? (t.c === '#3B82F6' ? '#59B96A' : t.c === '#FFD400' ? '#F4C430' : '#B5D96A') : t.c;
+                    rr(c, row.x + .1, t.y, .8, t.h, .08); c.fill();
+                    c.fillStyle = 'rgba(255,255,255,.28)'; c.fillRect(row.x + .12, t.y + .04, .76, .09);
+                });
             });
+            c.strokeStyle = '#2B2E33'; c.lineWidth = .05;
+            for (var by = r.y + 1.9; by < r.y + r.h; by += 1.9) { c.beginPath(); c.moveTo(r.x, by); c.lineTo(r.x + r.w, by); c.stroke(); }
+        });
+        /* aisle codes along the back wall */
+        PAIRS.forEach(function (x, i) { lp(CODES[i + 1] || '', x + 1.05, .85, .5); });
+        lt('AGF', 74.2, 12.95, '#2E7D3E', .7);
+        /* help desk, scanner rack, trolley lane, cooler, docks */
+        c.fillStyle = 'rgba(27,27,26,.12)'; rr(c, DESK.x + .15, DESK.y + .2, DESK.w, DESK.h, .2); c.fill();
+        c.fillStyle = '#FFE3F0'; rr(c, DESK.x, DESK.y, DESK.w, DESK.h, .2); c.fill();
+        c.fillStyle = '#1B1B1A'; rr(c, DESK.x + .8, DESK.y + .25, 1, .6, .08); c.fill();
+        lt('HELP DESK', DESK.x + DESK.w / 2, DESK.y - .5, '#B4377A', .55);
+        c.fillStyle = '#2B2E33'; rr(c, SCANRACK.x, SCANRACK.y, SCANRACK.w, SCANRACK.h, .15); c.fill();
+        for (var sr = 0; sr < 4; sr++) { c.fillStyle = sr % 2 ? '#FFD400' : '#8B5CF6'; c.fillRect(SCANRACK.x + .25, SCANRACK.y + .2 + sr * .33, 1, .18); }
+        lt('SCANNERS', SCANRACK.x + .4, SCANRACK.y - .5, '#6D4BC9', .55);
+        TROLLEYS.forEach(function (t) { c.fillStyle = '#C8CCD2'; rr(c, t.x, t.y, t.w, t.h, .1); c.fill(); c.fillStyle = Math.random() < .5 ? '#FFD400' : '#3B82F6'; c.fillRect(t.x + .15, t.y + .15, t.w - .3, t.h - .3); });
+        lt('FINISHED TROLLEYS', 67, 25.55, '#6B737B', .55);
+        c.fillStyle = '#BFE7C8'; c.fillRect(HW - .25, 4.8, .5, 3.4);
+        lt('AGF COOLER', HW - .9, 6.5, '#2E7D3E', .55, -Math.PI / 2);
+        DOCKS.forEach(function (d, i) {
+            c.fillStyle = '#3A3F47'; c.fillRect(-.3, d.y - 1.2, .6, 2.4);
+            for (var z = 0; z < 6; z++) { c.fillStyle = z % 2 ? '#FFD400' : '#1B1B1A'; c.fillRect(.32, d.y - 1.2 + z * .4, .18, .4); }
+            lt('DOCK ' + (i + 1), 2.9, d.y, '#6B737B', .55);
+        });
+        /* walls */
+        c.strokeStyle = '#B9B4A8'; c.lineWidth = .3; c.strokeRect(0, 0, HW, HH);
+    }
+
+    function drawPerson(x, y, dir, vest, carry, big) {
+        var r = .36, k = (big || 1) * Math.max(1, 13 / sc);
+        ctx.save(); ctx.translate(X(x), Y(y)); ctx.rotate(dir); ctx.scale(sc * k, sc * k);
+        ctx.fillStyle = 'rgba(27,27,26,.18)'; ctx.beginPath(); ctx.ellipse(.08, .12, r * 1.15, r * .95, 0, 0, 7); ctx.fill();
+        ctx.fillStyle = vest; ctx.beginPath(); ctx.ellipse(0, 0, r * .85, r * 1.15, 0, 0, 7); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = .06;
+        ctx.beginPath(); ctx.moveTo(-.12, -r * 1.05); ctx.lineTo(-.12, r * 1.05); ctx.moveTo(.12, -r * 1.05); ctx.lineTo(.12, r * 1.05); ctx.stroke();
+        ctx.fillStyle = '#3A2E28'; ctx.beginPath(); ctx.arc(.04, 0, .2, 0, 7); ctx.fill();
+        if (carry) {
+            if (carry === 'container') { ctx.fillStyle = '#9AA3AB'; rr(ctx, .3, -.4, .7, .8, .08); ctx.fill(); ctx.strokeStyle = '#5E666E'; ctx.lineWidth = .05; ctx.stroke(); ctx.fillStyle = '#FFD400'; ctx.fillRect(.4, -.3, .5, .25); ctx.fillStyle = '#3B82F6'; ctx.fillRect(.4, .02, .5, .25); }
+            else if (carry === 'crate') { ctx.fillStyle = '#2E9E4A'; rr(ctx, .3, -.33, .55, .66, .08); ctx.fill(); ctx.fillStyle = '#F4C430'; for (var q = 0; q < 4; q++) { ctx.beginPath(); ctx.arc(.43 + (q % 2) * .26, -.15 + Math.floor(q / 2) * .3, .1, 0, 7); ctx.fill(); } }
+            else if (carry === 'scanner') { ctx.fillStyle = '#1B1B1A'; rr(ctx, .3, -.12, .42, .24, .06); ctx.fill(); ctx.fillStyle = '#FF4D4D'; ctx.fillRect(.66, -.06, .06, .12); }
         }
+        ctx.restore();
     }
-    requestAnimationFrame(tick);
+    function drawTruck(x, y, dir, color, load, big) {
+        var k = (big || 1) * Math.max(1, 12 / sc);
+        ctx.save(); ctx.translate(X(x), Y(y)); ctx.rotate(dir); ctx.scale(sc * k, sc * k);
+        ctx.fillStyle = 'rgba(27,27,26,.2)'; rr(ctx, -.7, -.5, 1.6, 1.15, .2); ctx.fill();
+        ctx.fillStyle = color; rr(ctx, -.8, -.55, 1.2, 1.1, .22); ctx.fill();
+        ctx.fillStyle = '#2B2E33'; rr(ctx, -.55, -.35, .55, .7, .12); ctx.fill();
+        ctx.fillStyle = '#5E636B'; ctx.fillRect(.4, -.5, .12, 1); ctx.fillRect(.52, -.38, .7, .1); ctx.fillRect(.52, .28, .7, .1);
+        if (load) { ctx.fillStyle = '#C9A36A'; rr(ctx, .55, -.48, .9, .96, .06); ctx.fill(); ctx.fillStyle = '#FFD400'; ctx.fillRect(.65, -.38, .32, .34); ctx.fillStyle = '#3B82F6'; ctx.fillRect(1.02, -.38, .32, .34); ctx.fillStyle = '#FFD400'; ctx.fillRect(1.02, .04, .32, .34); ctx.fillStyle = '#3B82F6'; ctx.fillRect(.65, .04, .32, .34); }
+        ctx.restore();
+    }
 
-    /* pointer on desktop, device tilt on phones */
-    if (fine && !reduce) {
-        addEventListener('pointermove', function (e) {
-            aimX = (e.clientX / innerWidth) * 2 - 1;
-            aimY = (e.clientY / innerHeight) * 2 - 1;
-        }, { passive: true });
-    }
-    if (!fine && !reduce && 'DeviceOrientationEvent' in window) {
-        var onOrient = function (e) {
-            if (e.gamma === null && e.beta === null) return;
-            aimX = Math.max(-1, Math.min(1, (e.gamma || 0) / 25));
-            aimY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 25));
-        };
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-            var ask = function () {
-                removeEventListener('touchend', ask);
-                DeviceOrientationEvent.requestPermission()
-                    .then(function (r) { if (r === 'granted') addEventListener('deviceorientation', onOrient); })
-                    .catch(function () {});
-            };
-            addEventListener('touchend', ask, { passive: true });
-        } else {
-            addEventListener('deviceorientation', onOrient);
+    function frame(now) {
+        requestAnimationFrame(frame);
+        var dt = Math.min(.05, (now - last) / 1000); last = now;
+        if (document.hidden) return;
+        var live = S.running && S.visible;
+        if (live) update(dt);
+        if (!S.visible && !S.running) return;
+        var t = now / 1000;
+
+        /* camera */
+        if (follow) {
+            var hw = CW / 2 / sc, hh = CH / 2 / sc;
+            var tx = Math.max(VIEW.x0 + hw, Math.min(VIEW.x1 - hw, P.x)), ty = Math.max(VIEW.y0 + hh, Math.min(VIEW.y1 - hh, P.y));
+            if (hw * 2 > VIEW.x1 - VIEW.x0) tx = (VIEW.x0 + VIEW.x1) / 2;
+            if (hh * 2 > VIEW.y1 - VIEW.y0) ty = (VIEW.y0 + VIEW.y1) / 2;
+            camX += (tx - camX) * Math.min(1, dt * 6); camY += (ty - camY) * Math.min(1, dt * 6);
         }
+        var sx = shake > 0 ? (Math.random() - .5) * shake * 10 : 0, sy = shake > 0 ? (Math.random() - .5) * shake * 10 : 0;
+        shake = Math.max(0, shake - dt * 1.5);
+
+        ctx.setTransform(DPR, 0, 0, DPR, sx * DPR, sy * DPR);
+        ctx.clearRect(-20, -20, CW + 40, CH + 40);
+        ctx.drawImage(layer, X(VIEW.x0), Y(VIEW.y0), (VIEW.x1 - VIEW.x0) * sc, (VIEW.y1 - VIEW.y0) * sc);
+
+        /* trucks backing in to the docks */
+        S.tasks.forEach(function (tk) {
+            if (tk.type !== 'ont') return;
+            var d = DOCKS[tk.dock], k = Math.min(1, tk.age / 1.4), e = 1 - Math.pow(1 - k, 3);
+            var tx0 = -11 + e * 10.7;
+            ctx.save(); ctx.translate(X(tx0), Y(d.y)); ctx.scale(sc, sc);
+            ctx.fillStyle = 'rgba(27,27,26,.18)'; rr(ctx, -4.6, -.95, 5, 2.1, .2); ctx.fill();
+            ctx.fillStyle = '#FFFFFF'; rr(ctx, -4.8, -1.05, 4.7, 2.1, .15); ctx.fill();
+            ctx.strokeStyle = '#D0CCC2'; ctx.lineWidth = .06; ctx.stroke();
+            ctx.fillStyle = '#FFD400'; ctx.fillRect(-4.6, -.2, 4.3, .4);
+            ctx.fillStyle = '#1B1B1A'; ctx.font = '800 .55px Figtree, Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('Jumbo', -2.45, .01);
+            ctx.fillStyle = '#3A3F47'; rr(ctx, -6, -.85, 1.1, 1.7, .25); ctx.fill();
+            ctx.restore();
+        });
+        /* spills and waiting colleagues */
+        S.tasks.forEach(function (tk) {
+            if (tk.spill) {
+                var sp = tk.spill, p = 1 - (P.holdTask === tk.id ? P.hold / tk.steps[0].hold : 0);
+                ctx.fillStyle = 'rgba(80,160,230,' + (.45 * p + .05) + ')';
+                ctx.beginPath(); ctx.ellipse(X(sp.x), Y(sp.y), .95 * sc * (.4 + .6 * p), .6 * sc * (.4 + .6 * p), .4, 0, 7); ctx.fill();
+            }
+            if (tk.worker && tk.step < 2) {
+                drawPerson(tk.worker.x + .7, tk.worker.y, Math.PI, '#3B82F6');
+                if (Math.sin(t * 6) > -.3) pillText(ctx, X(tk.worker.x + .7), Y(tk.worker.y - .9), '!', '#8B5CF6', '#fff', Math.max(9, sc * .55));
+            }
+        });
+        /* the crew at work */
+        npcs.forEach(function (n2, i) {
+            var len = n2.h[1] - n2.h[0] - 1.6, s = Math.sin(t * n2.v + n2.ph), y = n2.h[0] + .8 + (s * .5 + .5) * len;
+            var dir = Math.cos(t * n2.v + n2.ph) > 0 ? Math.PI / 2 : -Math.PI / 2;
+            if (n2.truck) drawTruck(n2.x, y, dir, '#FFB020', i % 2 === 0);
+            else {
+                ctx.fillStyle = '#B9C3CF'; ctx.save(); ctx.translate(X(n2.x), Y(y + (dir > 0 ? .75 : -.75))); ctx.scale(sc, sc); rr(ctx, -.32, -.4, .64, .8, .08); ctx.fill(); ctx.fillStyle = '#FFD400'; ctx.fillRect(-.22, -.3, .44, .26); ctx.restore();
+                drawPerson(n2.x, y, dir, '#3B82F6');
+            }
+        });
+
+        /* path ahead */
+        if (P.path.length) {
+            ctx.strokeStyle = 'rgba(27,27,26,.45)'; ctx.lineWidth = Math.max(2, sc * .12); ctx.setLineDash([sc * .25, sc * .3]); ctx.lineDashOffset = -t * 30;
+            ctx.beginPath(); ctx.moveTo(X(P.x), Y(P.y)); P.path.forEach(function (p) { ctx.lineTo(X(p.x), Y(p.y)); }); ctx.stroke(); ctx.setLineDash([]);
+            var end = P.path[P.path.length - 1];
+            ctx.strokeStyle = '#1B1B1A'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X(end.x), Y(end.y), sc * (.35 + .1 * Math.sin(t * 6)), 0, 7); ctx.stroke();
+        }
+
+        /* job markers */
+        var seen = {};
+        S.tasks.forEach(function (tk) {
+            var s = tk.steps[tk.step], key = s.at.x.toFixed(1) + s.at.y.toFixed(1), off = (seen[key] = (seen[key] || 0) + 1) - 1;
+            var mx = s.at.x + off * 1.5, my = s.at.y, frac = tk.left / tk.life, col = tk.m.color, R = Math.max(14, sc * .82);
+            var pulse = (t * 1.2 + tk.id * .3) % 1;
+            ctx.strokeStyle = col; ctx.globalAlpha = 1 - pulse; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(X(mx), Y(my), R + pulse * R * 1.4, 0, 7); ctx.stroke(); ctx.globalAlpha = 1;
+            ctx.fillStyle = 'rgba(27,27,26,.18)'; ctx.beginPath(); ctx.arc(X(mx) + 2, Y(my) + 3, R, 0, 7); ctx.fill();
+            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(X(mx), Y(my), R, 0, 7); ctx.fill();
+            ctx.lineWidth = Math.max(3, R * .2); ctx.strokeStyle = 'rgba(27,27,26,.08)'; ctx.beginPath(); ctx.arc(X(mx), Y(my), R * .86, 0, 7); ctx.stroke();
+            ctx.strokeStyle = frac < .3 ? '#E5372B' : col; ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.arc(X(mx), Y(my), R * .86, -Math.PI / 2, -Math.PI / 2 + frac * Math.PI * 2); ctx.stroke(); ctx.lineCap = 'butt';
+            ctx.fillStyle = col; ctx.font = '800 ' + Math.round(R * .62) + 'px Figtree, Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(tk.m.code, X(mx), Y(my) + 1);
+            var lbl = s.need ? 'Drop: ' + (s.at.code || '') : (s.at.code || '');
+            if (lbl) pillText(ctx, X(mx), Y(my) + R + 11, lbl, '#1B1B1A', '#fff', 10);
+        });
+
+        /* you */
+        var carry = P.carry && P.carry.item;
+        ctx.fillStyle = 'rgba(255,212,0,.28)'; ctx.beginPath(); ctx.arc(X(P.x), Y(P.y), Math.max(16, sc * 1.05) * (1 + .08 * Math.sin(t * 5)), 0, 7); ctx.fill();
+        if (carry === 'pallet') drawTruck(P.x, P.y, P.dir, '#FFD400', true, 1.3);
+        else drawPerson(P.x, P.y, P.dir, '#FFD400', carry, 1.5);
+        pillText(ctx, X(P.x), Y(P.y) - Math.max(26, sc * 1.3), 'You', '#1B1B1A', '#FFD400', 11);
+        if (P.holdTask && P.holdTask !== 'full') {
+            var wt = S.tasks.filter(function (k) { return k.id === P.holdTask; })[0];
+            if (wt) {
+                var hs = wt.steps[wt.step], pr = Math.min(1, P.hold / hs.hold), RR = Math.max(16, sc * 1);
+                ctx.strokeStyle = 'rgba(27,27,26,.15)'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(X(P.x), Y(P.y), RR, 0, 7); ctx.stroke();
+                ctx.strokeStyle = '#2DBE60'; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(X(P.x), Y(P.y), RR, -Math.PI / 2, -Math.PI / 2 + pr * Math.PI * 2); ctx.stroke(); ctx.lineCap = 'butt';
+                if (hs.fx === 'scan') {
+                    var a0 = Math.sin(t * 8) * .5, len2 = 2.2 * sc;
+                    ctx.fillStyle = 'rgba(255,79,158,.18)'; ctx.beginPath(); ctx.moveTo(X(P.x), Y(P.y));
+                    ctx.arc(X(P.x), Y(P.y), len2, -Math.PI / 2 + a0 - .35, -Math.PI / 2 + a0 + .35); ctx.closePath(); ctx.fill();
+                    ctx.strokeStyle = '#FF4F9E'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(P.x), Y(P.y)); ctx.lineTo(X(P.x) + Math.cos(-Math.PI / 2 + a0) * len2, Y(P.y) + Math.sin(-Math.PI / 2 + a0) * len2); ctx.stroke();
+                }
+            }
+        }
+
+        /* particles and floating points */
+        parts = parts.filter(function (p) { return p.life > 0; });
+        parts.forEach(function (p) {
+            p.life -= dt * (p.kind === 'ring' ? 1.6 : p.kind === 'dust' ? 1.4 : 1.1);
+            if (p.kind === 'ring') { p.r += dt * 5; ctx.strokeStyle = p.c; ctx.globalAlpha = Math.max(0, p.life); ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), p.r * sc, 0, 7); ctx.stroke(); }
+            else {
+                p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .92; p.vy *= .92;
+                ctx.globalAlpha = Math.max(0, p.life) * (p.kind === 'dust' ? .35 : 1);
+                ctx.fillStyle = p.kind === 'dust' ? '#9C978A' : p.kind === 'bubble' ? 'rgba(120,190,240,.8)' : p.c;
+                ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), Math.max(1, p.r * sc * (p.kind === 'dust' ? (1.6 - p.life) : 1)), 0, 7); ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        });
+        floats = floats.filter(function (f) { return f.life > 0; });
+        floats.forEach(function (f) {
+            f.life -= dt * .8; f.y -= dt * 1.4;
+            ctx.globalAlpha = Math.min(1, f.life * 2); ctx.fillStyle = f.c;
+            ctx.font = '800 ' + Math.max(14, sc * .9) + 'px "Bricolage Grotesque", Figtree, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.strokeText(f.t, X(f.x), Y(f.y)); ctx.fillText(f.t, X(f.x), Y(f.y));
+            ctx.globalAlpha = 1;
+        });
+
+        /* minimap when zoomed in */
+        if (follow) {
+            var mw = Math.min(150, CW * .38), ms = mw / HW, mh = HH * ms, mx0 = CW - mw - 10, my0 = 10;
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            ctx.fillStyle = 'rgba(255,255,255,.92)'; rr(ctx, mx0 - 4, my0 - 4, mw + 8, mh + 8, 8); ctx.fill();
+            ctx.fillStyle = '#B9BDC3'; racks.forEach(function (r) { ctx.fillRect(mx0 + r.x * ms, my0 + r.y * ms, r.w * ms, r.h * ms); });
+            S.tasks.forEach(function (tk) { var a = tk.steps[tk.step].at; ctx.fillStyle = tk.m.color; ctx.beginPath(); ctx.arc(mx0 + a.x * ms, my0 + a.y * ms, 3.5, 0, 7); ctx.fill(); });
+            ctx.fillStyle = '#1B1B1A'; ctx.beginPath(); ctx.arc(mx0 + P.x * ms, my0 + P.y * ms, 3.5, 0, 7); ctx.fill();
+            ctx.strokeStyle = 'rgba(27,27,26,.5)'; ctx.lineWidth = 1;
+            ctx.strokeRect(mx0 + (camX - CW / 2 / sc) * ms, my0 + (camY - CH / 2 / sc) * ms, CW / sc * ms, CH / sc * ms);
+        }
+        /* a red edge when a job is missed */
+        if (flash > 0) {
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            var gr = ctx.createRadialGradient(CW / 2, CH / 2, Math.min(CW, CH) * .3, CW / 2, CH / 2, Math.max(CW, CH) * .7);
+            gr.addColorStop(0, 'rgba(229,55,43,0)'); gr.addColorStop(1, 'rgba(229,55,43,' + (.45 * flash) + ')');
+            ctx.fillStyle = gr; ctx.fillRect(0, 0, CW, CH);
+            flash = Math.max(0, flash - dt * 1.6);
+        }
+        drawHud();
     }
 
-    return {
-        setMode: function (m) { mode = m; },
-        focus: function (i) { focusIdx = i; }
-    };
-}
+    /* ---- HUD ---- */
+    var hudTime = $('fgTime'), hudScore = $('fgScore'), hudDone = $('fgDone'), hudFlow = $('fgFlow'), hudCombo = $('fgCombo');
+    var shownScore = 0;
+    function drawHud() {
+        var sec = Math.max(0, Math.ceil(S.time)), mm = Math.floor(sec / 60), ss = sec % 60;
+        hudTime.textContent = mm + ':' + (ss < 10 ? '0' : '') + ss;
+        $('fgTimeP').classList.toggle('low', S.running && sec <= 15);
+        shownScore += (S.score - shownScore) * .2; if (Math.abs(S.score - shownScore) < 1) shownScore = S.score;
+        hudScore.textContent = Math.round(shownScore);
+        hudDone.textContent = S.done;
+        hudFlow.style.width = Math.max(0, S.flow) + '%';
+        $('fgFlowW').classList.toggle('bad', S.flow < 40);
+        hudCombo.textContent = 'Combo x' + S.combo;
+        hudCombo.classList.toggle('on', S.running && S.combo > 1);
+        if (S.running) drawCards();
+    }
 
-/* ------------------------------------------------------------
-   SCROLL: which part of the page are we in?
-   ------------------------------------------------------------ */
-var nav = $('nav'), stuck = false, lastMode = '', ticking = false;
-function onScroll() {
-    ticking = false;
-    var y = scrollY;
-    var now = y > 20;
+    /* ---- input ---- */
+    function worldAt(e) { var r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left - CW / 2) / sc + camX, y: (e.clientY - r.top - CH / 2) / sc + camY }; }
+    cv.addEventListener('pointerdown', function (e) {
+        if (!S.running) return;
+        var w = worldAt(e), best = null, bd = 1.8;
+        S.tasks.forEach(function (tk) { var a = tk.steps[tk.step].at, d = Math.hypot(a.x - w.x, a.y - w.y); if (d < bd) { bd = d; best = a; } });
+        route(best || w);
+    });
+    addEventListener('keydown', function (e) {
+        if (!S.running || !S.visible || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+        var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].indexOf(k) > -1) { keys[k] = true; e.preventDefault(); }
+    });
+    addEventListener('keyup', function (e) { var k = e.key.length === 1 ? e.key.toLowerCase() : e.key; keys[k] = false; });
+    addEventListener('blur', function () { keys = {}; });
+
+    new IntersectionObserver(function (es) { S.visible = es[0].isIntersecting; }, { threshold: .3 }).observe(cv);
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(cv); else addEventListener('resize', resize);
+    resize();
+    intro();
+    requestAnimationFrame(frame);
+})();
+
+/* nav border once you scroll */
+var nav = $('nav'), stuck = false;
+addEventListener('scroll', function () {
+    var now = scrollY > 8;
     if (now !== stuck) { stuck = now; nav.classList.toggle('stuck', now); }
-
-    var p = (y - storyTop) / storyLen, mode;
-    if (p > -.08 && p < 1.04) {
-        mode = 'story';
-        showStation(Math.max(0, Math.min(STATIONS.length - 1, Math.floor(Math.max(0, Math.min(.9999, p)) * STATIONS.length))));
-    } else if (y < heroH * .55) mode = 'hero';
-    else if (y < reelBottom - innerHeight * .3 && p < 0) mode = 'reel';
-    else mode = 'dim';
-
-    if (mode !== lastMode) {
-        lastMode = mode;
-        body.classList.toggle('story', mode === 'story');
-        body.classList.toggle('dim', mode === 'dim');
-        body.classList.toggle('reelmode', mode === 'reel');
-        if (floor) floor.setMode(mode === 'reel' ? 'dim' : mode);
-    }
-}
-addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-addEventListener('resize', function () { measure(); onScroll(); });
-addEventListener('load', function () { measure(); onScroll(); });
-measure(); onScroll();
-
-/* ------------------------------------------------------------
-   VIDEO
-   ------------------------------------------------------------ */
-var vid = $('vid'), sound = $('sound');
-vid.src = VIDEO;
-var pl = vid.play(); if (pl && pl.catch) pl.catch(function () {});
-sound.addEventListener('click', function () {
-    vid.muted = !vid.muted;
-    sound.classList.toggle('live', !vid.muted);
-    sound.lastChild.textContent = vid.muted ? ' Sound off' : ' Sound on';
-    sound.setAttribute('aria-pressed', String(!vid.muted));
-});
+}, { passive: true });
 
 /* menu */
 var burger = $('burger'), menu = $('menu');
@@ -1115,6 +1586,17 @@ burger.addEventListener('click', function () {
 });
 menu.addEventListener('click', function (e) {
     if (e.target.tagName === 'A') { menu.classList.remove('open'); burger.classList.remove('on'); burger.setAttribute('aria-expanded', 'false'); }
+});
+
+/* video */
+var vid = $('vid'), sound = $('sound');
+vid.src = VIDEO;
+var pl = vid.play(); if (pl && pl.catch) pl.catch(function () {});
+sound.addEventListener('click', function () {
+    vid.muted = !vid.muted;
+    sound.querySelector('span').textContent = vid.muted ? 'Sound off' : 'Sound on';
+    $('wave').setAttribute('opacity', vid.muted ? '.25' : '1');
+    sound.setAttribute('aria-pressed', String(!vid.muted));
 });
 
 /* ------------------------------------------------------------
@@ -1230,6 +1712,7 @@ function showRes() {
         '<button class="bline" id="qAgain">Take it again</button></div></div>' +
         radar(top) + '</div>';
     requestAnimationFrame(function () { requestAnimationFrame(function () { $('radar').classList.add('go'); }); });
+    setTimeout(function () { burstAt(qBody, 140); }, 350);
     $('qAgain').addEventListener('click', function () {
         qi = 0; picks = []; score = { hd: 0, rt: 0, ont: 0, agf: 0, oc: 0, hk: 0 }; askQ();
     });
