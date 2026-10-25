@@ -464,7 +464,7 @@ body.intro-on .progress { opacity: 0; }
 .bn:hover { transform: translateY(-6px) rotate(-.4deg); box-shadow: var(--shadow); }
 .bn h3 { font-family: var(--head); font-weight: 800; font-size: clamp(1.3rem, 2vw, 1.7rem); letter-spacing: -.02em; line-height: 1.1; }
 .bn p { margin-top: 8px; color: var(--muted); line-height: 1.55; font-size: .98rem; }
-.bn .bi { position: absolute; right: 22px; top: 22px; width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; background: #fff; transition: transform .6s cubic-bezier(.2, .9, .3, 1.4); }
+.bn .bi { position: relative; margin-bottom: 18px; flex: none; width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; background: #fff; transition: transform .6s cubic-bezier(.2, .9, .3, 1.4); }
 .bn:hover .bi { transform: rotate(-10deg) scale(1.1); }
 .bn .bi svg { width: 32px; height: 32px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .bn.big { grid-column: span 2; grid-row: span 2; background: var(--yellow); }
@@ -473,6 +473,7 @@ body.intro-on .progress { opacity: 0; }
 .bn.wide { grid-column: span 2; }
 .bn.ink { background: var(--ink); color: #fff; } .bn.ink p { color: rgba(255, 255, 255, .7); } .bn.ink .bi { background: var(--yellow); }
 .bn.pink { background: var(--pink-wash); }
+.bn.pink h3 { color: #8A1550; } .bn.pink p { color: #6B3A52; }
 .clock { position: absolute; right: clamp(20px, 4vw, 48px); top: clamp(20px, 4vw, 48px); width: clamp(130px, 16vw, 200px); aspect-ratio: 1; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 8px var(--ink); }
 .clock i { position: absolute; left: 50%; bottom: 50%; width: 6px; margin-left: -3px; border-radius: 6px; background: var(--ink); transform-origin: 50% 100%; }
 .clock .hh { height: 26%; animation: spin 24s linear infinite; }
@@ -536,6 +537,32 @@ body.intro-on .progress { opacity: 0; }
 .drop.bad { border-color: #E5372B; background: #FFF0EE; animation: shake .4s; }
 @keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 .drop .rm { position: relative; z-index: 2; margin-left: auto; border: 0; background: #fff; border-radius: 999px; padding: 6px 12px; font-weight: 700; font-size: .8rem; cursor: pointer; }
+.lang { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px; border: 2px solid var(--line); border-radius: var(--r-sm); background: #fff; transition: border-color .2s, box-shadow .2s; }
+.lang:focus-within { border-color: var(--ink); box-shadow: 0 0 0 4px rgba(255, 212, 0, .45); }
+.lang-chips { display: contents; }
+.lang-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--yellow); border-radius: 999px; padding: 6px 6px 6px 12px; font-weight: 700; font-size: .88rem; animation: qin .3s var(--ease); }
+.lang-chip button { width: 22px; height: 22px; border-radius: 50%; border: 0; background: rgba(27, 27, 26, .12); cursor: pointer; font-size: .9rem; line-height: 1; }
+.lang-chip button:hover { background: var(--ink); color: #fff; }
+.fld .lang input { flex: 1; min-width: 160px; border: 0; padding: 7px 6px; box-shadow: none; }
+.fld .lang input:focus { box-shadow: none; }
+.lang-list { position: absolute; left: -2px; right: -2px; top: calc(100% + 6px); z-index: 5; list-style: none; background: #fff; border: 2px solid var(--ink); border-radius: var(--r-sm); max-height: 230px; overflow-y: auto; box-shadow: var(--shadow); padding: 4px; }
+.lang-list li { padding: 10px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: .95rem; }
+.lang-list li.act, .lang-list li:hover { background: var(--wash); }
+.lang-list li small { color: var(--muted); font-weight: 500; }
+.lang-quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.lang-quick button { border: 2px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 12px; font-weight: 600; font-size: .84rem; cursor: pointer; transition: border-color .2s, background .2s; }
+.lang-quick button:hover { border-color: var(--ink); }
+.lang-quick button.on { display: none; }
+.attach-how { background: var(--wash); border: 2px solid var(--yellow); border-radius: var(--r-md); padding: 16px 18px; margin: 4px 0 16px; }
+.attach-how h3 { font-family: var(--head); font-weight: 800; font-size: 1.12rem; display: flex; align-items: center; gap: 10px; }
+.attach-how h3 svg { width: 22px; height: 22px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.attach-how ol { margin: 10px 0 0; padding-left: 0; list-style: none; counter-reset: a; display: grid; gap: 8px; }
+.attach-how ol li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; font-size: .93rem; line-height: 1.45; color: #3D3B33; }
+.attach-how ol li::before { counter-increment: a; content: counter(a); width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: var(--yellow); display: grid; place-items: center; font-weight: 800; font-size: .78rem; }
+.attach-how .clip { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #fff; vertical-align: -5px; }
+.attach-how .clip svg { width: 15px; height: 15px; fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.heads-up { display: flex; gap: 10px; align-items: flex-start; background: var(--wash); border-radius: var(--r-sm); padding: 12px 14px; font-size: .9rem; line-height: 1.45; margin-bottom: 14px; color: #3D3B33; }
+.heads-up svg { width: 20px; height: 20px; flex: none; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-top: 1px; }
 .attach-list { list-style: none; display: grid; gap: 6px; margin: 4px 0 14px; }
 .attach-list li { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 12px; padding: 10px 12px; font-size: .9rem; font-weight: 600; }
 .attach-list li::before { content: ''; width: 18px; height: 18px; border-radius: 5px; background: var(--yellow); flex: none; }
@@ -905,14 +932,13 @@ body.intro-on .progress { opacity: 0; }
                                 <label><input type="radio" name="cert" value="Working on it"><span>Working on it</span></label>
                             </div>
                         </div>
-                        <div class="fld"><span class="fld-label" id="langL">Languages you speak</span>
-                            <div class="pills" aria-labelledby="langL">
-                                <label><input type="checkbox" name="lang" value="Dutch"><span>Dutch</span></label>
-                                <label><input type="checkbox" name="lang" value="English"><span>English</span></label>
-                                <label><input type="checkbox" name="lang" value="Polish"><span>Polish</span></label>
-                                <label><input type="checkbox" name="lang" value="Romanian"><span>Romanian</span></label>
-                                <label><input type="checkbox" name="lang" value="Other"><span>Other</span></label>
+                        <div class="fld"><label class="fld-label" for="langQ">Languages you speak</label>
+                            <div class="lang" id="lang">
+                                <div class="lang-chips" id="langChips"></div>
+                                <input id="langQ" type="text" placeholder="Type a language, for example Polish" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="langList" aria-autocomplete="list">
+                                <ul class="lang-list" id="langList" role="listbox" hidden></ul>
                             </div>
+                            <div class="lang-quick" id="langQuick" aria-label="Quick picks"></div>
                         </div>
                         <div class="fld"><label for="start">When could you start?</label>
                             <select id="start" required><option value="">Choose one</option><option>Right away</option><option>Within two weeks</option><option>Within a month</option><option>Later than a month</option></select>
@@ -921,6 +947,7 @@ body.intro-on .progress { opacity: 0; }
                     <fieldset class="wz-step" data-s="2">
                         <legend>Your CV and motivation</legend>
                         <p class="note">Step 3 of 3. PDF, Word or a photo, up to 10 MB each.</p>
+                        <p class="heads-up" id="headsUp"><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg><span><b>Good to know:</b> email apps do not let a website attach files for you. Pick your files here so we can remind you of them, and in the last step you attach your CV and motivation letter to the email yourself. We will show you how.</span></p>
                         <div class="fld"><span class="fld-label">Your CV</span>
                             <label class="drop" id="dropCv"><input type="file" id="fileCv" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><span class="dz-ic"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span><span class="dz-t"><b>Drop your CV here</b><small>or tap to choose a file</small></span></label>
                         </div>
@@ -944,7 +971,16 @@ body.intro-on .progress { opacity: 0; }
                 <div class="tick" aria-hidden="true">&check;</div>
                 <h2 id="v3Title">Sent. Now attach your CV.</h2>
                 <p class="note" id="v3Note">Your full application is already written into the message. Pick where to send it from, attach these files, and press send.</p>
-                <ul class="attach-list" id="attachList"></ul>
+                <div class="attach-how" id="attachHow">
+                    <h3><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg>Attach both files before you press send</h3>
+                    <ol>
+                        <li><span>Choose your email below. The message is already written for you.</span></li>
+                        <li><span>Tap the paperclip <span class="clip"><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg></span> or <b>Attach</b> in your email app.</span></li>
+                        <li><span>Add these two files:</span></li>
+                    </ol>
+                    <ul class="attach-list" id="attachList" style="margin:10px 0 0 36px"></ul>
+                    <ol start="4" style="counter-reset:a 3"><li><span>Check both files are attached, then press <b>Send</b>.</span></li></ol>
+                </div>
                 <div class="refbox"><span>Your reference</span><b id="refOut">...</b></div>
                 <div class="mailers">
                     <button class="mailer" data-p="gmail"><svg viewBox="0 0 24 24" fill="none"><path d="M2 6.5 12 13l10-6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="4.5" width="20" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/></svg><span>Gmail<small>New tab</small></span></button>
@@ -1978,17 +2014,88 @@ function closeApp() {
 }
 $('openBtn').addEventListener('click', openApp);
 $('x').addEventListener('click', closeApp);
+
+/* ---- languages: search every language, or tap a quick pick ---- */
+var LANGS = ['Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Armenian', 'Assamese', 'Aymara', 'Azerbaijani', 'Bambara', 'Basque', 'Belarusian', 'Bengali', 'Berber (Tamazight)', 'Bhojpuri', 'Bosnian', 'Bulgarian', 'Burmese', 'Cantonese', 'Catalan', 'Cebuano', 'Chichewa', 'Chinese (Mandarin)', 'Corsican', 'Croatian', 'Czech', 'Danish', 'Dari', 'Dhivehi', 'Dutch', 'Dzongkha', 'English', 'Esperanto', 'Estonian', 'Ewe', 'Faroese', 'Fijian', 'Filipino (Tagalog)', 'Finnish', 'Flemish', 'French', 'Frisian', 'Fula', 'Galician', 'Georgian', 'German', 'Greek', 'Greenlandic', 'Guarani', 'Gujarati', 'Haitian Creole', 'Hausa', 'Hawaiian', 'Hebrew', 'Hindi', 'Hmong', 'Hungarian', 'Icelandic', 'Igbo', 'Ilocano', 'Indonesian', 'Irish', 'Italian', 'Japanese', 'Javanese', 'Kannada', 'Kashmiri', 'Kazakh', 'Khmer', 'Kinyarwanda', 'Kirundi', 'Konkani', 'Korean', 'Krio', 'Kurdish (Kurmanji)', 'Kurdish (Sorani)', 'Kyrgyz', 'Lao', 'Latin', 'Latvian', 'Limburgish', 'Lingala', 'Lithuanian', 'Luganda', 'Luxembourgish', 'Macedonian', 'Maithili', 'Malagasy', 'Malay', 'Malayalam', 'Maltese', 'Maori', 'Marathi', 'Moldovan', 'Mongolian', 'Montenegrin', 'Nepali', 'Norwegian', 'Odia', 'Oromo', 'Papiamento', 'Pashto', 'Persian (Farsi)', 'Polish', 'Portuguese', 'Punjabi', 'Quechua', 'Romani', 'Romanian', 'Russian', 'Samoan', 'Sanskrit', 'Scottish Gaelic', 'Serbian', 'Sesotho', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Slovenian', 'Somali', 'Spanish', 'Sranan Tongo', 'Sundanese', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Tibetan', 'Tigrinya', 'Tongan', 'Tsonga', 'Tswana', 'Turkish', 'Turkmen', 'Twi (Akan)', 'Ukrainian', 'Urdu', 'Uyghur', 'Uzbek', 'Vietnamese', 'Welsh', 'Wolof', 'Xhosa', 'Yiddish', 'Yoruba', 'Zulu', 'Dutch Sign Language (NGT)', 'Other sign language'];
+var QUICK = ['Dutch', 'English', 'Polish', 'Romanian', 'Bulgarian', 'Turkish', 'Arabic', 'Ukrainian', 'Portuguese', 'Spanish'];
+var langSel = [], langQ = $('langQ'), langList = $('langList'), langChips = $('langChips'), langQuick = $('langQuick'), langAct = 0, langShown = [];
+QUICK.forEach(function (l) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = '+ ' + l; b.dataset.l = l;
+    b.addEventListener('click', function () { addLang(l); });
+    langQuick.appendChild(b);
+});
+function drawLangs() {
+    langChips.innerHTML = '';
+    langSel.forEach(function (l) {
+        var c = document.createElement('span'); c.className = 'lang-chip';
+        c.appendChild(document.createTextNode(l));
+        var x = document.createElement('button'); x.type = 'button'; x.textContent = '\u00d7'; x.setAttribute('aria-label', 'Remove ' + l);
+        x.addEventListener('click', function () { langSel.splice(langSel.indexOf(l), 1); drawLangs(); langQ.focus(); });
+        c.appendChild(x); langChips.appendChild(c);
+    });
+    [].forEach.call(langQuick.children, function (b) { b.classList.toggle('on', langSel.indexOf(b.dataset.l) > -1); });
+    langQ.placeholder = langSel.length ? 'Add another language' : 'Type a language, for example Polish';
+}
+function addLang(l) {
+    l = l.trim(); if (!l) return;
+    var known = LANGS.filter(function (x) { return x.toLowerCase() === l.toLowerCase(); })[0];
+    l = known || l.charAt(0).toUpperCase() + l.slice(1);
+    if (langSel.indexOf(l) < 0) langSel.push(l);
+    langQ.value = ''; closeList(); drawLangs();
+}
+function closeList() { langList.hidden = true; langQ.setAttribute('aria-expanded', 'false'); }
+function openList() {
+    var q = langQ.value.trim().toLowerCase();
+    if (!q) { closeList(); return; }
+    var starts = [], has = [];
+    LANGS.forEach(function (l) {
+        if (langSel.indexOf(l) > -1) return;
+        var lo = l.toLowerCase();
+        if (lo.indexOf(q) === 0) starts.push(l); else if (lo.indexOf(q) > 0) has.push(l);
+    });
+    langShown = starts.concat(has).slice(0, 8);
+    var exact = LANGS.some(function (l) { return l.toLowerCase() === q; });
+    if (!exact) langShown.push({ custom: langQ.value.trim() });
+    langAct = 0;
+    langList.innerHTML = langShown.map(function (l, i) {
+        var label = typeof l === 'string' ? l : 'Add \u201c' + l.custom.replace(/</g, '&lt;') + '\u201d <small>not in the list</small>';
+        return '<li role="option" id="lo' + i + '" class="' + (i === 0 ? 'act' : '') + '" data-i="' + i + '">' + label + '</li>';
+    }).join('');
+    langList.hidden = false; langQ.setAttribute('aria-expanded', 'true'); langQ.setAttribute('aria-activedescendant', 'lo0');
+}
+function pickShown(i) { var l = langShown[i]; if (l) addLang(typeof l === 'string' ? l : l.custom); }
+langQ.addEventListener('input', openList);
+langQ.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        if (langList.hidden) { openList(); return; }
+        e.preventDefault();
+        langAct = (langAct + (e.key === 'ArrowDown' ? 1 : -1) + langShown.length) % langShown.length;
+        [].forEach.call(langList.children, function (li, i) { li.classList.toggle('act', i === langAct); });
+        langQ.setAttribute('aria-activedescendant', 'lo' + langAct);
+        langList.children[langAct].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (!langList.hidden) pickShown(langAct); else if (langQ.value.trim()) addLang(langQ.value);
+    } else if (e.key === 'Escape') { if (!langList.hidden) { e.stopPropagation(); closeList(); } }
+    else if (e.key === 'Backspace' && !langQ.value && langSel.length) { langSel.pop(); drawLangs(); }
+});
+langList.addEventListener('mousedown', function (e) { var li = e.target.closest('li'); if (li) { e.preventDefault(); pickShown(+li.dataset.i); } });
+langQ.addEventListener('blur', function () { setTimeout(closeList, 120); });
+$('lang').addEventListener('click', function (e) { if (e.target === this) langQ.focus(); });
+if (FILE_UPLOADS) $('headsUp').hidden = true;
+
 $('cancel').addEventListener('click', function () { if (wzStep > 0) goStep(wzStep - 1); else closeApp(); });
 $('later').addEventListener('click', closeApp);
 veil.addEventListener('click', function (e) { if (e.target === veil) closeApp(); });
-addEventListener('keydown', function (e) { if (e.key === 'Escape' && veil.classList.contains('open')) closeApp(); });
+addEventListener('keydown', function (e) { if (e.key === 'Escape' && veil.classList.contains('open') && $('langList').hidden) closeApp(); });
 
 function makeRef() {
     return ('KWB' + Date.now().toString(36).slice(-3) + Math.random().toString(36).slice(2, 5)).toUpperCase();
 }
 function subject() { return 'Application ' + app.ref + ': All-Rounder, KW Shift B, ' + app.name; }
 function bodyText() {
-    return 'Dear Miroslaw,\n\n' +
+    return (FILE_UPLOADS ? '' : '>>> Before sending: attach your CV and motivation letter, then delete this line. <<<\n\n') +
+        'Dear Miroslaw,\n\n' +
         'I would like to apply for the Warehouse All-Rounder position on KW Shift B. ' +
         'My CV and motivation letter are attached to this email.\n\n' +
         'Application reference: ' + app.ref + '\n' +
@@ -2065,15 +2172,18 @@ $('form').addEventListener('submit', function (e) {
     var cert = document.querySelector('input[name=cert]:checked');
     app = { name: val('name'), email: val('email'), phone: val('phone'), exp: val('exp'), mot: val('mot'), ref: makeRef(),
             cert: cert ? cert.value : 'Not given', start: val('start'),
-            langs: [].map.call(document.querySelectorAll('input[name=lang]:checked'), function (c) { return c.value; }).join(', '),
+            langs: langSel.join(', '),
             cvName: files.cv ? files.cv.name : '', ltName: files.lt ? files.lt.name : '' };
     alertBox.hidden = true;
     var uploaded = FILE_UPLOADS && ACCESS_KEY.indexOf('PASTE_') !== 0;
     function showDone() {
         $('refOut').textContent = app.ref;
-        $('attachList').innerHTML = uploaded ? '' : [app.cvName, app.ltName].filter(Boolean).map(function (n) { return '<li>' + n.replace(/</g, '&lt;') + '</li>'; }).join('');
+        var esc = function (n) { return n.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+        $('attachList').innerHTML = '<li>Your CV: ' + esc(app.cvName || 'your CV file') + '</li>' +
+            '<li>Your motivation letter: ' + esc(app.ltName || 'your letter file, if you have one') + '</li>';
+        $('attachHow').hidden = uploaded;
         $('v3Title').textContent = uploaded ? 'Sent! Your CV is on its way.' : 'Sent. Now attach your CV.';
-        $('v3Note').textContent = uploaded ? 'Miroslaw has your details and your files. If you want a copy in your own outbox, you can also send it from here.' : 'Your full application is already written into the message. Pick where to send it from, attach these files, and press send.';
+        $('v3Note').textContent = uploaded ? 'Miroslaw has your details and your files. If you want a copy in your own outbox, you can also send it from here.' : 'Your details reached Miroslaw. One last step: send the email with your files attached.';
         view(v3);
         setTimeout(function () { burstAt(document.querySelector('.sheet'), 160); }, 150);
     }
