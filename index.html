@@ -301,68 +301,6 @@ section { scroll-margin-top: 76px; }
 /* confetti */
 #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
 
-/* ============================================================
-   THE FLOOR GAME
-   ============================================================ */
-.fg { background: var(--ink); border-radius: clamp(24px, 3vw, 40px); padding: clamp(12px, 2vw, 22px); color: #fff; position: relative; }
-.fg-hud { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 4px 4px 14px; }
-.fg-pill { display: flex; align-items: baseline; gap: 8px; background: rgba(255, 255, 255, .08); border-radius: 999px; padding: 8px 16px; font-weight: 600; font-size: .86rem; color: rgba(255, 255, 255, .65); }
-.fg-pill b { font-family: var(--head); font-weight: 800; font-size: 1.25rem; color: #fff; font-variant-numeric: tabular-nums; }
-.fg-pill.low b { color: #FF6B5E; }
-.fg-flow { flex: 1; min-width: 160px; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: .86rem; color: rgba(255, 255, 255, .65); }
-.fg-flow span { flex: 1; height: 10px; border-radius: 99px; background: rgba(255, 255, 255, .1); overflow: hidden; }
-.fg-flow i { display: block; height: 100%; width: 100%; border-radius: 99px; background: linear-gradient(90deg, #2DBE60, var(--yellow)); transition: width .4s var(--ease), background .4s; }
-.fg-flow.bad i { background: linear-gradient(90deg, #FF5A4F, #FF8A00); }
-.fg-combo { background: var(--yellow); color: var(--ink); border-radius: 999px; padding: 8px 16px; font-family: var(--head); font-weight: 800; opacity: 0; transform: scale(.7); transition: opacity .2s, transform .35s cubic-bezier(.2, .9, .3, 1.5); }
-.fg-combo.on { opacity: 1; transform: none; }
-.fg-stage { position: relative; border-radius: 22px; overflow: hidden; background: #F1EFE9; }
-#fg { display: block; width: 100%; aspect-ratio: 90.5 / 30; touch-action: none; cursor: crosshair; }
-.fg-toast { position: absolute; left: 50%; top: 14px; transform: translate(-50%, -10px); background: var(--ink); color: #fff; padding: 9px 16px; border-radius: 999px; font-weight: 700; font-size: .88rem; opacity: 0; pointer-events: none; transition: opacity .25s, transform .3s var(--ease); white-space: nowrap; max-width: 92%; overflow: hidden; text-overflow: ellipsis; }
-.fg-toast.on { opacity: 1; transform: translate(-50%, 0); }
-.fg-over { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; background: rgba(241, 239, 233, .7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); transition: opacity .35s; overflow-y: auto; }
-.fg-over.hide { opacity: 0; pointer-events: none; }
-.fg-card { width: min(520px, 100%); background: #fff; color: var(--ink); border-radius: var(--r-lg); padding: clamp(22px, 3vw, 34px); box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .35); animation: qin .45s var(--ease); }
-.fg-card h3 { font-family: var(--head); font-weight: 800; font-size: clamp(1.5rem, 2.8vw, 2.1rem); letter-spacing: -.025em; line-height: 1.05; }
-.fg-card > p { margin-top: 10px; color: var(--muted); }
-.fg-how { list-style: none; display: grid; gap: 8px; margin: 18px 0 4px; }
-.fg-how li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; font-size: .95rem; color: var(--muted); line-height: 1.45; }
-.fg-how li b { color: var(--ink); }
-.fg-how li::before { content: ''; width: 26px; height: 26px; border-radius: 8px; background: var(--wash) center / 16px no-repeat; }
-.fg-how li:nth-child(1)::before { background-color: #E3EEFF; }
-.fg-how li:nth-child(2)::before { background-color: var(--wash); }
-.fg-how li:nth-child(3)::before { background-color: #FFE3E0; }
-.fg-card .res-btns { margin-top: 20px; }
-.fg-score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
-.fg-score div { background: var(--surface); border-radius: 14px; padding: 12px; text-align: center; font-size: .8rem; font-weight: 600; color: var(--muted); }
-.fg-score b { display: block; font-family: var(--head); font-weight: 800; font-size: 1.5rem; color: var(--ink); }
-.fg-stars { display: flex; gap: 6px; margin-bottom: 10px; }
-.fg-stars svg { width: 36px; height: 36px; animation: qin .5s var(--ease) both; }
-.fg-stars svg:nth-child(2) { animation-delay: .12s; } .fg-stars svg:nth-child(3) { animation-delay: .24s; }
-.fg-stars path { fill: var(--surface); stroke: #CFCBBF; stroke-width: 1.4; stroke-linejoin: round; }
-.fg-stars .on path { fill: var(--yellow); stroke: var(--ink); }
-.fg-tasks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 12px; min-height: 92px; }
-.fg-empty { grid-column: 1 / -1; display: grid; place-items: center; color: rgba(255, 255, 255, .45); font-size: .9rem; border: 1px dashed rgba(255, 255, 255, .15); border-radius: 18px; }
-.task { position: relative; overflow: hidden; text-align: left; cursor: pointer; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); border-radius: 18px; padding: 12px 14px 16px; color: #fff; transition: background .2s, border-color .2s, transform .3s var(--ease); animation: tin .4s cubic-bezier(.2, .9, .3, 1.3); }
-@keyframes tin { from { opacity: 0; transform: translateY(12px) scale(.96); } }
-.task:hover { background: rgba(255, 255, 255, .12); }
-.task.carry { border-color: var(--yellow); background: rgba(255, 212, 0, .12); }
-.task .tc { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .04em; padding: 3px 8px; border-radius: 99px; color: #fff; }
-.task h4 { margin-top: 7px; font-family: var(--head); font-weight: 700; font-size: 1rem; line-height: 1.2; }
-.task p { margin-top: 3px; font-size: .8rem; color: rgba(255, 255, 255, .62); line-height: 1.35; }
-.task .bar { position: absolute; left: 0; bottom: 0; height: 4px; background: #2DBE60; border-radius: 0 4px 0 0; }
-.task.urgent .bar { background: #FF5A4F; }
-.task.urgent { animation: urge 1s infinite; }
-@keyframes urge { 50% { border-color: rgba(255, 90, 79, .8); } }
-.fg-help { margin-top: 12px; font-size: .84rem; color: rgba(255, 255, 255, .5); text-align: center; }
-@media (max-width: 1000px) { .fg-tasks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 760px) {
-    #fg { aspect-ratio: auto; height: min(58svh, 470px); }
-    .fg { padding: 10px; border-radius: 24px; }
-    .fg-pill { padding: 7px 12px; } .fg-pill b { font-size: 1.05rem; }
-    .fg-flow { order: 9; min-width: 100%; }
-    .task h4 { font-size: .92rem; }
-}
-
 @media (max-width: 760px) {
     .orb { display: none; }
     .live { display: none; }
@@ -372,6 +310,251 @@ section { scroll-margin-top: 76px; }
     .hero h1 .ch { opacity: 1; transform: none; }
     .hero h1 .l2::after { transform: none; }
     .frame::after { display: none; }
+}
+
+/* ============================================================
+   THE CRATE
+   ============================================================ */
+.hero-card { grid-template-columns: .92fr 1.08fr; }
+.crate { position: relative; height: clamp(420px, 46vw, 600px); margin: clamp(-24px, -2vw, -8px) clamp(-24px, -2vw, -8px) clamp(-24px, -2vw, -8px) 0; cursor: grab; touch-action: pan-y; z-index: 1; }
+.crate.grab { cursor: grabbing; }
+.crate.over { cursor: pointer; }
+#crateCv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.cr-layer { position: absolute; inset: 0; pointer-events: none; }
+.it { position: absolute; left: 0; top: 0; pointer-events: auto; border: 0; cursor: pointer; background: #fff; color: var(--ink); border-radius: 999px; padding: 6px 12px 6px 6px; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: .82rem; white-space: nowrap; box-shadow: 0 10px 24px -10px rgba(27, 27, 26, .45); opacity: 0; transition: opacity .35s, background .2s; translate: -50% 0; will-change: transform; }
+.it b { min-width: 30px; height: 22px; border-radius: 99px; padding: 0 7px; display: grid; place-items: center; font-size: .66rem; letter-spacing: .03em; color: #fff; }
+.it.show { opacity: 1; }
+.it:hover, .it.on { background: var(--yellow); }
+.crate.focused .it:not(.on) { opacity: .35; }
+.cr-hint { position: absolute; left: 16px; top: 16px; z-index: 2; display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: #fff; border-radius: 999px; padding: 10px 18px; font-weight: 700; font-size: .9rem; pointer-events: none; transition: opacity .4s, transform .4s var(--ease); animation: hintbob 2.4s ease-in-out infinite; }
+.cr-hint i { width: 9px; height: 9px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 4px rgba(255, 212, 0, .3); }
+@keyframes hintbob { 50% { transform: translateY(-6px); } }
+.crate.open .cr-hint { opacity: 0; }
+.cr-card { position: absolute; left: 16px; bottom: 16px; z-index: 3; width: min(340px, calc(100% - 32px)); background: rgba(255, 255, 255, .96); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 22px; padding: 18px 20px; box-shadow: var(--shadow); opacity: 0; transform: translateY(16px) scale(.98); pointer-events: none; transition: opacity .35s, transform .45s var(--ease); }
+.cr-card.on { opacity: 1; transform: none; pointer-events: auto; }
+.cr-card h3 { font-family: var(--head); font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em; margin-top: 8px; }
+.cr-card p { margin-top: 6px; font-size: .9rem; color: var(--muted); line-height: 1.55; }
+.cr-card .chips { margin-top: 12px; }
+.cr-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.cr-acts .btn { padding: 10px 18px; font-size: .9rem; }
+.cr-close { position: absolute; right: 16px; top: 16px; z-index: 3; border: 0; cursor: pointer; background: rgba(255, 255, 255, .9); border-radius: 999px; padding: 9px 16px; font-weight: 700; font-size: .85rem; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: opacity .3s, background .2s; }
+.crate.open .cr-close { opacity: 1; pointer-events: auto; }
+.cr-close:hover { background: var(--yellow); }
+.crate .leads-chip { left: auto; right: 16px; bottom: 16px; z-index: 2; transition: opacity .3s; }
+.crate.open .leads-chip { opacity: 0; pointer-events: none; }
+.no3d .crate { display: none; }
+.no3d .hero-card { grid-template-columns: 1fr; }
+.reel { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(24px, 5vw, 72px); align-items: center; }
+@media (max-width: 1000px) {
+    .hero-card { grid-template-columns: 1fr; }
+    .crate { margin: 0 -8px -8px; height: clamp(400px, 92vw, 540px); }
+    .reel { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+    .crate .leads-chip { display: none; }
+    .cr-card { padding: 14px 16px; }
+    .cr-card h3 { font-size: 1.25rem; }
+    .cr-card p { font-size: .84rem; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .cr-card .chips { display: none; }
+    .it { font-size: .74rem; padding: 5px 10px 5px 5px; }
+}
+
+.cr-track { position: absolute; left: 50%; bottom: 18px; translate: -50% 0; z-index: 3; display: flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, .92); border-radius: 999px; padding: 8px 14px 8px 10px; box-shadow: var(--shadow); font-size: .8rem; font-weight: 700; opacity: 0; transform: translateY(-8px); transition: opacity .35s, transform .35s var(--ease); pointer-events: none; }
+.crate.open .cr-track { opacity: 1; transform: none; }
+.crate.focused .cr-track { opacity: 0; }
+.cr-track i { width: 11px; height: 11px; border-radius: 50%; background: #E8E5DC; transition: background .3s, transform .4s cubic-bezier(.2, .9, .3, 1.6); }
+.cr-track i.on { background: var(--c); transform: scale(1.25); }
+.cr-track span { margin-left: 6px; white-space: nowrap; }
+.cr-tools { position: absolute; right: 16px; top: 16px; z-index: 3; display: flex; gap: 8px; }
+.cr-tools button { border: 0; cursor: pointer; background: rgba(255, 255, 255, .92); border-radius: 999px; padding: 9px 15px; font-weight: 700; font-size: .84rem; box-shadow: var(--shadow); display: inline-flex; align-items: center; gap: 7px; transition: background .2s; }
+.cr-tools button:hover { background: var(--yellow); }
+.cr-tools svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cr-tools .cr-close { position: static; display: none; opacity: 1; pointer-events: auto; }
+.crate.open .cr-tools .cr-close { display: inline-flex; }
+.cr-card.win { background: var(--ink); color: #fff; }
+.cr-card.win p { color: rgba(255, 255, 255, .72); }
+.cr-card.win .code { background: var(--yellow); color: var(--ink); }
+.cr-card.win .btn.o { border-color: #fff; color: #fff; }
+.cr-card.win .btn.k { background: var(--yellow); color: var(--ink); }
+.it.hov { background: var(--yellow); transform-origin: 50% 0; }
+.crate.open .cr-hint { opacity: 0; }
+.st-3d { margin-top: 16px; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--ink); background: #fff; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: .86rem; cursor: pointer; transition: background .2s; }
+.st-3d:hover { background: var(--yellow); border-color: var(--yellow); }
+.st-3d svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.no3d .st-3d { display: none; }
+@media (max-width: 760px) {
+    .crate.focused .cr-track { opacity: 0; }
+    .cr-tools button { padding: 8px 12px; font-size: .78rem; }
+}
+
+/* ============================================================
+   V6: FULL-SCREEN FLOW
+   video → welcome → crate → the rest, all driven by scroll
+   ============================================================ */
+.nav { position: fixed; left: 0; right: 0; top: 0; transition: transform .6s var(--ease), border-color .3s, background .3s; }
+body.intro-on .nav { transform: translateY(-110%); }
+.progress { position: fixed; left: 0; top: 0; z-index: 90; height: 3px; width: 100%; background: var(--yellow); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); pointer-events: none; }
+body.intro-on .progress { opacity: 0; }
+
+/* the opening video: nothing on it but the video */
+.intro { height: 210svh; position: relative; background: #fff; }
+.intro-pin { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
+.intro-frame { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; border-radius: calc(var(--ip, 0) * 40px);
+    transform: scale(calc(1 - var(--ip, 0) * .16)) translateY(calc(var(--ip, 0) * -2vh)); will-change: transform; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, calc(var(--ip, 0) * .6)); }
+.intro-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1.08 - var(--ip, 0) * .08)); }
+.vid-tap { position: absolute; inset: 0; z-index: 2; border: 0; background: transparent; cursor: pointer; }
+.vid-snd { position: absolute; right: 22px; bottom: 22px; z-index: 3; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .9); opacity: 0; transform: scale(.8); transition: opacity .35s, transform .35s var(--ease); pointer-events: none; }
+.vid-snd svg { width: 22px; height: 22px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.intro-frame:hover .vid-snd, .vid-snd.flash { opacity: 1; transform: none; }
+
+/* welcome and motivation, lit up word by word as you scroll */
+.welcome { height: 260svh; position: relative; }
+.welcome-pin { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--pad); max-width: 1240px; margin: 0 auto; }
+.w-kick { display: inline-flex; align-self: flex-start; align-items: center; gap: 10px; background: var(--wash); border-radius: 999px; padding: 8px 16px 8px 10px; font-weight: 700; font-size: .95rem; opacity: calc(var(--wp, 0) * 8); transform: translateY(calc((1 - min(1, var(--wp, 0) * 8)) * 16px)); }
+.w-kick i { width: 10px; height: 10px; border-radius: 50%; background: #2DBE60; box-shadow: 0 0 0 4px rgba(45, 190, 96, .2); }
+.w-big { margin-top: 26px; font-family: var(--head); font-weight: 800; font-size: clamp(2rem, 5.2vw, 4.6rem); line-height: 1.06; letter-spacing: -.035em; max-width: 22ch; }
+.w-big .wd { color: rgba(27, 27, 26, .13); transition: color .25s; }
+.w-big .wd.on { color: var(--ink); }
+.w-big .wd.hl { position: relative; z-index: 0; }
+.w-big .wd.hl::after { content: ''; position: absolute; left: -.05em; right: -.05em; bottom: .08em; height: .32em; z-index: -1; border-radius: 6px; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease); }
+.w-big .wd.hl.on::after { transform: scaleX(1); }
+.w-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; list-style: none; }
+.w-chips li { display: inline-flex; align-items: center; gap: 10px; background: #fff; border: 2px solid var(--line); border-radius: 999px; padding: 10px 18px; font-weight: 700; opacity: 0; transform: translateY(18px) scale(.95); transition: opacity .5s, transform .6s cubic-bezier(.2, .9, .3, 1.3), border-color .3s; }
+.w-chips li.on { opacity: 1; transform: none; border-color: var(--ink); }
+.w-chips svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.w-down { margin-top: 40px; display: inline-flex; align-items: center; gap: 12px; font-weight: 700; color: var(--muted); opacity: 0; transition: opacity .5s; }
+.w-down.on { opacity: 1; }
+.w-down span { width: 26px; height: 40px; border: 2px solid var(--muted); border-radius: 14px; position: relative; }
+.w-down span::after { content: ''; position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--muted); animation: wheel 1.6s infinite; }
+@keyframes wheel { 0% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(12px); } }
+
+/* the crate, full screen */
+.hero { padding: 0; }
+.hero-card { max-width: none; border-radius: 0; padding: 0; display: block; min-height: 100svh; height: 100svh; }
+.hero-card::before { width: 70vmax; height: 70vmax; right: -18vmax; top: -24vmax; opacity: .5; }
+.hero-txt { position: absolute; z-index: 4; left: var(--pad); top: 50%; transform: translateY(-46%); width: min(500px, 40vw); pointer-events: none; }
+.hero-txt > * { pointer-events: auto; }
+.hero h1 { font-size: clamp(2.4rem, 4.8vw, 4.6rem); }
+.crate { position: absolute; inset: 0; height: auto; margin: 0; }
+.cr-hint { left: 50%; top: auto; bottom: 26px; translate: -50% 0; }
+.cr-tools { top: 90px; right: var(--pad); }
+.crate .leads-chip { right: var(--pad); bottom: 24px; }
+.cr-card { left: auto; right: var(--pad); bottom: 90px; }
+.crate.open .cr-hint { opacity: 0; }
+
+/* stations slide sideways as you scroll (wide screens) */
+.hs-wrap { position: relative; }
+.hs-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding-top: 72px; }
+.hs-sticky .sec-head { padding: 0 var(--pad); max-width: 1300px; width: 100%; margin: 0 auto clamp(24px, 3vw, 40px); }
+.hs-track { display: flex; gap: 20px; padding: 0 var(--pad); width: max-content; will-change: transform; }
+.hs-track .st { width: clamp(300px, 26vw, 380px); flex: none; }
+.hs-bar { margin: 28px auto 0; width: min(320px, 60vw); height: 6px; border-radius: 99px; background: var(--surface); overflow: hidden; }
+.hs-bar i { display: block; height: 100%; width: 100%; background: var(--yellow); transform-origin: 0 50%; transform: scaleX(var(--hp, 0)); border-radius: 99px; }
+@media (max-width: 1000px) {
+    .hs-wrap { height: auto !important; }
+    .hs-sticky { position: static; height: auto; padding: clamp(72px, 9vw, 130px) 0 0; }
+    .hs-track { width: auto; flex-direction: column; transform: none !important; }
+    .hs-track .st { width: auto; }
+    .hs-bar { display: none; }
+}
+
+/* what you get: a bento of benefits */
+.bento { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(190px, auto); gap: 16px; }
+.bn { position: relative; overflow: hidden; border-radius: var(--r-lg); padding: clamp(22px, 2.6vw, 32px); background: var(--surface); display: flex; flex-direction: column; justify-content: flex-end; transition: transform .45s var(--ease), box-shadow .45s; }
+.bn:hover { transform: translateY(-6px) rotate(-.4deg); box-shadow: var(--shadow); }
+.bn h3 { font-family: var(--head); font-weight: 800; font-size: clamp(1.3rem, 2vw, 1.7rem); letter-spacing: -.02em; line-height: 1.1; }
+.bn p { margin-top: 8px; color: var(--muted); line-height: 1.55; font-size: .98rem; }
+.bn .bi { position: absolute; right: 22px; top: 22px; width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; background: #fff; transition: transform .6s cubic-bezier(.2, .9, .3, 1.4); }
+.bn:hover .bi { transform: rotate(-10deg) scale(1.1); }
+.bn .bi svg { width: 32px; height: 32px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.bn.big { grid-column: span 2; grid-row: span 2; background: var(--yellow); }
+.bn.big h3 { font-size: clamp(2rem, 3.8vw, 3.2rem); }
+.bn.big p { color: #3D3B33; font-size: 1.08rem; max-width: 34ch; }
+.bn.wide { grid-column: span 2; }
+.bn.ink { background: var(--ink); color: #fff; } .bn.ink p { color: rgba(255, 255, 255, .7); } .bn.ink .bi { background: var(--yellow); }
+.bn.pink { background: var(--pink-wash); }
+.clock { position: absolute; right: clamp(20px, 4vw, 48px); top: clamp(20px, 4vw, 48px); width: clamp(130px, 16vw, 200px); aspect-ratio: 1; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 8px var(--ink); }
+.clock i { position: absolute; left: 50%; bottom: 50%; width: 6px; margin-left: -3px; border-radius: 6px; background: var(--ink); transform-origin: 50% 100%; }
+.clock .hh { height: 26%; animation: spin 24s linear infinite; }
+.clock .mh { height: 36%; width: 4px; margin-left: -2px; animation: spin 4s linear infinite; }
+.clock::after { content: ''; position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 3px var(--ink); }
+.clock b { position: absolute; left: 50%; width: 4px; height: 12px; margin-left: -2px; background: var(--ink); border-radius: 2px; top: 14px; transform-origin: 50% calc(clamp(130px, 16vw, 200px) / 2 - 14px); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.team-dots { display: flex; margin-bottom: 14px; }
+.team-dots span { width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--surface); display: grid; place-items: center; font-family: var(--head); font-weight: 800; margin-left: -10px; transition: transform .4s cubic-bezier(.2, .9, .3, 1.5); }
+.team-dots span:first-child { margin-left: 0; }
+.bn:hover .team-dots span { transform: translateY(-6px); }
+.bn:hover .team-dots span:nth-child(2) { transition-delay: .05s; } .bn:hover .team-dots span:nth-child(3) { transition-delay: .1s; } .bn:hover .team-dots span:nth-child(4) { transition-delay: .15s; }
+.skillbars { display: grid; gap: 7px; margin-bottom: 16px; }
+.skillbars span { display: block; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, .15); overflow: hidden; }
+.skillbars span i { display: block; height: 100%; border-radius: 99px; background: var(--yellow); width: 0; transition: width 1.2s var(--ease); }
+.bn.in .skillbars span i { width: var(--w); }
+@media (max-width: 1000px) { .bento { grid-template-columns: repeat(2, 1fr); } .bn.big { grid-row: span 1; min-height: 340px; } }
+@media (max-width: 640px) { .bento { grid-template-columns: 1fr; } .bn.big, .bn.wide { grid-column: span 1; } }
+
+/* more reveal flavours */
+.rv-l { opacity: 0; transform: translateX(-60px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0s); }
+.rv-r { opacity: 0; transform: translateX(60px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0s); }
+.rv-s { opacity: 0; transform: scale(.9); transition: opacity .9s var(--ease), transform 1s cubic-bezier(.2, .9, .3, 1.2); transition-delay: var(--d, 0s); }
+.rv-l.in, .rv-r.in, .rv-s.in { opacity: 1; transform: none; }
+
+/* a cursor that follows you */
+.cur { position: fixed; left: 0; top: 0; z-index: 120; pointer-events: none; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%; border: 2px solid var(--ink); transition: width .25s, height .25s, margin .25s, background .25s, border-color .25s, opacity .25s; mix-blend-mode: multiply; }
+.cur.big { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: rgba(255, 212, 0, .45); border-color: transparent; }
+.cur.hide { opacity: 0; }
+.cur-dot { position: fixed; left: 0; top: 0; z-index: 121; pointer-events: none; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--ink); }
+@media (hover: none), (pointer: coarse) { .cur, .cur-dot { display: none; } }
+
+/* application wizard */
+.wz-bar { display: flex; gap: 6px; margin: 4px 0 20px; }
+.wz-bar i { flex: 1; height: 6px; border-radius: 99px; background: var(--surface); overflow: hidden; position: relative; }
+.wz-bar i::after { content: ''; position: absolute; inset: 0; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease); }
+.wz-bar i.on::after { transform: none; }
+.wz-step { display: none; border: 0; }
+.wz-step.on { display: block; animation: qin .4s var(--ease); }
+.wz-step legend { font-family: var(--head); font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em; margin-bottom: 4px; }
+.wz-step .note { margin-top: 0; }
+.fld-label { display: block; font-weight: 600; font-size: .92rem; margin-bottom: 8px; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pills label, .fld .pills label { position: relative; cursor: pointer; display: inline-block; margin: 0; }
+.pills input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.pills span { display: inline-flex; align-items: center; gap: 7px; padding: 10px 16px; border-radius: 999px; border: 2px solid var(--line); font-weight: 600; font-size: .94rem; transition: border-color .2s, background .2s; }
+.pills input:checked + span { border-color: var(--ink); background: var(--yellow); }
+.pills input:focus-visible + span { outline: 3px solid var(--ink); outline-offset: 2px; }
+.fld select { width: 100%; padding: 13px 15px; background: #fff; border: 2px solid var(--line); border-radius: var(--r-sm); font-family: var(--body); font-size: 1rem; color: var(--ink); }
+.fld .drop, .drop { position: relative; display: flex; margin: 0; font-weight: 400; align-items: center; gap: 14px; border: 2px dashed #CFCBBF; border-radius: var(--r-md); padding: 18px; cursor: pointer; transition: border-color .2s, background .2s, transform .3s var(--ease); }
+.drop:hover, .drop.over { border-color: var(--ink); background: var(--wash); }
+.drop.over { transform: scale(1.02); }
+.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.drop .dz-ic { flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--wash); display: grid; place-items: center; transition: transform .4s cubic-bezier(.2, .9, .3, 1.5); }
+.drop:hover .dz-ic { transform: translateY(-4px); }
+.drop .dz-ic svg { width: 24px; height: 24px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.drop b { display: block; font-size: .98rem; }
+.drop small { color: var(--muted); font-size: .84rem; }
+.drop.has { border-style: solid; border-color: #2DBE60; background: #EEFBF2; }
+.drop.has .dz-ic { background: #2DBE60; } .drop.has .dz-ic svg { stroke: #fff; }
+.drop.bad { border-color: #E5372B; background: #FFF0EE; animation: shake .4s; }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.drop .rm { position: relative; z-index: 2; margin-left: auto; border: 0; background: #fff; border-radius: 999px; padding: 6px 12px; font-weight: 700; font-size: .8rem; cursor: pointer; }
+.attach-list { list-style: none; display: grid; gap: 6px; margin: 4px 0 14px; }
+.attach-list li { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 12px; padding: 10px 12px; font-size: .9rem; font-weight: 600; }
+.attach-list li::before { content: ''; width: 18px; height: 18px; border-radius: 5px; background: var(--yellow); flex: none; }
+
+@media (max-width: 1000px) {
+    .hero-txt { top: 96px; transform: none; width: auto; right: var(--pad); }
+    .hero .lead, .hero .facts { display: none; }
+    .hero h1 { margin-top: 14px; }
+    .hero .acts { margin-top: 18px; }
+    .cr-tools { top: auto; bottom: 16px; right: auto; left: 50%; translate: -50% 0; }
+    .cr-track { bottom: 68px; }
+    .cr-card { left: 12px; right: 12px; bottom: 116px; width: auto; }
+    .cr-hint { bottom: 70px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .intro, .welcome { height: auto; }
+    .intro-pin, .welcome-pin { position: static; height: auto; min-height: 100svh; }
+    .w-big .wd { color: var(--ink); } .w-chips li { opacity: 1; transform: none; }
+    .rv-l, .rv-r, .rv-s { opacity: 1; transform: none; }
 }
 
 /* ============================================================
@@ -453,7 +636,9 @@ section { scroll-margin-top: 76px; }
 }
 </style>
 </head>
-<body>
+<body class="intro-on">
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="cur" id="cur" aria-hidden="true"></div><div class="cur-dot" id="curDot" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
     <div class="nav-in">
@@ -461,8 +646,7 @@ section { scroll-margin-top: 76px; }
         <nav aria-label="Main">
             <ul class="menu" id="menu">
                 <li><a href="#stations">Stations</a></li>
-                <li><a href="#play">Play</a></li>
-                <li><a href="#why">Why join</a></li>
+                <li><a href="#benefits">What you get</a></li>
                 <li><a href="#team">Your team</a></li>
                 <li><a href="#fit">Station fit</a></li>
                 <li><a href="#apply" class="btn y">Apply now</a></li>
@@ -474,7 +658,30 @@ section { scroll-margin-top: 76px; }
 
 <main id="top">
 
-<section class="hero">
+<section class="intro" id="intro" aria-label="A look inside the KW Shift B warehouse">
+    <div class="intro-pin">
+        <div class="intro-frame" id="introFrame">
+            <video id="vid" autoplay muted loop playsinline aria-label="A look inside the KW Shift B warehouse"></video>
+            <button class="vid-tap" id="vidTap" aria-label="Turn the video sound on" aria-pressed="false"></button>
+            <span class="vid-snd" id="vidSnd" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path id="sndWave" d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12" opacity=".2"/></svg></span>
+        </div>
+    </div>
+</section>
+
+<section class="welcome" id="welcome">
+    <div class="welcome-pin">
+        <span class="w-kick"><i aria-hidden="true"></i> Welcome to KW Shift B</span>
+        <p class="w-big" id="wBig">You are not here for just a job. You are here to keep a whole warehouse moving, to *learn every station,* and to become *the one the team counts on.*</p>
+        <ul class="w-chips" id="wChips">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Every shift counts</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>Every station teaches</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M15 14.2c.6-.2 1.3-.2 2-.2 2.8 0 4 2 4 4.5"/></svg>Every teammate matters</li>
+        </ul>
+        <p class="w-down" id="wDown"><span aria-hidden="true"></span>Keep scrolling to open your crate</p>
+    </div>
+</section>
+
+<section class="hero" id="crateSec">
     <div class="hero-card" id="heroCard">
         <div class="grid-dots" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div><span class="blob b1" aria-hidden="true"></span><span class="blob b2" aria-hidden="true"></span>
         <div class="hero-txt">
@@ -483,7 +690,7 @@ section { scroll-margin-top: 76px; }
             <p class="lead">Six stations. One role. The person KW Shift B leans on when it matters, and a team that has your back from day one.</p>
             <div class="acts">
                 <a class="btn k mag" href="#apply">Apply now</a>
-                <a class="btn o mag" href="#play">Play a shift</a>
+                <button class="btn o mag" id="openCrate">Open the crate</button>
             </div>
             <ul class="facts">
                 <li>Shift<strong>KW, Shift B</strong></li>
@@ -491,14 +698,16 @@ section { scroll-margin-top: 76px; }
                 <li>Start<strong>When you are ready</strong></li>
             </ul>
         </div>
-        <div class="hero-media" id="heroMedia">
-            <div id="orbs"></div>
-            <div class="frame">
-                <span class="live"><i aria-hidden="true"></i> Inside KW Shift B</span>
-                <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-                <video id="vid" autoplay muted loop playsinline aria-label="A look inside the KW Shift B warehouse"></video>
-                <button class="sound" id="sound" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path id="wave" d="M16 9a4 4 0 0 1 0 6" opacity=".25"/></svg><span>Sound off</span></button>
+        <div class="crate" id="crate">
+            <canvas id="crateCv" aria-label="A 3D Jumbo crate. Open it to see the six stations."></canvas>
+            <div class="cr-layer" id="crLayer"></div>
+            <span class="cr-hint" aria-hidden="true"><i></i>Tap to open</span>
+            <div class="cr-track" id="crTrack" aria-live="polite"></div>
+            <div class="cr-tools">
+                <button id="crSound" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg><span>Sound off</span></button>
+                <button class="cr-close" id="crClose">Close the crate</button>
             </div>
+            <div class="cr-card" id="crCard" aria-live="polite"></div>
             <div class="leads-chip">
                 <div class="avs" aria-hidden="true"><span class="a1">M</span><span class="a2">S</span><span class="a3">E</span></div>
                 <p><strong>Miroslaw, Soufiane and Ed</strong><br>lead the shift and will show you the ropes.</p>
@@ -509,37 +718,59 @@ section { scroll-margin-top: 76px; }
 
 <div class="ticker" aria-hidden="true"><div class="ticker-t" id="ticker"></div></div>
 
-<section class="sec" id="stations" style="padding-top:clamp(40px,5vw,70px)">
-    <div class="wrap">
+<section class="hs-wrap" id="stations">
+    <div class="hs-sticky">
         <div class="sec-head rv">
             <h2 class="h2">Meet the six stations</h2>
             <p class="lead">Every station runs at the same time, all shift long. There is no fixed order. You rotate through all of them and go where the floor needs you.</p>
         </div>
-        <div class="stations" id="stationGrid"></div>
+        <div class="hs-track stations" id="stationGrid"></div>
+        <div class="hs-bar" aria-hidden="true"><i id="hsBar"></i></div>
     </div>
 </section>
 
-<section class="sec" id="play" style="padding-top:0">
+<section class="sec" id="benefits">
     <div class="wrap">
         <div class="sec-head rv">
-            <h2 class="h2">Work a shift on the KW floor</h2>
-            <p class="lead">This is our hall, aisle codes and all. Trucks arrive at the docks, pallets need putting away, scanners break, spills happen. Walk the floor and keep the shift flowing for two minutes.</p>
+            <h2 class="h2">What you get on Shift B</h2>
+            <p class="lead">More than a pay slip. A steady rhythm, a crew behind you, and skills you keep for the rest of your career.</p>
         </div>
-        <div class="fg rv" id="fgBox">
-            <div class="fg-hud">
-                <div class="fg-pill" id="fgTimeP"><b id="fgTime">2:00</b>left</div>
-                <div class="fg-pill"><b id="fgScore">0</b>points</div>
-                <div class="fg-pill"><b id="fgDone">0</b>jobs done</div>
-                <div class="fg-flow" id="fgFlowW">Shift flow <span><i id="fgFlow"></i></span></div>
-                <div class="fg-combo" id="fgCombo">Combo x2</div>
-            </div>
-            <div class="fg-stage">
-                <canvas id="fg" aria-label="Top-down map of the KW warehouse floor. Use the job cards below the map to walk to each job."></canvas>
-                <div class="fg-toast" id="fgToast" role="status"></div>
-                <div class="fg-over" id="fgOver"></div>
-            </div>
-            <div class="fg-tasks" id="fgTasks"><div class="fg-empty">Jobs appear here. Tap one to walk straight to it.</div></div>
-            <p class="fg-help">Click the floor or a job card to walk there. On a keyboard, use WASD or the arrow keys.</p>
+        <div class="bento">
+            <article class="bn big rv-s">
+                <div class="clock" aria-hidden="true"><i class="hh"></i><i class="mh"></i></div>
+                <h3>Fixed work hours</h3>
+                <p>Same shift, a schedule you can plan your life around. You know when you start, you know when you are done.</p>
+            </article>
+            <article class="bn wide rv-r" style="--d:.08s">
+                <div class="team-dots" aria-hidden="true"><span style="background:var(--yellow)">M</span><span style="background:#CFE8FF">S</span><span style="background:var(--pink-wash)">E</span><span style="background:#fff">+</span></div>
+                <h3>Part of a real team</h3>
+                <p>Three team leads and a crew that covers for each other. Nobody gets left alone at a station.</p>
+            </article>
+            <article class="bn ink rv-r" style="--d:.16s">
+                <div class="skillbars" aria-hidden="true"><span><i style="--w:92%"></i></span><span><i style="--w:74%"></i></span><span><i style="--w:58%"></i></span></div>
+                <h3>Build skills that last</h3>
+                <p>Reach truck, stock control, quality checks and more.</p>
+            </article>
+            <article class="bn rv-r" style="--d:.24s">
+                <div class="bi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h5"/></svg></div>
+                <h3>Learn on the job</h3>
+                <p>Nobody expects you to know it all on day one. You learn station by station.</p>
+            </article>
+            <article class="bn pink rv-l" style="--d:.08s">
+                <div class="bi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></div>
+                <h3>Never the same shift</h3>
+                <p>Six stations to rotate through. Every day looks a little different.</p>
+            </article>
+            <article class="bn wide rv-l" style="--d:.16s">
+                <div class="bi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg></div>
+                <h3>Trusted with more</h3>
+                <p>All-Rounders are the people the shift relies on when it gets busy. That trust grows with you, and so do your options.</p>
+            </article>
+            <article class="bn rv-s" style="--d:.24s">
+                <div class="bi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.6-9.5 9-9.5 9z"/></svg></div>
+                <h3>Work that matters</h3>
+                <p>What leaves our floor ends up in stores and on kitchen tables.</p>
+            </article>
         </div>
     </div>
 </section>
@@ -551,7 +782,7 @@ section { scroll-margin-top: 76px; }
             <p class="p" style="margin-top:22px">Ready to take your warehouse skills further? An All-Rounder is the person the shift leans on, the one who steps in wherever the work is and keeps everything moving.</p>
             <p class="p">When it gets busy or something goes wrong, you are the one the team looks to. You will not just be doing a job. You will learn the entire Jumbo operation from the inside out, station by station.</p>
         </div>
-        <figure class="quote rv">
+        <figure class="quote rv-r">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18v-5c0-4 2-7 6-8l1 2c-2 1-3 2-3 4h3v7zm9 0v-5c0-4 2-7 6-8l1 2c-2 1-3 2-3 4h3v7z" fill="#1B1B1A"/></svg>
             <p>You are the glue that holds the shift together.</p>
             <span>What an All-Rounder means to KW Shift B</span>
@@ -653,19 +884,56 @@ section { scroll-margin-top: 76px; }
         </div>
         <div class="sheet-in">
             <div class="stepv on" id="v1">
-                <h2 id="dTitle">Your details</h2>
-                <p class="note">Step 1 of 2. This goes straight to Miroslaw with your email address attached, so he replies to you and not to whichever account your phone uses.</p>
                 <div class="alert" id="alert" hidden></div>
-                <form id="form">
-                    <div class="fld"><label for="name">Full name</label><input id="name" type="text" required placeholder="Jan Novak" autocomplete="name"></div>
-                    <div class="fld"><label for="email">Your email</label><input id="email" type="email" required placeholder="jan@example.com" autocomplete="email"></div>
-                    <div class="fld"><label for="phone">Phone</label><input id="phone" type="tel" required placeholder="+31 6 12345678" autocomplete="tel"></div>
-                    <div class="fld"><label for="exp">Warehouse experience</label><textarea id="exp" required placeholder="Where you have worked and what you did there"></textarea></div>
-                    <div class="fld"><label for="mot">Why KW Shift B?</label><textarea id="mot" required placeholder="What draws you to this role"></textarea></div>
+                <div class="wz-bar" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+                <form id="form" novalidate>
+                    <fieldset class="wz-step on" data-s="0">
+                        <legend id="dTitle">Hi! Who are you?</legend>
+                        <p class="note">Step 1 of 3. This goes straight to Miroslaw, with your email attached so he replies to you.</p>
+                        <div class="fld"><label for="name">Full name</label><input id="name" type="text" required placeholder="Jan Novak" autocomplete="name"></div>
+                        <div class="fld"><label for="email">Your email</label><input id="email" type="email" required placeholder="jan@example.com" autocomplete="email"></div>
+                        <div class="fld"><label for="phone">Phone</label><input id="phone" type="tel" required placeholder="+31 6 12345678" autocomplete="tel"></div>
+                    </fieldset>
+                    <fieldset class="wz-step" data-s="1">
+                        <legend>Your experience</legend>
+                        <p class="note">Step 2 of 3. No wrong answers. Experience helps, but we teach every station.</p>
+                        <div class="fld"><label for="exp">Warehouse experience</label><textarea id="exp" required placeholder="Where you have worked and what you did there. No experience yet? Tell us that too."></textarea></div>
+                        <div class="fld"><span class="fld-label" id="certL">Reach truck certificate?</span>
+                            <div class="pills" role="radiogroup" aria-labelledby="certL">
+                                <label><input type="radio" name="cert" value="Yes" required><span>Yes</span></label>
+                                <label><input type="radio" name="cert" value="No"><span>No</span></label>
+                                <label><input type="radio" name="cert" value="Working on it"><span>Working on it</span></label>
+                            </div>
+                        </div>
+                        <div class="fld"><span class="fld-label" id="langL">Languages you speak</span>
+                            <div class="pills" aria-labelledby="langL">
+                                <label><input type="checkbox" name="lang" value="Dutch"><span>Dutch</span></label>
+                                <label><input type="checkbox" name="lang" value="English"><span>English</span></label>
+                                <label><input type="checkbox" name="lang" value="Polish"><span>Polish</span></label>
+                                <label><input type="checkbox" name="lang" value="Romanian"><span>Romanian</span></label>
+                                <label><input type="checkbox" name="lang" value="Other"><span>Other</span></label>
+                            </div>
+                        </div>
+                        <div class="fld"><label for="start">When could you start?</label>
+                            <select id="start" required><option value="">Choose one</option><option>Right away</option><option>Within two weeks</option><option>Within a month</option><option>Later than a month</option></select>
+                        </div>
+                    </fieldset>
+                    <fieldset class="wz-step" data-s="2">
+                        <legend>Your CV and motivation</legend>
+                        <p class="note">Step 3 of 3. PDF, Word or a photo, up to 10 MB each.</p>
+                        <div class="fld"><span class="fld-label">Your CV</span>
+                            <label class="drop" id="dropCv"><input type="file" id="fileCv" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><span class="dz-ic"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span><span class="dz-t"><b>Drop your CV here</b><small>or tap to choose a file</small></span></label>
+                        </div>
+                        <div class="fld"><span class="fld-label">Motivation letter <span style="color:var(--muted);font-weight:500">(optional)</span></span>
+                            <label class="drop" id="dropLt"><input type="file" id="fileLt" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><span class="dz-ic"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span><span class="dz-t"><b>Drop your letter here</b><small>or write a few lines below instead</small></span></label>
+                        </div>
+                        <div class="fld"><label for="mot">Why KW Shift B?</label><textarea id="mot" required placeholder="What draws you to this role"></textarea></div>
+                    </fieldset>
                     <input type="checkbox" class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <div class="acts-d">
                         <button type="button" class="bline" id="cancel">Cancel</button>
-                        <button type="submit" class="bfill" id="send">Send my details</button>
+                        <button type="button" class="bfill" id="next">Next</button>
+                        <button type="submit" class="bfill" id="send" hidden>Send my application</button>
                     </div>
                 </form>
             </div>
@@ -674,8 +942,9 @@ section { scroll-margin-top: 76px; }
             </div>
             <div class="stepv" id="v3">
                 <div class="tick" aria-hidden="true">&check;</div>
-                <h2>Sent. Now attach your CV.</h2>
-                <p class="note">Step 2 of 2. Your full application is already written into the message. Pick where to send it from, attach your CV and motivation letter, and send.</p>
+                <h2 id="v3Title">Sent. Now attach your CV.</h2>
+                <p class="note" id="v3Note">Your full application is already written into the message. Pick where to send it from, attach these files, and press send.</p>
+                <ul class="attach-list" id="attachList"></ul>
                 <div class="refbox"><span>Your reference</span><b id="refOut">...</b></div>
                 <div class="mailers">
                     <button class="mailer" data-p="gmail"><svg viewBox="0 0 24 24" fill="none"><path d="M2 6.5 12 13l10-6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="4.5" width="20" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/></svg><span>Gmail<small>New tab</small></span></button>
@@ -690,6 +959,9 @@ section { scroll-margin-top: 76px; }
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/RoundedBoxGeometry.js"></script>
 <script>
 (function () {
 'use strict';
@@ -701,6 +973,10 @@ section { scroll-margin-top: 76px; }
    the link that arrives in that inbox. Free plan, no card needed.
    ============================================================ */
 var ACCESS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+/* File uploads straight to the inbox need Web3Forms Pro. Leave this
+   false on the free plan: the applicant still picks their files here,
+   and the last step reminds them which ones to attach to the email. */
+var FILE_UPLOADS = false;
 var TO = 'miroslaw.medrzechowski@jumbo.com';
 var VIDEO = 'recruitment_video.mp4';
 
@@ -739,11 +1015,12 @@ var PHONE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 /* stations */
 $('stationGrid').innerHTML = STATIONS.map(function (s) {
-    return '<article class="st rv' + (s.pink ? ' pink' : '') + '" id="st-' + s.code + '" style="--d:' + (STATIONS.indexOf(s) % 3 * .08) + 's">' +
+    return '<article class="st' + (s.pink ? ' pink' : '') + '" id="st-' + s.code + '">' +
         '<div class="st-top"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[s.icon] + '</svg></div>' +
         '<span class="code">' + s.code + '</span></div>' +
         '<h3>' + s.name + '</h3><p>' + s.text + '</p>' +
-        '<ul class="chips">' + s.kit.map(function (k) { return '<li>' + k + '</li>'; }).join('') + '</ul></article>';
+        '<ul class="chips">' + s.kit.map(function (k) { return '<li>' + k + '</li>'; }).join('') + '</ul>' +
+        '<button class="st-3d" data-i="' + STATIONS.indexOf(s) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>See it in 3D</button></article>';
 }).join('');
 
 /* ------------------------------------------------------------
@@ -760,21 +1037,8 @@ function svgIcon(name, cls) { return '<svg viewBox="0 0 24 24" aria-hidden="true
     line.innerHTML = txt.split('').map(function (c, i) { return '<span class="ch" style="--i:' + (i + off) + '">' + c + '</span>'; }).join('');
 });
 
-/* hero spotlight and floating station bubbles */
-var heroCard = $('heroCard'), orbs = $('orbs');
-var ORB_POS = [['-8%', '-19%'], ['28%', '-20%'], ['62%', '-20%'], ['98%', '22%'], ['97%', '62%'], ['-9%', '40%']];
-STATIONS.forEach(function (s, i) {
-    var b = document.createElement('button');
-    b.className = 'orb' + (s.pink ? ' pink' : '');
-    b.style.left = ORB_POS[i][0]; b.style.top = ORB_POS[i][1];
-    b.style.setProperty('--d', (6 + (i % 3) * 5));
-    b.style.setProperty('--del', (-i * .7) + 's');
-    b.setAttribute('data-name', s.name);
-    b.setAttribute('aria-label', 'Go to ' + s.name);
-    b.innerHTML = '<span>' + svgIcon(s.icon) + '</span>';
-    b.addEventListener('click', function () { goToStation(i); });
-    orbs.appendChild(b);
-});
+/* hero spotlight */
+var heroCard = $('heroCard');
 if (fine && !reduce) {
     heroCard.addEventListener('pointermove', function (e) {
         var r = heroCard.getBoundingClientRect();
@@ -835,7 +1099,7 @@ var io = new IntersectionObserver(function (es) {
         });
     });
 }, { threshold: .15 });
-document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+document.querySelectorAll('.rv, .rv-l, .rv-r, .rv-s').forEach(function (el) { io.observe(el); });
 
 /* confetti in Jumbo colours */
 var cv = $('confetti'), cx = cv.getContext('2d'), parts = [], craf = 0;
@@ -863,719 +1127,641 @@ function stepC() {
 }
 function burstAt(el, n) { var r = el.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + r.height / 3, n || 120); }
 
-/* ------------------------------------------------------------
-   THE FLOOR GAME
-   A top-down model of the KW hall: rack pairs running front to
-   back, the cross aisle, the splitting area, docks on the left,
-   the AGF cooler and the scanner rack on the right. Jobs from all
-   six stations appear; you walk the floor and do them.
-   Units are metres of make-believe. The hall is 84 by 27.
-   ------------------------------------------------------------ */
-(function floorGame() {
-    var cv = $('fg'), ctx = cv.getContext('2d'), box = $('fgBox');
-    var HW = 84, HH = 27, CELL = .5, GW = HW / CELL, GH = HH / CELL;
-    var VIEW = { x0: -5.5, x1: 85, y0: -1.5, y1: 28.5 };
-    var BACK = [1.7, 11.4], FRONT = [14.6, 23];
-    var SPLIT = { x0: 39.5, x1: 52, y0: 1.7, y1: 11.4 };
-    var CODES = ['M', 'MG', 'CQ', 'CL', 'CK', 'CJ', 'CI', 'CG', 'CF', 'CE', 'CD', 'CB', 'CS', 'CU', 'EF', 'ED', 'EC', 'EB'];
-    var PRODUCE = ['bananas', 'tomatoes', 'apples', 'cucumbers', 'lettuce', 'peppers', 'grapes'];
-    var TYPES = {
-        ont: { code: 'ONT', color: '#2F7DF6', time: 36, pts: 160 },
-        rt:  { code: 'RT',  color: '#FF8A00', time: 36, pts: 160 },
-        agf: { code: 'AGF', color: '#22A653', time: 32, pts: 140 },
-        oc:  { code: 'OC',  color: '#8B5CF6', time: 30, pts: 130 },
-        hd:  { code: 'HD',  color: '#FF4F9E', time: 24, pts: 110 },
-        hhd: { code: 'HHD', color: '#0EA5A4', time: 26, pts: 110 }
-    };
-    var LENGTH = 120, WALK = 10, DRIVE = 12.5;
-
-    var seed = 9;
-    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
-
-    /* ---- layout ---- */
-    var PAIRS = [], racks = [], obstacles = [];
-    for (var px = 7; px + 2.1 <= 80; px += 4.7) PAIRS.push(px);
-    var TOTE = ['#FFD400', '#FFD400', '#3B82F6', '#3B82F6', '#C9A36A'];
-    function makeRows(x, y0, y1) {
-        var rows = [];
-        [x, x + 1.1].forEach(function (rx) {
-            var t = [];
-            for (var y = y0 + .12; y + .8 < y1; y += .95) if (rnd() > .14) t.push({ y: y, c: TOTE[Math.floor(rnd() * TOTE.length)], h: .55 + rnd() * .3 });
-            rows.push({ x: rx, totes: t });
-        });
-        return rows;
+/* ============================================================
+   THE CRATE
+   A glossy Jumbo crate. Spin it. Tap it and it bursts open:
+   the lid flies, the walls fold down, and the six stations
+   spring out and orbit it. Tap a station to bring it forward.
+   ============================================================ */
+function hasWebGL() {
+    try { var c = document.createElement('canvas'); return !!(window.THREE && window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl'))); }
+    catch (e) { return false; }
+}
+var crateApi = null;
+function crate3D() {
+    var T = THREE, wrap = $('crate'), cv = $('crateCv'), layer = $('crLayer'), card = $('crCard');
+    var mobile = innerWidth < 761;
+    var renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+    renderer.outputEncoding = T.sRGBEncoding;
+    renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = .95;
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+    renderer.setClearColor(0x000000, 0);
+    var scene = new T.Scene();
+    var camera = new T.PerspectiveCamera(32, 1, .1, 100);
+    if (T.RoomEnvironment) {
+        var pm = new T.PMREMGenerator(renderer);
+        scene.environment = pm.fromScene(new T.RoomEnvironment(), .04).texture;
     }
-    PAIRS.forEach(function (x, i) {
-        var split = x >= SPLIT.x0 && x + 2.1 <= SPLIT.x1;
-        if (!split) racks.push({ x: x, y: BACK[0], w: 2.1, h: BACK[1] - BACK[0], i: i, agf: i >= 13, rows: makeRows(x, BACK[0], BACK[1]) });
-        racks.push({ x: x, y: FRONT[0], w: 2.1, h: FRONT[1] - FRONT[0], i: i, rows: makeRows(x, FRONT[0], FRONT[1]) });
-    });
-    racks.forEach(function (r) { obstacles.push(r); });
-    var DESK = { x: 1.4, y: 3, w: 2.6, h: 1.1 }, SCANRACK = { x: 82.3, y: 22.9, w: 1.5, h: 1.6 };
-    obstacles.push(DESK, SCANRACK);
-    var TROLLEYS = [];
-    for (var tx = 56; tx < 78; tx += 1.15) TROLLEYS.push({ x: tx, y: 26.05, w: .85, h: .75 });
-    obstacles.push({ x: 56, y: 26.05, w: 22, h: .75 });
+    scene.add(new T.HemisphereLight(0xFFFFFF, 0xFFE9A8, .35));
+    var sun = new T.DirectionalLight(0xFFFFFF, 1.55);
+    sun.position.set(4, 10, 6); sun.castShadow = true;
+    sun.shadow.mapSize.set(1024, 1024); sun.shadow.radius = 7; sun.shadow.bias = -.0004;
+    var sc = sun.shadow.camera; sc.left = -9; sc.right = 9; sc.top = 9; sc.bottom = -9; sc.near = 1; sc.far = 30;
+    scene.add(sun);
+    var rim = new T.DirectionalLight(0xFFF2C0, .7); rim.position.set(-6, 4, -6); scene.add(rim);
 
-    var DOCKS = [{ x: 1.2, y: 16.6 }, { x: 1.2, y: 20.6 }, { x: 1.2, y: 24.6 }];
-    var SPLITSPOT = { x: 45.75, y: 6.5, code: 'Splitting' };
-    var COOLER = { x: 82.9, y: 6.5, code: 'Cooler' };
-    var SCANNERS = { x: 81.3, y: 23.7, code: 'Scanners' };
-    function aisleX(i) { return PAIRS[i] + 3.4; }
-    function loc(kind) {
-        var choices = [];
-        for (var i = 0; i < PAIRS.length - 1; i++) {
-            var inSplit = aisleX(i) > SPLIT.x0 && aisleX(i) < SPLIT.x1;
-            if (kind === 'agf') { if (i >= 12) choices.push([i, 'b']); continue; }
-            if (!inSplit && i < 12) choices.push([i, 'b']);
-            choices.push([i, 'f']);
-        }
-        var c = pick(choices), h = c[1] === 'b' ? BACK : FRONT;
-        var y = h[0] + 1 + Math.random() * (h[1] - h[0] - 2);
-        var n = 1 + Math.floor((y - h[0]) / (h[1] - h[0]) * 12) + (c[1] === 'f' ? 12 : 0);
-        return { x: aisleX(c[0]), y: y, code: (kind === 'agf' ? 'AGF ' : '') + CODES[c[0] + 1] + '-' + (n < 10 ? '0' : '') + n };
+    function col(hex) { return new T.Color(hex).convertSRGBToLinear(); }
+    function mat(hex, o) {
+        o = o || {};
+        var m = new T.MeshPhysicalMaterial({ color: col(hex), roughness: o.r == null ? .38 : o.r, metalness: o.m || 0, clearcoat: o.cc == null ? .5 : o.cc, clearcoatRoughness: .25, envMapIntensity: .65 });
+        if (o.e) { m.emissive = col(o.e); m.emissiveIntensity = o.ei || .4; }
+        if (o.op != null) { m.transparent = true; m.opacity = o.op; }
+        return m;
+    }
+    var RB = T.RoundedBoxGeometry;
+    function geo(w, h, d, r) { return RB ? new RB(w, h, d, 3, Math.min(r || .05, w / 2.01, h / 2.01, d / 2.01)) : new T.BoxGeometry(w, h, d); }
+    function box(m, w, h, d, x, y, z, parent, r) {
+        var b = new T.Mesh(geo(w, h, d, r), m);
+        b.position.set(x, y, z); b.castShadow = true; b.receiveShadow = true; parent.add(b); return b;
+    }
+    function cyl(m, rt, rb, h, x, y, z, parent, seg) {
+        var c = new T.Mesh(new T.CylinderGeometry(rt, rb, h, seg || 28), m);
+        c.position.set(x, y, z); c.castShadow = true; c.receiveShadow = true; parent.add(c); return c;
+    }
+    function sph(m, r, x, y, z, parent) {
+        var s = new T.Mesh(new T.SphereGeometry(r, 28, 20), m);
+        s.position.set(x, y, z); s.castShadow = true; parent.add(s); return s;
     }
 
-    /* ---- walkable grid and pathfinding ---- */
-    var walk = new Uint8Array(GW * GH);
-    for (var gy = 0; gy < GH; gy++) for (var gx = 0; gx < GW; gx++) {
-        var cx = (gx + .5) * CELL, cy = (gy + .5) * CELL, ok = cx > .45 && cx < HW - .45 && cy > .45 && cy < HH - .45;
-        for (var o = 0; ok && o < obstacles.length; o++) {
-            var b = obstacles[o];
-            if (cx > b.x - .35 && cx < b.x + b.w + .35 && cy > b.y - .35 && cy < b.y + b.h + .35) ok = false;
-        }
-        walk[gy * GW + gx] = ok ? 1 : 0;
+    /* ---- the stage: a white podium with a glowing ring ---- */
+    var FLOOR = -1.55;
+    var podium = cyl(mat(0xFFFFFF, { r: .3, cc: .8 }), 4.9, 5.05, .34, 0, FLOOR - .17, 0, scene, 64);
+    podium.castShadow = false;
+    var glowRing = new T.Mesh(new T.TorusGeometry(4.98, .045, 12, 128), new T.MeshBasicMaterial({ color: col(0xFFD400) }));
+    glowRing.rotation.x = Math.PI / 2; glowRing.position.y = FLOOR + .005; scene.add(glowRing);
+    var dash = (function () {
+        var c2 = document.createElement('canvas'); c2.width = c2.height = 512;
+        var g2 = c2.getContext('2d'); g2.strokeStyle = 'rgba(27,27,26,.18)'; g2.lineWidth = 6;
+        for (var k = 0; k < 48; k++) { if (k % 2) continue; g2.beginPath(); g2.arc(256, 256, 236, k / 48 * Math.PI * 2, (k + .6) / 48 * Math.PI * 2); g2.stroke(); }
+        g2.strokeStyle = 'rgba(27,27,26,.08)'; g2.lineWidth = 2; g2.beginPath(); g2.arc(256, 256, 200, 0, 7); g2.stroke();
+        var tx = new T.CanvasTexture(c2);
+        var m = new T.Mesh(new T.PlaneGeometry(9.2, 9.2), new T.MeshBasicMaterial({ map: tx, transparent: true, depthWrite: false }));
+        m.rotation.x = -Math.PI / 2; m.position.y = FLOOR + .006; scene.add(m); return m;
+    })();
+    var shadowCatch = new T.Mesh(new T.CircleGeometry(4.9, 64), new T.ShadowMaterial({ opacity: .18 }));
+    shadowCatch.rotation.x = -Math.PI / 2; shadowCatch.position.y = FLOOR + .004; shadowCatch.receiveShadow = true; scene.add(shadowCatch);
+
+    /* ---- the crate ---- */
+    var CW = 4, CD = 2.9, CH = 2.3, TH = .14;
+    var yellow = mat(0xFFCC00, { r: .42, cc: .35 }), yellowDeep = mat(0xE8B400, { r: .5, cc: .2 }), dark = mat(0x1B1B1A, { r: .5, cc: .2 });
+    var rig = new T.Group(); scene.add(rig);
+    var crate = new T.Group(); rig.add(crate);
+    crate.position.y = FLOOR + .02;
+    box(yellow, CW, TH, CD, 0, TH / 2, 0, crate, .06);
+    function wall(len, axis, sign) {
+        var pivot = new T.Group(), g = new T.Group(); pivot.add(g); crate.add(pivot);
+        var isX = axis === 'x';
+        if (isX) pivot.position.set(0, TH, sign * (CD / 2 - TH / 2)); else pivot.position.set(sign * (CW / 2 - TH / 2), TH, 0);
+        if (!isX) g.rotation.y = Math.PI / 2;
+        box(yellow, len, CH, TH, 0, CH / 2, 0, g, .06);
+        box(yellowDeep, len + .06, .24, TH + .12, 0, CH - .12, 0, g, .08);
+        var n = Math.round(len / .42);
+        for (var i = 1; i < n; i++) box(yellowDeep, .08, CH - 1.05, .08, -len / 2 + i * len / n, (CH - 1.05) / 2 + .1, sign * .08, g, .03);
+        box(yellowDeep, len, .09, .1, 0, CH - .9, sign * .06, g, .03);
+        box(dark, Math.min(1.3, len * .34), .26, TH + .03, 0, CH - .5, 0, g, .12);
+        pivot.userData = { axis: isX ? 'x' : 'z', sign: sign, g: g };
+        return pivot;
     }
-    function cellOf(x, y) { return [Math.max(0, Math.min(GW - 1, Math.floor(x / CELL))), Math.max(0, Math.min(GH - 1, Math.floor(y / CELL)))]; }
-    function isWalk(x, y) { if (x < 0 || y < 0 || x >= HW || y >= HH) return false; var c = cellOf(x, y); return walk[c[1] * GW + c[0]] === 1; }
-    function nearestWalk(x, y) {
-        var c = cellOf(x, y);
-        for (var r = 0; r < 14; r++) for (var dy = -r; dy <= r; dy++) for (var dx = -r; dx <= r; dx++) {
-            if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
-            var X = c[0] + dx, Y = c[1] + dy;
-            if (X >= 0 && Y >= 0 && X < GW && Y < GH && walk[Y * GW + X]) return [X, Y];
-        }
-        return null;
+    var walls = [wall(CW, 'x', 1), wall(CW, 'x', -1), wall(CD - TH * 2, 'z', 1), wall(CD - TH * 2, 'z', -1)];
+    function textTex(lines, w, h) {
+        var c2 = document.createElement('canvas'); c2.width = w; c2.height = h;
+        var g2 = c2.getContext('2d'); g2.fillStyle = '#1B1B1A'; g2.textAlign = 'center'; g2.textBaseline = 'middle';
+        lines.forEach(function (l) { g2.font = l.f; g2.fillText(l.t, w / 2, l.y); });
+        var tx = new T.CanvasTexture(c2); tx.encoding = T.sRGBEncoding; tx.anisotropy = 8; return tx;
     }
-    function los(a, b) {
-        var d = Math.hypot(b.x - a.x, b.y - a.y), n = Math.ceil(d / (CELL * .5));
-        for (var i = 1; i < n; i++) if (!isWalk(a.x + (b.x - a.x) * i / n, a.y + (b.y - a.y) * i / n)) return false;
-        return true;
-    }
-    function findPath(from, to) {
-        var s = nearestWalk(from.x, from.y), e = nearestWalk(to.x, to.y);
-        if (!s || !e) return [];
-        var S = s[1] * GW + s[0], E = e[1] * GW + e[0], N = GW * GH;
-        var g = new Float32Array(N).fill(Infinity), came = new Int32Array(N).fill(-1), closed = new Uint8Array(N);
-        var heap = [], ex = e[0], ey = e[1];
-        function hfn(i) { var dx = Math.abs(i % GW - ex), dy = Math.abs((i / GW | 0) - ey); return dx + dy + (1.4142 - 2) * Math.min(dx, dy); }
-        function push(i, f) { heap.push([f, i]); var k = heap.length - 1; while (k > 0) { var p = (k - 1) >> 1; if (heap[p][0] <= heap[k][0]) break; var t = heap[p]; heap[p] = heap[k]; heap[k] = t; k = p; } }
-        function pop() { var top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; var k = 0; for (;;) { var l = 2 * k + 1, r = l + 1, m = k; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === k) break; var t = heap[m]; heap[m] = heap[k]; heap[k] = t; k = m; } } return top[1]; }
-        g[S] = 0; push(S, hfn(S));
-        var DIRS = [[1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1], [1, 1, 1.4142], [1, -1, 1.4142], [-1, 1, 1.4142], [-1, -1, 1.4142]];
-        while (heap.length) {
-            var cur = pop();
-            if (cur === E) break;
-            if (closed[cur]) continue;
-            closed[cur] = 1;
-            var cxg = cur % GW, cyg = cur / GW | 0;
-            for (var d = 0; d < 8; d++) {
-                var nx = cxg + DIRS[d][0], ny = cyg + DIRS[d][1];
-                if (nx < 0 || ny < 0 || nx >= GW || ny >= GH) continue;
-                var ni = ny * GW + nx;
-                if (!walk[ni] || closed[ni]) continue;
-                if (d >= 4 && (!walk[cyg * GW + nx] || !walk[ny * GW + cxg])) continue;
-                var ng = g[cur] + DIRS[d][2];
-                if (ng < g[ni]) { g[ni] = ng; came[ni] = cur; push(ni, ng + hfn(ni)); }
+    var decal = new T.Mesh(new T.PlaneGeometry(2.2, .69), new T.MeshBasicMaterial({ map: textTex([{ t: 'Jumbo', f: '800 112px "Bricolage Grotesque", Figtree, Arial, sans-serif', y: 86 }], 512, 160), transparent: true, depthWrite: false }));
+    decal.position.set(0, CH * .42, TH / 2 + .1); walls[0].userData.g.add(decal);
+    var lid = new T.Group(); crate.add(lid);
+    box(yellow, CW + .16, .18, CD + .16, 0, 0, 0, lid, .08);
+    box(yellowDeep, CW - .5, .06, CD - .5, 0, .11, 0, lid, .03);
+    var lidTop = new T.Mesh(new T.PlaneGeometry(3, 1.5), new T.MeshBasicMaterial({ map: textTex([{ t: 'KW Shift B', f: '800 70px "Bricolage Grotesque", Figtree, Arial, sans-serif', y: 100 }, { t: 'Open me', f: '700 34px Figtree, Arial, sans-serif', y: 172 }], 512, 256), transparent: true, depthWrite: false }));
+    lidTop.rotation.x = -Math.PI / 2; lidTop.position.y = .145; lid.add(lidTop);
+    var LID_Y = TH + CH + .09;
+    lid.position.y = LID_Y;
+
+    /* ---- the six stations, each with something to do ---- */
+    var pinkM = mat(0xFF7EB6), blueM = mat(0x3B82F6), whiteM = mat(0xF7F7F4, { r: .3 }), greyM = mat(0x8A9099, { r: .35, m: .45 }), orangeM = mat(0xFF8A00);
+    var greenM = mat(0x2DBE60), redM = mat(0xE8453C, { r: .22, cc: .9 }), tealM = mat(0x14B8A6), brownM = mat(0x8A5A3B, { r: .6, cc: .1 }), woodM = mat(0xC9A36A, { r: .65, cc: .1 });
+    var makers = {
+        HD: function (g) {
+            box(pinkM, 1.3, .12, .95, 0, 0, 0, g, .05);
+            box(greyM, 1.1, .07, .75, 0, .1, .05, g, .03);
+            var scr = new T.Group(); scr.position.set(0, .13, -.32); scr.rotation.x = -.35; g.add(scr);
+            box(greyM, 1.1, .72, .06, 0, .36, 0, scr, .03);
+            var sc2 = document.createElement('canvas'); sc2.width = 256; sc2.height = 160;
+            var sg = sc2.getContext('2d'), stx = new T.CanvasTexture(sc2); stx.encoding = T.sRGBEncoding;
+            var screen = new T.Mesh(new T.PlaneGeometry(.98, .6), new T.MeshBasicMaterial({ map: stx }));
+            screen.position.set(0, .36, .035); scr.add(screen);
+            var LINES = ['Stock check CK-07', 'System says: 24', 'Counted on floor: 21', 'Updated to 21', 'Floor and system match'];
+            var shown = -1;
+            function paint(chars, done) {
+                sg.fillStyle = done ? '#0E3B22' : '#0F172A'; sg.fillRect(0, 0, 256, 160);
+                sg.font = '600 17px Figtree, Arial, sans-serif'; sg.textAlign = 'left'; sg.textBaseline = 'top';
+                var left = chars;
+                LINES.forEach(function (l, k) {
+                    if (left <= 0) return;
+                    var part = l.slice(0, left); left -= l.length;
+                    sg.fillStyle = k === 4 ? '#4ADE80' : k === 0 ? '#FFD400' : '#E2E8F0';
+                    sg.fillText(part, 14, 14 + k * 27);
+                });
+                stx.needsUpdate = true;
             }
+            paint(0);
+            var total = LINES.join('').length;
+            return function (t, on) {
+                var n = on ? Math.min(total, Math.floor((t % 7) * 22)) : 0;
+                if (n !== shown) { shown = n; paint(n, n >= total); }
+            };
+        },
+        RT: function (g) {
+            box(orangeM, .9, .55, 1.2, 0, .3, 0, g, .08);
+            [[-.38, -.5], [.38, -.5], [-.38, .38], [.38, .38]].forEach(function (p) { box(dark, .05, .8, .05, p[0], 1, p[1], g, .02); });
+            box(dark, .9, .05, 1, 0, 1.4, -.06, g, .02);
+            box(greyM, .08, 1.7, .08, -.28, .85, .7, g, .03); box(greyM, .08, 1.7, .08, .28, .85, .7, g, .03);
+            var forks = new T.Group(); g.add(forks);
+            box(dark, .08, .04, .7, -.2, .35, 1.05, forks, .015); box(dark, .08, .04, .7, .2, .35, 1.05, forks, .015);
+            box(woodM, .7, .1, .7, 0, .42, 1.05, forks, .02);
+            box(yellow, .3, .3, .3, -.17, .63, .9, forks, .04); box(blueM, .3, .3, .3, .17, .63, .9, forks, .04); box(blueM, .3, .3, .3, -.17, .63, 1.22, forks, .04); box(yellow, .3, .3, .3, .17, .63, 1.22, forks, .04);
+            [[-.42, -.4], [.42, -.4], [0, .5]].forEach(function (p) { var w = cyl(dark, .14, .14, .12, p[0], .1, p[1], g, 20); w.rotation.z = Math.PI / 2; });
+            return function (t, on) { var target = on ? (Math.sin(t * 2.2) * .5 + .5) * .75 : 0; forks.position.y += (target - forks.position.y) * .12; };
+        },
+        ONT: function (g) {
+            var body = new T.Group(); g.add(body);
+            box(whiteM, 1.7, .9, .85, -.15, .6, 0, body, .06);
+            box(yellow, 1.72, .16, .87, -.15, .45, 0, body, .02);
+            box(dark, .55, .7, .8, .95, .5, 0, body, .08);
+            box(mat(0x9FD3FF, { r: .05, cc: 1 }), .02, .32, .66, 1.23, .62, 0, body, .01);
+            var wheels = [];
+            [-.75, -.35, .95].forEach(function (x) { [-1, 1].forEach(function (s) { var w = cyl(dark, .17, .17, .1, x, .17, s * .42, g, 20); w.rotation.x = Math.PI / 2; wheels.push(w); var hub = cyl(greyM, .07, .07, .11, x, .17, s * .42, g, 12); hub.rotation.x = Math.PI / 2; }); });
+            return function (t, on) {
+                wheels.forEach(function (w) { w.rotation.y += on ? .25 : .02; });
+                body.position.y = on ? Math.abs(Math.sin(t * 14)) * .03 : 0;
+                g.position.x = on ? Math.sin(t * 1.4) * .25 : 0;
+            };
+        },
+        AGF: function (g) {
+            var fruit = new T.Group(); g.add(fruit);
+            var a = sph(redM, .62, 0, .62, 0, fruit); a.scale.set(1, .92, 1);
+            cyl(brownM, .04, .05, .32, 0, 1.25, 0, fruit, 8);
+            var leaf = new T.Mesh(new T.SphereGeometry(.2, 16, 8), greenM); leaf.scale.set(1.4, .25, .7); leaf.position.set(.2, 1.3, 0); leaf.rotation.z = .5; leaf.castShadow = true; fruit.add(leaf);
+            var shine = sph(new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .55 }), .1, -.25, .95, .45, fruit); shine.scale.set(1, 1.6, .5);
+            return function (t, on) {
+                var b = on ? Math.abs(Math.sin(t * 4)) : 0;
+                fruit.position.y = b * .35; fruit.scale.set(1 + (1 - b) * .06 * (on ? 1 : 0), 1 - (1 - b) * .08 * (on ? 1 : 0), 1 + (1 - b) * .06 * (on ? 1 : 0));
+                leaf.rotation.z = .5 + Math.sin(t * 8) * (on ? .3 : .05);
+            };
+        },
+        OC: function (g) {
+            box(dark, .5, .2, 1, 0, .5, 0, g, .06);
+            box(dark, .32, .7, .26, 0, .15, .32, g, .06).rotation.x = .3;
+            var scrM = mat(0x0F172A, { r: .1, e: 0x22C55E, ei: .3 });
+            box(scrM, .36, .02, .42, 0, .61, -.12, g, .01);
+            box(yellow, .52, .06, .3, 0, .62, .32, g, .02);
+            var beamPivot = new T.Group(); beamPivot.position.set(0, .5, -.5); g.add(beamPivot);
+            var beamM = new T.MeshBasicMaterial({ color: 0xFF3B30, transparent: true, opacity: .75, side: T.DoubleSide, depthWrite: false });
+            var beam = new T.Mesh(new T.PlaneGeometry(.035, 1.6), beamM); beam.rotation.x = Math.PI / 2; beam.position.z = -.8; beamPivot.add(beam);
+            var fan = new T.Mesh(new T.CircleGeometry(1.6, 24, Math.PI * 1.35, Math.PI * .3), new T.MeshBasicMaterial({ color: 0xFF3B30, transparent: true, opacity: .1, side: T.DoubleSide, depthWrite: false }));
+            fan.rotation.x = -Math.PI / 2; beamPivot.add(fan);
+            var lastBeep = 0;
+            return function (t, on) {
+                beamPivot.rotation.y = on ? Math.sin(t * 3) * .45 : 0;
+                fan.visible = on;
+                var flash = on && (t % 1.5) < .25;
+                scrM.emissiveIntensity = flash ? 1.4 : .3;
+                if (flash && t - lastBeep > 1) { lastBeep = t; sfx('beep'); }
+            };
+        },
+        HHD: function (g) {
+            cyl(tealM, .42, .34, .6, 0, .3, 0, g);
+            var handle = new T.Mesh(new T.TorusGeometry(.4, .025, 8, 24, Math.PI), greyM); handle.position.y = .6; g.add(handle);
+            var water = cyl(mat(0x9ED8FF, { r: .05, cc: 1 }), .38, .38, .02, 0, .52, 0, g);
+            var mop = new T.Group(); g.add(mop);
+            var stick = cyl(brownM, .035, .035, 1.8, .2, 1.1, 0, mop, 8); stick.rotation.z = -.25;
+            cyl(whiteM, .18, .26, .3, .02, .3, 0, mop, 14);
+            var bubbles = [];
+            for (var k = 0; k < 7; k++) { var bb = sph(new T.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: .55, roughness: 0, clearcoat: 1 }), .06 + Math.random() * .05, 0, .6, 0, g); bb.visible = false; bubbles.push({ m: bb, o: Math.random() }); }
+            return function (t, on) {
+                mop.rotation.y = on ? t * 2.5 : 0;
+                water.scale.set(1 + (on ? Math.sin(t * 9) * .04 : 0), 1, 1 + (on ? Math.cos(t * 9) * .04 : 0));
+                bubbles.forEach(function (b, k) {
+                    b.m.visible = on;
+                    if (!on) return;
+                    var p = (t * .6 + b.o) % 1;
+                    b.m.position.set(Math.sin(k * 2.1 + t) * .25, .6 + p * 1.4, Math.cos(k * 1.7) * .2);
+                    b.m.scale.setScalar(1 - p * .4);
+                });
+            };
         }
-        if (came[E] === -1 && E !== S) return [];
-        var pts = [], k = E;
-        while (k !== -1) { pts.push({ x: (k % GW + .5) * CELL, y: ((k / GW | 0) + .5) * CELL }); k = came[k]; }
-        pts.reverse();
-        pts[pts.length - 1] = isWalk(to.x, to.y) ? { x: to.x, y: to.y } : pts[pts.length - 1];
-        /* pull the string tight so the walk looks natural */
-        var out = [], a = { x: from.x, y: from.y }, idx = 0;
-        while (idx < pts.length - 1) {
-            var far = idx + 1;
-            for (var j = pts.length - 1; j > idx + 1; j--) if (los(a, pts[j])) { far = j; break; }
-            out.push(pts[far]); a = pts[far]; idx = far;
-        }
-        if (!out.length && pts.length) out.push(pts[pts.length - 1]);
-        return out;
+    };
+    var COLORS = { HD: '#FF4F9E', RT: '#FF8A00', ONT: '#2F7DF6', AGF: '#22A653', OC: '#8B5CF6', HHD: '#0EA5A4' };
+    var items = STATIONS.map(function (s, i) {
+        var outer = new T.Group(), bob = new T.Group(), inner = new T.Group(); outer.add(bob); bob.add(inner); rig.add(outer);
+        var act = makers[s.code](inner) || function () {};
+        var halo = new T.Mesh(new T.RingGeometry(.75, .82, 48), new T.MeshBasicMaterial({ color: col(COLORS[s.code]), transparent: true, opacity: 0, side: T.DoubleSide, depthWrite: false }));
+        halo.rotation.x = -Math.PI / 2; halo.position.y = -.05; outer.add(halo);
+        var home = new T.Vector3(-1.2 + (i % 3) * 1.2, FLOOR + .25, -.65 + Math.floor(i / 3) * 1.3);
+        outer.position.copy(home); outer.scale.setScalar(.55);
+        var el = document.createElement('button');
+        el.className = 'it';
+        el.innerHTML = '<b style="background:' + COLORS[s.code] + '">' + s.code + '</b>' + s.name;
+        el.addEventListener('click', function (e) { e.stopPropagation(); focus(i); });
+        el.addEventListener('pointerenter', function () { hoverIdx = i; });
+        el.addEventListener('pointerleave', function () { if (hoverIdx === i) hoverIdx = -1; });
+        layer.appendChild(el);
+        return { g: outer, bob: bob, inner: inner, act: act, halo: halo, home: home, el: el, ph: i * 1.7, spin: .3 + (i % 3) * .15, pop: 0 };
+    });
+
+    /* bouncing mini totes when it bursts */
+    var bits = [], bitGeo = geo(.24, .17, .2, .03), bitMats = [yellow, blueM, woodM, pinkM, greenM];
+    for (var b = 0; b < 34; b++) { var m = new T.Mesh(bitGeo, bitMats[b % bitMats.length]); m.castShadow = true; m.visible = false; rig.add(m); bits.push({ m: m, v: new T.Vector3(), life: 0 }); }
+    function burstBits() {
+        if (reduce) return;
+        bits.forEach(function (p) {
+            p.m.visible = true; p.life = 2 + Math.random();
+            p.m.position.set((Math.random() - .5) * 2, FLOOR + 1.6, (Math.random() - .5) * 1.5);
+            var a = Math.random() * Math.PI * 2, s = 2 + Math.random() * 3.4;
+            p.v.set(Math.cos(a) * s, 6 + Math.random() * 5, Math.sin(a) * s);
+        });
+    }
+
+    /* ---- sound: tiny synthesized effects, off until you switch them on ---- */
+    var audio = null, soundOn = false, soundBtn = $('crSound');
+    function sfx(kind) {
+        if (!soundOn) return;
+        try {
+            audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+            var a = audio, t0 = a.currentTime, o = a.createOscillator(), g2 = a.createGain();
+            o.connect(g2); g2.connect(a.destination);
+            var spec = {
+                pop:    ['triangle', 520, 120, .22, .25],
+                boing:  ['sine', 300, 720, .12, .28],
+                beep:   ['square', 1650, 1650, .05, .12],
+                tap:    ['sine', 880, 660, .1, .1],
+                close:  ['triangle', 260, 140, .18, .2],
+                yay:    ['triangle', 523, 1046, .16, .5]
+            }[kind] || ['sine', 440, 440, .1, .1];
+            o.type = spec[0]; o.frequency.setValueAtTime(spec[1], t0); o.frequency.exponentialRampToValueAtTime(spec[2], t0 + spec[4]);
+            g2.gain.setValueAtTime(spec[3], t0); g2.gain.exponentialRampToValueAtTime(.0001, t0 + spec[4]);
+            o.start(t0); o.stop(t0 + spec[4] + .02);
+        } catch (e) {}
+    }
+    soundBtn.addEventListener('click', function () {
+        soundOn = !soundOn;
+        soundBtn.setAttribute('aria-pressed', String(soundOn));
+        soundBtn.querySelector('span').textContent = soundOn ? 'Sound on' : 'Sound off';
+        if (soundOn) sfx('tap');
+    });
+
+    /* ---- explore-all-six tracker ---- */
+    var seen = {}, celebrated = false, track = $('crTrack');
+    track.innerHTML = STATIONS.map(function (s) { return '<i style="--c:' + COLORS[s.code] + '" title="' + s.name + '"></i>'; }).join('') + '<span id="crCount">0 of 6 explored</span>';
+    function markSeen(i) {
+        seen[i] = true;
+        var n = Object.keys(seen).length;
+        track.querySelectorAll('i')[i].classList.add('on');
+        $('crCount').textContent = n === 6 ? 'All six explored' : n + ' of 6 explored';
+        if (n === 6 && !celebrated) { celebrated = true; setTimeout(celebrate, 900); }
+    }
+    function celebrate() {
+        unfocus(true);
+        card.innerHTML = '<span class="code">ALL-ROUNDER</span><h3>You have seen every station.</h3><p>Help desk, reach truck, ontvangst, AGF, order control and housekeeping. Most people learn one. As an All-Rounder on KW Shift B, you learn them all.</p>' +
+            '<div class="cr-acts"><button class="btn k" id="crApply">Apply now</button><button class="btn o" id="crKeep">Keep exploring</button></div>';
+        card.classList.add('on', 'win');
+        $('crApply').addEventListener('click', openApp);
+        $('crKeep').addEventListener('click', function () { card.classList.remove('on', 'win'); });
+        burstAt(cv, 260); sfx('yay'); setTimeout(function () { sfx('yay'); }, 180);
+        party = 2.5;
     }
 
     /* ---- state ---- */
-    var P = { x: 22, y: 13, dir: 0, path: [], carry: null, moving: false, hold: 0, holdTask: null, dust: 0 };
-    var S = { running: false, visible: false, time: LENGTH, score: 0, done: 0, missed: 0, flow: 100, combo: 1, best: 1, lastDone: -99, spawn: 0, tasks: [], tid: 0, clock: 0 };
-    var parts = [], floats = [], flash = 0, shake = 0;
-    var keys = {};
-
-    /* the rest of the crew, for life on the floor */
-    var npcs = [];
-    for (var n = 0; n < 9; n++) {
-        var ai = Math.floor(rnd() * (PAIRS.length - 1)), back = rnd() < .5 && !(aisleX(ai) > SPLIT.x0 && aisleX(ai) < SPLIT.x1);
-        npcs.push({ x: aisleX(ai) + (rnd() - .5) * .8, h: back ? BACK : FRONT, ph: rnd() * 6, v: .12 + rnd() * .15, truck: n < 2 });
-    }
-
-    /* ---- jobs ---- */
-    function freeDock() {
-        var used = S.tasks.filter(function (t) { return t.type === 'ont'; }).map(function (t) { return t.dock; });
-        var free = [0, 1, 2].filter(function (d) { return used.indexOf(d) < 0; });
-        return free.length ? pick(free) : -1;
-    }
-    function makeTask(type) {
-        var t = { id: ++S.tid, type: type, m: TYPES[type], step: 0, age: 0 };
-        t.life = t.left = t.m.time;
-        var L;
-        if (type === 'ont') {
-            var d = freeDock(); if (d < 0) return null;
-            t.dock = d; t.title = 'Truck at dock ' + (d + 1);
-            DOCKS[d].code = 'Dock ' + (d + 1);
-            t.steps = [{ at: DOCKS[d], hold: 1.3, text: 'Unload the truck at dock ' + (d + 1), give: 'container', fx: 'unload' },
-                       { at: SPLITSPOT, hold: .5, text: 'Bring the container to splitting', need: 'container' }];
-        } else if (type === 'rt') {
-            L = loc(); t.title = 'Refill ' + L.code;
-            t.steps = [{ at: SPLITSPOT, hold: .7, text: 'Take a pallet from splitting', give: 'pallet' },
-                       { at: L, hold: 1, text: 'Drive it to ' + L.code + ' and put it away', need: 'pallet' }];
-        } else if (type === 'agf') {
-            var pr = pick(PRODUCE); L = loc('agf'); t.title = 'Pickers need ' + pr;
-            t.steps = [{ at: COOLER, hold: .7, text: 'Get the ' + pr + ' from the cooler', give: 'crate' },
-                       { at: L, hold: .8, text: 'Fill ' + L.code + ' with ' + pr, need: 'crate' }];
-        } else if (type === 'oc') {
-            L = loc(); t.title = 'Scanner down at ' + L.code; t.worker = L;
-            t.steps = [{ at: SCANNERS, hold: .5, text: 'Grab a spare scanner', give: 'scanner' },
-                       { at: L, hold: .6, text: 'Swap the scanner at ' + L.code, need: 'scanner' }];
-        } else if (type === 'hd') {
-            L = loc(); t.title = 'Stock mismatch at ' + L.code;
-            t.steps = [{ at: L, hold: 1.7, text: 'Count the stock and fix the system', fx: 'scan' }];
-        } else {
-            L = loc(); t.title = 'Spill at ' + L.code; t.spill = L;
-            t.steps = [{ at: L, hold: 1.9, text: 'Clean it up before someone slips', fx: 'clean' }];
-        }
-        return t;
-    }
-    function spawn(forced) {
-        if (S.tasks.length >= 4) return;
-        var weights = ['ont', 'ont', 'rt', 'rt', 'agf', 'oc', 'hd', 'hd', 'hhd', 'hhd'];
-        var t = makeTask(forced || pick(weights));
-        if (!t) t = makeTask('hd');
-        S.tasks.push(t);
-        addCard(t);
-        toast(t.m.code + ': ' + t.title);
-    }
-
-    /* ---- cards ---- */
-    var tasksEl = $('fgTasks'), cards = {};
-    function addCard(t) {
-        var empty = tasksEl.querySelector('.fg-empty'); if (empty) empty.remove();
-        var b = document.createElement('button');
-        b.className = 'task';
-        b.innerHTML = '<span class="tc" style="background:' + t.m.color + '">' + t.m.code + '</span><h4>' + t.title + '</h4><p></p><span class="bar"></span>';
-        b.addEventListener('click', function () { if (S.tasks.indexOf(t) > -1 && t.steps[t.step]) route(t.steps[t.step].at); });
-        tasksEl.appendChild(b);
-        cards[t.id] = { el: b, p: b.querySelector('p'), bar: b.querySelector('.bar'), txt: '' };
-    }
-    function dropCard(t) {
-        var c = cards[t.id]; if (!c) return;
-        c.el.style.transition = 'opacity .3s, transform .3s'; c.el.style.opacity = '0'; c.el.style.transform = 'scale(.94)';
-        setTimeout(function () { c.el.remove(); if (!tasksEl.children.length) tasksEl.innerHTML = '<div class="fg-empty">All clear. The next job is on its way.</div>'; }, 300);
-        delete cards[t.id];
-    }
-    function drawCards() {
-        S.tasks.forEach(function (t) {
-            var c = cards[t.id]; if (!c) return;
-            var s = t.steps[t.step], txt = (t.steps.length > 1 ? 'Step ' + (t.step + 1) + ' of 2: ' : '') + s.text;
-            if (txt !== c.txt) { c.txt = txt; c.p.textContent = txt; }
-            c.bar.style.width = (t.left / t.life * 100).toFixed(1) + '%';
-            c.el.classList.toggle('urgent', t.left / t.life < .3);
-            c.el.classList.toggle('carry', !!(P.carry && P.carry.task === t.id));
-        });
-    }
-
-    /* ---- feedback ---- */
-    var toastEl = $('fgToast'), toastT = 0;
-    function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('on'); }, 2200); }
-    function burst(x, y, color, n) {
-        if (reduce) return;
-        for (var i = 0; i < n; i++) {
-            var a = Math.random() * Math.PI * 2, v = 2 + Math.random() * 6;
-            parts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, kind: 'spark', c: i % 3 ? color : '#FFD400', r: .08 + Math.random() * .12 });
-        }
-        parts.push({ x: x, y: y, life: 1, kind: 'ring', c: color, r: .4 });
-    }
-    function floatText(x, y, txt, color) { floats.push({ x: x, y: y, t: txt, c: color, life: 1 }); }
-
-    /* ---- moving ---- */
-    function route(target) {
-        if (!S.running) return;
-        if (Math.hypot(P.x - target.x, P.y - target.y) < 1) { P.path = []; return; }
-        P.path = findPath(P, target);
-        if (!P.path.length) toast('No way through there. Try another spot.');
-    }
-
-    /* ---- game flow ---- */
-    var over = $('fgOver');
-    function overlay(html) { over.innerHTML = '<div class="fg-card">' + html + '</div>'; over.classList.remove('hide'); }
-    function intro() {
-        overlay('<h3>Your shift on the KW floor</h3><p>Jobs come in from all six stations. Some take one stop, some take two.</p>' +
-            '<ul class="fg-how"><li><span><b>Walk</b> by clicking the floor or a job card. Keys work too.</span></li>' +
-            '<li><span><b>Stand on a job</b> to do it. Two-stop jobs mean you carry something, and you can carry one thing at a time.</span></li>' +
-            '<li><span><b>Beat the clock</b> on every job. Misses drain the shift flow. Quick jobs in a row build a combo.</span></li></ul>' +
-            '<div class="res-btns"><button class="bfill" id="fgStart">Start my shift</button></div>');
-        $('fgStart').addEventListener('click', start);
-    }
-    function start() {
-        S.running = true; S.time = LENGTH; S.score = 0; S.done = 0; S.missed = 0; S.flow = 100; S.combo = 1; S.best = 1; S.lastDone = -99; S.clock = 0;
-        S.tasks.forEach(dropCard); S.tasks = []; S.spawn = 6;
-        P.x = 22; P.y = 13; P.path = []; P.carry = null; P.hold = 0; P.holdTask = null;
-        tasksEl.innerHTML = '';
-        over.classList.add('hide');
-        spawn('ont'); spawn('hd');
-        last = performance.now();
-    }
-    function finish(reason) {
-        S.running = false;
-        var stars = S.score >= 2600 ? 3 : S.score >= 1500 ? 2 : S.score >= 600 ? 1 : 0;
-        var line = stars === 3 ? 'The floor never stopped moving. That is exactly what an All-Rounder does.'
-                 : stars === 2 ? 'Busy floor, steady hands. With three team leads behind you, the rest comes fast.'
-                 : 'Hard, right? Nobody learns six stations in two minutes. On Shift B, the team teaches you.';
-        var star = '<path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/>';
-        overlay('<div class="fg-stars">' + [0, 1, 2].map(function (k) { return '<svg viewBox="0 0 24 24"' + (k < stars ? ' class="on"' : '') + '>' + star + '</svg>'; }).join('') + '</div>' +
-            '<h3>' + (reason === 'flow' ? 'The floor got stuck.' : 'Shift complete!') + '</h3><p>' + line + '</p>' +
-            '<div class="fg-score"><div><b>' + S.score + '</b>points</div><div><b>' + S.done + '</b>jobs done</div><div><b>x' + S.best + '</b>best combo</div></div>' +
-            '<div class="res-btns"><button class="bfill" id="fgApply">Apply for the role</button><button class="bline" id="fgAgain">Play again</button></div>');
-        $('fgApply').addEventListener('click', openApp);
-        $('fgAgain').addEventListener('click', start);
-        if (stars >= 2) burstAt(cv, stars === 3 ? 220 : 120);
-        S.tasks.forEach(dropCard); S.tasks = [];
-    }
-
-    function complete(t) {
-        var at = t.steps[t.steps.length - 1].at;
-        var quick = S.clock - S.lastDone < 9;
-        S.combo = quick ? Math.min(4, S.combo + 1) : 1;
-        S.best = Math.max(S.best, S.combo); S.lastDone = S.clock;
-        var pts = Math.round(t.m.pts * (1 + .6 * t.left / t.life) * S.combo / 10) * 10;
-        S.score += pts; S.done++; S.flow = Math.min(100, S.flow + 6);
-        burst(at.x, at.y, t.m.color, 34);
-        floatText(at.x, at.y - .6, '+' + pts + (S.combo > 1 ? '  x' + S.combo : ''), t.m.color);
-        S.tasks.splice(S.tasks.indexOf(t), 1); dropCard(t);
-        if (S.combo >= 3) burstAt(cv, 30);
-    }
-    function miss(t) {
-        S.missed++; S.flow -= 24; S.combo = 1; flash = 1; shake = .5;
-        var at = t.steps[t.step].at;
-        floatText(at.x, at.y - .6, 'Missed', '#E5372B');
-        if (P.carry && P.carry.task === t.id) { P.carry = null; toast('A colleague took over that job.'); }
-        S.tasks.splice(S.tasks.indexOf(t), 1); dropCard(t);
-        if (S.flow <= 0) finish('flow');
-    }
-
-    /* ---- update ---- */
-    var last = performance.now();
-    function update(dt) {
-        S.clock += dt; S.time -= dt;
-        /* spawn faster as the shift goes on */
-        S.spawn -= dt;
-        if (S.spawn <= 0) { spawn(); S.spawn = 8 - 3.6 * (1 - S.time / LENGTH); }
-        if (!S.tasks.length && S.spawn > 1.5) S.spawn = 1.5;
-
-        /* movement: keys first, then the planned path */
-        var kx = (keys.ArrowRight || keys.d ? 1 : 0) - (keys.ArrowLeft || keys.a ? 1 : 0);
-        var ky = (keys.ArrowDown || keys.s ? 1 : 0) - (keys.ArrowUp || keys.w ? 1 : 0);
-        var speed = P.carry && P.carry.item === 'pallet' ? DRIVE : WALK, moved = false;
-        if (kx || ky) {
-            P.path = [];
-            var l = Math.hypot(kx, ky), vx = kx / l * speed * dt, vy = ky / l * speed * dt;
-            if (isWalk(P.x + vx, P.y)) P.x += vx;
-            if (isWalk(P.x, P.y + vy)) P.y += vy;
-            P.dir = Math.atan2(ky, kx); moved = true;
-        } else if (P.path.length) {
-            var w = P.path[0], dx = w.x - P.x, dy = w.y - P.y, d = Math.hypot(dx, dy), st = speed * dt;
-            if (d <= st) { P.x = w.x; P.y = w.y; P.path.shift(); }
-            else { P.x += dx / d * st; P.y += dy / d * st; }
-            P.dir = Math.atan2(dy, dx); moved = true;
-        }
-        P.moving = moved;
-        if (moved && !reduce) {
-            P.dust -= dt;
-            if (P.dust <= 0) { P.dust = .07; parts.push({ x: P.x - Math.cos(P.dir) * .3, y: P.y - Math.sin(P.dir) * .3 + .2, vx: (Math.random() - .5), vy: (Math.random() - .5), life: .8, kind: 'dust', r: .12 + Math.random() * .1 }); }
-        }
-
-        /* doing jobs: stand still on the spot */
-        var working = null;
-        if (!moved) {
-            for (var i = 0; i < S.tasks.length; i++) {
-                var t = S.tasks[i], s = t.steps[t.step];
-                if (Math.hypot(P.x - s.at.x, P.y - s.at.y) > 1.35) continue;
-                if (s.give && P.carry) { if (P.holdTask !== 'full') toast('Hands full. Drop off the ' + P.carry.item + ' first.'); P.holdTask = 'full'; continue; }
-                if (s.need && !(P.carry && P.carry.task === t.id)) continue;
-                working = t; break;
-            }
-        }
-        if (working) {
-            if (P.holdTask !== working.id) { P.holdTask = working.id; P.hold = 0; }
-            P.hold += dt;
-            var s2 = working.steps[working.step];
-            if (s2.fx === 'clean' && !reduce && Math.random() < .5) parts.push({ x: s2.at.x + (Math.random() - .5) * 1.4, y: s2.at.y + (Math.random() - .5) * .8, vx: 0, vy: -.6, life: 1, kind: 'bubble', r: .1 + Math.random() * .15 });
-            if (P.hold >= s2.hold) {
-                P.hold = 0; P.holdTask = null;
-                if (s2.give) { P.carry = { item: s2.give, task: working.id }; floatText(P.x, P.y - 1, s2.give === 'pallet' ? 'On the reach truck' : 'Got it', '#1B1B1A'); }
-                if (s2.need) P.carry = null;
-                working.step++;
-                if (working.step >= working.steps.length) complete(working);
-                else { burst(s2.at.x, s2.at.y, working.m.color, 10); route(working.steps[working.step].at); }
-            }
-        } else if (P.holdTask !== 'full' || moved) { P.hold = 0; P.holdTask = null; }
-
-        /* clocks */
-        for (var k = S.tasks.length - 1; k >= 0; k--) {
-            var tk = S.tasks[k];
-            if (!tk || !S.running) break;
-            tk.age += dt;
-            if (P.holdTask === tk.id) continue;
-            tk.left -= dt;
-            if (tk.left <= 0) miss(tk);
-        }
-        if (S.running && S.time <= 0) { S.time = 0; finish('time'); }
-    }
-
-    /* ---- camera and drawing ---- */
-    var DPR = 1, CW = 1, CH = 1, sc = 10, follow = false, camX = 0, camY = 0;
-    var layer = document.createElement('canvas'), lctx = layer.getContext('2d');
+    var open = 0, openGoal = 0, focusIdx = -1, hoverIdx = -1, hoverCrate = false, party = 0;
+    var spinY = -.55, spinX = .18, velY = 0, drag = null, tiltX = 0, tiltY = 0, tiltGX = 0, tiltGY = 0;
+    var squash = 0, squashV = 0, nextRattle = 3;
+    var W = 1, H = 1;
     function resize() {
-        DPR = Math.min(devicePixelRatio || 1, 2);
-        CW = cv.clientWidth; CH = cv.clientHeight;
-        cv.width = Math.round(CW * DPR); cv.height = Math.round(CH * DPR);
-        var fit = Math.min(CW / (VIEW.x1 - VIEW.x0), CH / (VIEW.y1 - VIEW.y0));
-        follow = fit < 9;
-        sc = follow ? 15 : fit;
-        if (!follow) { camX = (VIEW.x0 + VIEW.x1) / 2; camY = (VIEW.y0 + VIEW.y1) / 2; }
-        else { camX = P.x; camY = P.y; }
-        paintLayer();
+        W = wrap.clientWidth; H = wrap.clientHeight;
+        renderer.setSize(W, H, false);
+        camera.aspect = W / H;
+        var fitH = 11.5 / (2 * Math.tan(16 * Math.PI / 180)), fitW = 13 / (2 * Math.tan(16 * Math.PI / 180) * (W > 1000 ? W / H * .62 : W / H));
+        var dist = Math.max(fitH, fitW, 13);
+        camera.position.set(0, dist * .3, dist);
+        camera.lookAt(0, -.2, 0);
+        if (W > 1000) camera.setViewOffset(W, H, -W * .2, 0, W, H);
+        else camera.setViewOffset(W, H, 0, -H * .12, W, H);
+        camera.updateProjectionMatrix();
     }
-    function X(x) { return (x - camX) * sc + CW / 2; }
-    function Y(y) { return (y - camY) * sc + CH / 2; }
-
-    function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
-    function pillText(c, x, y, txt, bg, fg, size) {
-        c.font = '800 ' + size + 'px Figtree, Arial, sans-serif';
-        var w = c.measureText(txt).width + size * 1.1, h = size * 1.65;
-        c.fillStyle = bg; rr(c, x - w / 2, y - h / 2, w, h, h / 2); c.fill();
-        c.fillStyle = fg; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(txt, x, y + .5);
+    function kick(a) { squashV -= a; }
+    function openCrate() {
+        if (openGoal === 1) return;
+        kick(3.2); sfx('tap');
+        setTimeout(function () {
+            openGoal = 1; wrap.classList.add('open'); sfx('pop');
+            setTimeout(burstBits, reduce ? 0 : 200);
+            if (!reduce) setTimeout(function () { burstAt(cv, 90); }, 380);
+            items.forEach(function (it, k) { setTimeout(function () { it.pop = 1; sfx('boing'); }, 420 + k * 90); });
+        }, reduce ? 0 : 170);
     }
-
-    /* the floor itself is drawn once per size and reused every frame */
-    function paintLayer() {
-        var vw = VIEW.x1 - VIEW.x0, vh = VIEW.y1 - VIEW.y0;
-        layer.width = Math.round(vw * sc * DPR); layer.height = Math.round(vh * sc * DPR);
-        var c = lctx;
-        function lt(txt, x, y, color, size, rot) {
-            c.save(); c.setTransform(DPR, 0, 0, DPR, 0, 0);
-            c.translate((x - VIEW.x0) * sc, (y - VIEW.y0) * sc); if (rot) c.rotate(rot);
-            c.fillStyle = color; c.font = '700 ' + Math.max(8, size * sc) + 'px Figtree, Arial, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
-            c.fillText(txt, 0, 0); c.restore();
+    function closeCrate() {
+        unfocus(); openGoal = 0; wrap.classList.remove('open'); card.classList.remove('on', 'win'); sfx('close');
+    }
+    function focus(i) {
+        if (openGoal < 1) { openCrate(); setTimeout(function () { focus(i); }, 900); return; }
+        focusIdx = i; wrap.classList.add('focused');
+        items.forEach(function (it, k) { it.el.classList.toggle('on', k === i); });
+        items[i].pop = 1;
+        var s = STATIONS[i];
+        card.classList.remove('win');
+        card.innerHTML = '<span class="code" style="background:' + COLORS[s.code] + ';color:#fff">' + s.code + '</span><h3>' + s.name + '</h3><p>' + s.text + '</p>' +
+            '<ul class="chips">' + s.kit.map(function (k) { return '<li>' + k + '</li>'; }).join('') + '</ul>' +
+            '<div class="cr-acts"><button class="btn k" id="crNext">Next station</button><button class="btn o" id="crAll">All stations</button></div>';
+        card.classList.add('on');
+        $('crNext').addEventListener('click', function () { focus((focusIdx + 1) % STATIONS.length); });
+        $('crAll').addEventListener('click', function () { unfocus(); });
+        sfx('tap');
+        markSeen(i);
+    }
+    function unfocus(keepCard) {
+        focusIdx = -1; wrap.classList.remove('focused');
+        if (!keepCard) card.classList.remove('on');
+        items.forEach(function (it) { it.el.classList.remove('on'); });
+    }
+    $('crClose').addEventListener('click', closeCrate);
+    var inView = true;
+    addEventListener('keydown', function (e) {
+        if (!inView || /INPUT|TEXTAREA/.test(document.activeElement.tagName) || $('veil').classList.contains('open')) return;
+        if (e.key === 'Escape') { if (focusIdx > -1) unfocus(); else if (openGoal) closeCrate(); }
+        if (openGoal && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+            e.preventDefault();
+            var d = e.key === 'ArrowRight' ? 1 : -1;
+            focus(((focusIdx < 0 ? (d > 0 ? -1 : 0) : focusIdx) + d + 6) % 6);
         }
-        function lp(txt, x, y, size) {
-            c.save(); c.setTransform(DPR, 0, 0, DPR, 0, 0);
-            pillText(c, (x - VIEW.x0) * sc, (y - VIEW.y0) * sc, txt, '#FFD400', '#1B1B1A', Math.max(7, size * sc)); c.restore();
-        }
-        c.setTransform(DPR * sc, 0, 0, DPR * sc, -VIEW.x0 * sc * DPR, -VIEW.y0 * sc * DPR);
-        c.fillStyle = '#E9E6DE'; c.fillRect(VIEW.x0, VIEW.y0, vw, vh);
-        /* outside: the yard where trucks back in */
-        c.fillStyle = '#DAD6CC'; c.fillRect(VIEW.x0, 14.2, -VIEW.x0, 12.8);
-        c.strokeStyle = 'rgba(255,255,255,.7)'; c.lineWidth = .08; c.setLineDash([.6, .5]);
-        [14.6, 18.6, 22.6, 26.6].forEach(function (y) { c.beginPath(); c.moveTo(VIEW.x0, y); c.lineTo(0, y); c.stroke(); });
-        c.setLineDash([]);
-        /* hall floor with a soft grid */
-        c.fillStyle = '#FBFAF7'; c.fillRect(0, 0, HW, HH);
-        c.strokeStyle = 'rgba(27,27,26,.04)'; c.lineWidth = .04;
-        for (var gx2 = 1; gx2 < HW; gx2++) { c.beginPath(); c.moveTo(gx2, 0); c.lineTo(gx2, HH); c.stroke(); }
-        for (var gy2 = 1; gy2 < HH; gy2++) { c.beginPath(); c.moveTo(0, gy2); c.lineTo(HW, gy2); c.stroke(); }
-        /* tinted aisles, as on the real floor plan */
-        var tints = ['#EFE8CF', '#DCEFE4', '#E3EEF1', '#F2DFB6', '#F4ECC2', '#E6ECF5'], ts = 3;
-        for (var i = 0; i < PAIRS.length - 1; i++) {
-            var ax = PAIRS[i] + 2.1, inSplit = aisleX(i) > SPLIT.x0 && aisleX(i) < SPLIT.x1;
-            ts = (ts * 7 + 3) % 11;
-            if (!inSplit) { c.fillStyle = i >= 12 ? '#D7EFD3' : tints[ts % tints.length]; c.fillRect(ax + .15, BACK[0], 2.3, BACK[1] - BACK[0]); }
-            c.fillStyle = tints[(ts + 2) % tints.length]; c.fillRect(ax + .15, FRONT[0], 2.3, FRONT[1] - FRONT[0]);
-        }
-        /* cross aisle and front aisle */
-        c.strokeStyle = '#FFD400'; c.lineWidth = .14;
-        [BACK[1] + .15, FRONT[0] - .15, FRONT[1] + .15].forEach(function (y) { c.beginPath(); c.moveTo(.3, y); c.lineTo(HW - .3, y); c.stroke(); });
-        /* splitting area */
-        c.fillStyle = '#E4E7EA'; rr(c, SPLIT.x0 + .3, SPLIT.y0, SPLIT.x1 - SPLIT.x0 - .6, SPLIT.y1 - SPLIT.y0, .5); c.fill();
-        c.strokeStyle = '#9AA3AB'; c.lineWidth = .08; c.setLineDash([.4, .3]); c.stroke(); c.setLineDash([]);
-        for (var k = 0; k < 6; k++) { c.fillStyle = '#C3C9CF'; rr(c, SPLIT.x0 + 1.2 + (k % 3) * 1.4, SPLIT.y0 + .8 + Math.floor(k / 3) * 1.6, 1, 1.2, .15); c.fill(); }
-        lt('SPLITTING', (SPLIT.x0 + SPLIT.x1) / 2, SPLIT.y1 - .8, '#6B737B', .8);
-        /* AGF zone label */
+    });
 
-        /* racks: shadow, frame, and the stock on the shelves */
-        racks.forEach(function (r) {
-            c.fillStyle = 'rgba(27,27,26,.13)'; rr(c, r.x + .2, r.y + .28, r.w, r.h, .12); c.fill();
-            c.fillStyle = '#4B5058'; rr(c, r.x, r.y, r.w, r.h, .1); c.fill();
-            r.rows.forEach(function (row) {
-                c.fillStyle = '#353940'; c.fillRect(row.x + .05, r.y + .05, .9, r.h - .1);
-                row.totes.forEach(function (t) {
-                    c.fillStyle = r.agf ? (t.c === '#3B82F6' ? '#59B96A' : t.c === '#FFD400' ? '#F4C430' : '#B5D96A') : t.c;
-                    rr(c, row.x + .1, t.y, .8, t.h, .08); c.fill();
-                    c.fillStyle = 'rgba(255,255,255,.28)'; c.fillRect(row.x + .12, t.y + .04, .76, .09);
-                });
-            });
-            c.strokeStyle = '#2B2E33'; c.lineWidth = .05;
-            for (var by = r.y + 1.9; by < r.y + r.h; by += 1.9) { c.beginPath(); c.moveTo(r.x, by); c.lineTo(r.x + r.w, by); c.stroke(); }
-        });
-        /* aisle codes along the back wall */
-        PAIRS.forEach(function (x, i) { lp(CODES[i + 1] || '', x + 1.05, .85, .5); });
-        lt('AGF', 74.2, 12.95, '#2E7D3E', .7);
-        /* help desk, scanner rack, trolley lane, cooler, docks */
-        c.fillStyle = 'rgba(27,27,26,.12)'; rr(c, DESK.x + .15, DESK.y + .2, DESK.w, DESK.h, .2); c.fill();
-        c.fillStyle = '#FFE3F0'; rr(c, DESK.x, DESK.y, DESK.w, DESK.h, .2); c.fill();
-        c.fillStyle = '#1B1B1A'; rr(c, DESK.x + .8, DESK.y + .25, 1, .6, .08); c.fill();
-        lt('HELP DESK', DESK.x + DESK.w / 2, DESK.y - .5, '#B4377A', .55);
-        c.fillStyle = '#2B2E33'; rr(c, SCANRACK.x, SCANRACK.y, SCANRACK.w, SCANRACK.h, .15); c.fill();
-        for (var sr = 0; sr < 4; sr++) { c.fillStyle = sr % 2 ? '#FFD400' : '#8B5CF6'; c.fillRect(SCANRACK.x + .25, SCANRACK.y + .2 + sr * .33, 1, .18); }
-        lt('SCANNERS', SCANRACK.x + .4, SCANRACK.y - .5, '#6D4BC9', .55);
-        TROLLEYS.forEach(function (t) { c.fillStyle = '#C8CCD2'; rr(c, t.x, t.y, t.w, t.h, .1); c.fill(); c.fillStyle = Math.random() < .5 ? '#FFD400' : '#3B82F6'; c.fillRect(t.x + .15, t.y + .15, t.w - .3, t.h - .3); });
-        lt('FINISHED TROLLEYS', 67, 25.55, '#6B737B', .55);
-        c.fillStyle = '#BFE7C8'; c.fillRect(HW - .25, 4.8, .5, 3.4);
-        lt('AGF COOLER', HW - .9, 6.5, '#2E7D3E', .55, -Math.PI / 2);
-        DOCKS.forEach(function (d, i) {
-            c.fillStyle = '#3A3F47'; c.fillRect(-.3, d.y - 1.2, .6, 2.4);
-            for (var z = 0; z < 6; z++) { c.fillStyle = z % 2 ? '#FFD400' : '#1B1B1A'; c.fillRect(.32, d.y - 1.2 + z * .4, .18, .4); }
-            lt('DOCK ' + (i + 1), 2.9, d.y, '#6B737B', .55);
-        });
-        /* walls */
-        c.strokeStyle = '#B9B4A8'; c.lineWidth = .3; c.strokeRect(0, 0, HW, HH);
+    /* ---- pointer: lean toward the cursor, drag to spin, tap to open or pick ---- */
+    var ray = new T.Raycaster(), ndc = new T.Vector2();
+    function hitTest(e) {
+        var r = cv.getBoundingClientRect();
+        ndc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+        ray.setFromCamera(ndc, camera);
+        if (open > .5) for (var i = 0; i < items.length; i++) if (ray.intersectObject(items[i].g, true).length) return { item: i };
+        if (ray.intersectObject(crate, true).length) return { crate: true };
+        return null;
     }
-
-    function drawPerson(x, y, dir, vest, carry, big) {
-        var r = .36, k = (big || 1) * Math.max(1, 13 / sc);
-        ctx.save(); ctx.translate(X(x), Y(y)); ctx.rotate(dir); ctx.scale(sc * k, sc * k);
-        ctx.fillStyle = 'rgba(27,27,26,.18)'; ctx.beginPath(); ctx.ellipse(.08, .12, r * 1.15, r * .95, 0, 0, 7); ctx.fill();
-        ctx.fillStyle = vest; ctx.beginPath(); ctx.ellipse(0, 0, r * .85, r * 1.15, 0, 0, 7); ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = .06;
-        ctx.beginPath(); ctx.moveTo(-.12, -r * 1.05); ctx.lineTo(-.12, r * 1.05); ctx.moveTo(.12, -r * 1.05); ctx.lineTo(.12, r * 1.05); ctx.stroke();
-        ctx.fillStyle = '#3A2E28'; ctx.beginPath(); ctx.arc(.04, 0, .2, 0, 7); ctx.fill();
-        if (carry) {
-            if (carry === 'container') { ctx.fillStyle = '#9AA3AB'; rr(ctx, .3, -.4, .7, .8, .08); ctx.fill(); ctx.strokeStyle = '#5E666E'; ctx.lineWidth = .05; ctx.stroke(); ctx.fillStyle = '#FFD400'; ctx.fillRect(.4, -.3, .5, .25); ctx.fillStyle = '#3B82F6'; ctx.fillRect(.4, .02, .5, .25); }
-            else if (carry === 'crate') { ctx.fillStyle = '#2E9E4A'; rr(ctx, .3, -.33, .55, .66, .08); ctx.fill(); ctx.fillStyle = '#F4C430'; for (var q = 0; q < 4; q++) { ctx.beginPath(); ctx.arc(.43 + (q % 2) * .26, -.15 + Math.floor(q / 2) * .3, .1, 0, 7); ctx.fill(); } }
-            else if (carry === 'scanner') { ctx.fillStyle = '#1B1B1A'; rr(ctx, .3, -.12, .42, .24, .06); ctx.fill(); ctx.fillStyle = '#FF4D4D'; ctx.fillRect(.66, -.06, .06, .12); }
+    cv.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, y: e.clientY, sy: spinY, sx: spinX, moved: false, lx: e.clientX }; cv.setPointerCapture(e.pointerId); });
+    cv.addEventListener('pointermove', function (e) {
+        var r = cv.getBoundingClientRect();
+        tiltGX = ((e.clientX - r.left) / r.width - .5) * 2; tiltGY = ((e.clientY - r.top) / r.height - .5) * 2;
+        if (drag) {
+            var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+            if (Math.abs(dx) + Math.abs(dy) > 6) { drag.moved = true; wrap.classList.add('grab'); }
+            if (drag.moved) { spinY = drag.sy + dx * .01; spinX = Math.max(-.3, Math.min(.7, drag.sx + dy * .005)); velY = (e.clientX - drag.lx) * .01; drag.lx = e.clientX; }
+            return;
         }
-        ctx.restore();
-    }
-    function drawTruck(x, y, dir, color, load, big) {
-        var k = (big || 1) * Math.max(1, 12 / sc);
-        ctx.save(); ctx.translate(X(x), Y(y)); ctx.rotate(dir); ctx.scale(sc * k, sc * k);
-        ctx.fillStyle = 'rgba(27,27,26,.2)'; rr(ctx, -.7, -.5, 1.6, 1.15, .2); ctx.fill();
-        ctx.fillStyle = color; rr(ctx, -.8, -.55, 1.2, 1.1, .22); ctx.fill();
-        ctx.fillStyle = '#2B2E33'; rr(ctx, -.55, -.35, .55, .7, .12); ctx.fill();
-        ctx.fillStyle = '#5E636B'; ctx.fillRect(.4, -.5, .12, 1); ctx.fillRect(.52, -.38, .7, .1); ctx.fillRect(.52, .28, .7, .1);
-        if (load) { ctx.fillStyle = '#C9A36A'; rr(ctx, .55, -.48, .9, .96, .06); ctx.fill(); ctx.fillStyle = '#FFD400'; ctx.fillRect(.65, -.38, .32, .34); ctx.fillStyle = '#3B82F6'; ctx.fillRect(1.02, -.38, .32, .34); ctx.fillStyle = '#FFD400'; ctx.fillRect(1.02, .04, .32, .34); ctx.fillStyle = '#3B82F6'; ctx.fillRect(.65, .04, .32, .34); }
-        ctx.restore();
-    }
+        if (!fine) return;
+        var h = hitTest(e), was = hoverCrate;
+        hoverCrate = !!(h && h.crate); hoverIdx = h && h.item != null ? h.item : -1;
+        if (hoverCrate && !was && open < .1) kick(.8);
+        wrap.classList.toggle('over', !!h);
+    });
+    cv.addEventListener('pointerleave', function () { tiltGX = 0; tiltGY = 0; hoverCrate = false; hoverIdx = -1; wrap.classList.remove('over'); });
+    cv.addEventListener('pointerup', function (e) {
+        if (drag && !drag.moved) {
+            var h = hitTest(e);
+            if (h && h.item != null) focus(h.item);
+            else if (h && h.crate) { if (openGoal < 1) openCrate(); else { kick(1.2); if (focusIdx > -1) unfocus(); } }
+            else if (focusIdx > -1) unfocus();
+        }
+        drag = null; wrap.classList.remove('grab');
+    });
+    cv.addEventListener('pointercancel', function () { drag = null; wrap.classList.remove('grab'); });
 
+    var dropY = reduce ? 0 : 8, dropV = 0, entered = reduce, landed = reduce;
+    new IntersectionObserver(function (es) {
+        inView = es[0].isIntersecting;
+        if (inView && !entered && es[0].intersectionRatio > .3) { entered = true; }
+    }, { threshold: [.05, .3] }).observe(wrap);
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(wrap); else addEventListener('resize', resize);
+    resize();
+
+    function backOut(k) { var s = 1.7; k = k - 1; return k * k * ((s + 1) * k + s) + 1; }
+    var v = new T.Vector3(), FRONT = new T.Vector3(), TMP = new T.Vector3(), INV = new T.Matrix4(), last = performance.now(), t0 = last;
     function frame(now) {
         requestAnimationFrame(frame);
         var dt = Math.min(.05, (now - last) / 1000); last = now;
-        if (document.hidden) return;
-        var live = S.running && S.visible;
-        if (live) update(dt);
-        if (!S.visible && !S.running) return;
-        var t = now / 1000;
+        if (!inView || document.hidden) return;
+        var t = (now - t0) / 1000, mt = reduce ? 0 : t;
 
-        /* camera */
-        if (follow) {
-            var hw = CW / 2 / sc, hh = CH / 2 / sc;
-            var tx = Math.max(VIEW.x0 + hw, Math.min(VIEW.x1 - hw, P.x)), ty = Math.max(VIEW.y0 + hh, Math.min(VIEW.y1 - hh, P.y));
-            if (hw * 2 > VIEW.x1 - VIEW.x0) tx = (VIEW.x0 + VIEW.x1) / 2;
-            if (hh * 2 > VIEW.y1 - VIEW.y0) ty = (VIEW.y0 + VIEW.y1) / 2;
-            camX += (tx - camX) * Math.min(1, dt * 6); camY += (ty - camY) * Math.min(1, dt * 6);
-        }
-        var sx = shake > 0 ? (Math.random() - .5) * shake * 10 : 0, sy = shake > 0 ? (Math.random() - .5) * shake * 10 : 0;
-        shake = Math.max(0, shake - dt * 1.5);
+        open += Math.sign(openGoal - open) * Math.min(Math.abs(openGoal - open), dt * (reduce ? 99 : 1.25));
+        var eo = openGoal ? backOut(Math.min(1, open)) : open * open * (3 - 2 * open);
 
-        ctx.setTransform(DPR, 0, 0, DPR, sx * DPR, sy * DPR);
-        ctx.clearRect(-20, -20, CW + 40, CH + 40);
-        ctx.drawImage(layer, X(VIEW.x0), Y(VIEW.y0), (VIEW.x1 - VIEW.x0) * sc, (VIEW.y1 - VIEW.y0) * sc);
-
-        /* trucks backing in to the docks */
-        S.tasks.forEach(function (tk) {
-            if (tk.type !== 'ont') return;
-            var d = DOCKS[tk.dock], k = Math.min(1, tk.age / 1.4), e = 1 - Math.pow(1 - k, 3);
-            var tx0 = -11 + e * 10.7;
-            ctx.save(); ctx.translate(X(tx0), Y(d.y)); ctx.scale(sc, sc);
-            ctx.fillStyle = 'rgba(27,27,26,.18)'; rr(ctx, -4.6, -.95, 5, 2.1, .2); ctx.fill();
-            ctx.fillStyle = '#FFFFFF'; rr(ctx, -4.8, -1.05, 4.7, 2.1, .15); ctx.fill();
-            ctx.strokeStyle = '#D0CCC2'; ctx.lineWidth = .06; ctx.stroke();
-            ctx.fillStyle = '#FFD400'; ctx.fillRect(-4.6, -.2, 4.3, .4);
-            ctx.fillStyle = '#1B1B1A'; ctx.font = '800 .55px Figtree, Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('Jumbo', -2.45, .01);
-            ctx.fillStyle = '#3A3F47'; rr(ctx, -6, -.85, 1.1, 1.7, .25); ctx.fill();
-            ctx.restore();
-        });
-        /* spills and waiting colleagues */
-        S.tasks.forEach(function (tk) {
-            if (tk.spill) {
-                var sp = tk.spill, p = 1 - (P.holdTask === tk.id ? P.hold / tk.steps[0].hold : 0);
-                ctx.fillStyle = 'rgba(80,160,230,' + (.45 * p + .05) + ')';
-                ctx.beginPath(); ctx.ellipse(X(sp.x), Y(sp.y), .95 * sc * (.4 + .6 * p), .6 * sc * (.4 + .6 * p), .4, 0, 7); ctx.fill();
-            }
-            if (tk.worker && tk.step < 2) {
-                drawPerson(tk.worker.x + .7, tk.worker.y, Math.PI, '#3B82F6');
-                if (Math.sin(t * 6) > -.3) pillText(ctx, X(tk.worker.x + .7), Y(tk.worker.y - .9), '!', '#8B5CF6', '#fff', Math.max(9, sc * .55));
-            }
-        });
-        /* the crew at work */
-        npcs.forEach(function (n2, i) {
-            var len = n2.h[1] - n2.h[0] - 1.6, s = Math.sin(t * n2.v + n2.ph), y = n2.h[0] + .8 + (s * .5 + .5) * len;
-            var dir = Math.cos(t * n2.v + n2.ph) > 0 ? Math.PI / 2 : -Math.PI / 2;
-            if (n2.truck) drawTruck(n2.x, y, dir, '#FFB020', i % 2 === 0);
-            else {
-                ctx.fillStyle = '#B9C3CF'; ctx.save(); ctx.translate(X(n2.x), Y(y + (dir > 0 ? .75 : -.75))); ctx.scale(sc, sc); rr(ctx, -.32, -.4, .64, .8, .08); ctx.fill(); ctx.fillStyle = '#FFD400'; ctx.fillRect(-.22, -.3, .44, .26); ctx.restore();
-                drawPerson(n2.x, y, dir, '#3B82F6');
-            }
-        });
-
-        /* path ahead */
-        if (P.path.length) {
-            ctx.strokeStyle = 'rgba(27,27,26,.45)'; ctx.lineWidth = Math.max(2, sc * .12); ctx.setLineDash([sc * .25, sc * .3]); ctx.lineDashOffset = -t * 30;
-            ctx.beginPath(); ctx.moveTo(X(P.x), Y(P.y)); P.path.forEach(function (p) { ctx.lineTo(X(p.x), Y(p.y)); }); ctx.stroke(); ctx.setLineDash([]);
-            var end = P.path[P.path.length - 1];
-            ctx.strokeStyle = '#1B1B1A'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X(end.x), Y(end.y), sc * (.35 + .1 * Math.sin(t * 6)), 0, 7); ctx.stroke();
+        /* jelly: a spring that squashes and stretches the crate */
+        squashV += (-90 * squash - 9 * squashV) * dt; squash += squashV * dt;
+        if (!openGoal && !reduce && t > nextRattle) { nextRattle = t + 5 + Math.random() * 3; kick(1.4); }
+        crate.scale.set(1 - squash * .5, 1 + squash, 1 - squash * .5);
+        /* the drop-in: falls onto the podium and bounces */
+        if (entered && (dropY !== 0 || dropV !== 0)) {
+            dropV += (-70 * dropY - 6 * dropV) * dt; dropY += dropV * dt;
+            if (!landed && dropY < 0) { landed = true; kick(2.6); sfx('pop'); }
+            if (Math.abs(dropY) < .001 && Math.abs(dropV) < .01) { dropY = 0; dropV = 0; }
         }
 
-        /* job markers */
-        var seen = {};
-        S.tasks.forEach(function (tk) {
-            var s = tk.steps[tk.step], key = s.at.x.toFixed(1) + s.at.y.toFixed(1), off = (seen[key] = (seen[key] || 0) + 1) - 1;
-            var mx = s.at.x + off * 1.5, my = s.at.y, frac = tk.left / tk.life, col = tk.m.color, R = Math.max(14, sc * .82);
-            var pulse = (t * 1.2 + tk.id * .3) % 1;
-            ctx.strokeStyle = col; ctx.globalAlpha = 1 - pulse; ctx.lineWidth = 2;
-            ctx.beginPath(); ctx.arc(X(mx), Y(my), R + pulse * R * 1.4, 0, 7); ctx.stroke(); ctx.globalAlpha = 1;
-            ctx.fillStyle = 'rgba(27,27,26,.18)'; ctx.beginPath(); ctx.arc(X(mx) + 2, Y(my) + 3, R, 0, 7); ctx.fill();
-            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(X(mx), Y(my), R, 0, 7); ctx.fill();
-            ctx.lineWidth = Math.max(3, R * .2); ctx.strokeStyle = 'rgba(27,27,26,.08)'; ctx.beginPath(); ctx.arc(X(mx), Y(my), R * .86, 0, 7); ctx.stroke();
-            ctx.strokeStyle = frac < .3 ? '#E5372B' : col; ctx.lineCap = 'round';
-            ctx.beginPath(); ctx.arc(X(mx), Y(my), R * .86, -Math.PI / 2, -Math.PI / 2 + frac * Math.PI * 2); ctx.stroke(); ctx.lineCap = 'butt';
-            ctx.fillStyle = col; ctx.font = '800 ' + Math.round(R * .62) + 'px Figtree, Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText(tk.m.code, X(mx), Y(my) + 1);
-            var lbl = s.need ? 'Drop: ' + (s.at.code || '') : (s.at.code || '');
-            if (lbl) pillText(ctx, X(mx), Y(my) + R + 11, lbl, '#1B1B1A', '#fff', 10);
+        /* spin, lean, idle */
+        if (!drag) {
+            spinY += velY; velY *= .94;
+            if (Math.abs(velY) < .0005 && !reduce && focusIdx < 0) spinY += dt * (openGoal ? .14 : .3);
+            spinX += (.18 - spinX) * dt * .8;
+        }
+        tiltX += (tiltGX - tiltX) * Math.min(1, dt * 4); tiltY += (tiltGY - tiltY) * Math.min(1, dt * 4);
+        rig.rotation.set(spinX * .5 + tiltY * .12, spinY + tiltX * .25, -tiltX * .05);
+        rig.position.y = dropY + Math.sin(mt * 1.3) * .1 * (1 - eo * .6) + (party > 0 ? Math.abs(Math.sin(t * 9)) * .25 * party / 2.5 : 0);
+        party = Math.max(0, party - dt);
+        dash.rotation.z += dt * (openGoal ? .25 : .08);
+        glowRing.material.color.copy(col(0xFFD400)).multiplyScalar(1 + Math.sin(t * 2) * .15 + eo * .3);
+
+        /* the lid: rattles when closed, flies when open */
+        var rattle = !openGoal ? Math.max(0, -squash) * .6 : 0;
+        lid.position.set(eo * -.4, LID_Y + eo * 3.6 + rattle * .5, eo * -2.4);
+        lid.rotation.set(eo * -1.1, eo * .6, eo * .35 + Math.sin(t * 40) * rattle * .2);
+        lidTop.material.opacity = 1 - Math.min(1, eo);
+        walls.forEach(function (w) {
+            var a = eo * 1.75;
+            if (w.userData.axis === 'x') w.rotation.x = w.userData.sign * a; else w.rotation.z = -w.userData.sign * a;
         });
 
-        /* you */
-        var carry = P.carry && P.carry.item;
-        ctx.fillStyle = 'rgba(255,212,0,.28)'; ctx.beginPath(); ctx.arc(X(P.x), Y(P.y), Math.max(16, sc * 1.05) * (1 + .08 * Math.sin(t * 5)), 0, 7); ctx.fill();
-        if (carry === 'pallet') drawTruck(P.x, P.y, P.dir, '#FFD400', true, 1.3);
-        else drawPerson(P.x, P.y, P.dir, '#FFD400', carry, 1.5);
-        pillText(ctx, X(P.x), Y(P.y) - Math.max(26, sc * 1.3), 'You', '#1B1B1A', '#FFD400', 11);
-        if (P.holdTask && P.holdTask !== 'full') {
-            var wt = S.tasks.filter(function (k) { return k.id === P.holdTask; })[0];
-            if (wt) {
-                var hs = wt.steps[wt.step], pr = Math.min(1, P.hold / hs.hold), RR = Math.max(16, sc * 1);
-                ctx.strokeStyle = 'rgba(27,27,26,.15)'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(X(P.x), Y(P.y), RR, 0, 7); ctx.stroke();
-                ctx.strokeStyle = '#2DBE60'; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(X(P.x), Y(P.y), RR, -Math.PI / 2, -Math.PI / 2 + pr * Math.PI * 2); ctx.stroke(); ctx.lineCap = 'butt';
-                if (hs.fx === 'scan') {
-                    var a0 = Math.sin(t * 8) * .5, len2 = 2.2 * sc;
-                    ctx.fillStyle = 'rgba(255,79,158,.18)'; ctx.beginPath(); ctx.moveTo(X(P.x), Y(P.y));
-                    ctx.arc(X(P.x), Y(P.y), len2, -Math.PI / 2 + a0 - .35, -Math.PI / 2 + a0 + .35); ctx.closePath(); ctx.fill();
-                    ctx.strokeStyle = '#FF4F9E'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(P.x), Y(P.y)); ctx.lineTo(X(P.x) + Math.cos(-Math.PI / 2 + a0) * len2, Y(P.y) + Math.sin(-Math.PI / 2 + a0) * len2); ctx.stroke();
-                }
-            }
-        }
-
-        /* particles and floating points */
-        parts = parts.filter(function (p) { return p.life > 0; });
-        parts.forEach(function (p) {
-            p.life -= dt * (p.kind === 'ring' ? 1.6 : p.kind === 'dust' ? 1.4 : 1.1);
-            if (p.kind === 'ring') { p.r += dt * 5; ctx.strokeStyle = p.c; ctx.globalAlpha = Math.max(0, p.life); ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), p.r * sc, 0, 7); ctx.stroke(); }
-            else {
-                p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .92; p.vy *= .92;
-                ctx.globalAlpha = Math.max(0, p.life) * (p.kind === 'dust' ? .35 : 1);
-                ctx.fillStyle = p.kind === 'dust' ? '#9C978A' : p.kind === 'bubble' ? 'rgba(120,190,240,.8)' : p.c;
-                ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), Math.max(1, p.r * sc * (p.kind === 'dust' ? (1.6 - p.life) : 1)), 0, 7); ctx.fill();
-            }
-            ctx.globalAlpha = 1;
-        });
-        floats = floats.filter(function (f) { return f.life > 0; });
-        floats.forEach(function (f) {
-            f.life -= dt * .8; f.y -= dt * 1.4;
-            ctx.globalAlpha = Math.min(1, f.life * 2); ctx.fillStyle = f.c;
-            ctx.font = '800 ' + Math.max(14, sc * .9) + 'px "Bricolage Grotesque", Figtree, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.strokeText(f.t, X(f.x), Y(f.y)); ctx.fillText(f.t, X(f.x), Y(f.y));
-            ctx.globalAlpha = 1;
+        /* stations: tucked in, then orbiting, then one in front */
+        var R = W / H < .9 ? 3.2 : 3.9;
+        items.forEach(function (it, i) {
+            var k = Math.max(0, Math.min(1, (open - i * .06) / .7));
+            var ek = openGoal ? backOut(k) : k * k;
+            var a = i / items.length * Math.PI * 2;
+            var tx = Math.sin(a) * R, ty = FLOOR + 2.1 + Math.sin(mt * 1.6 + it.ph) * .18, tz = Math.cos(a) * R * .8, ts = 1;
+            var hov = hoverIdx === i && focusIdx < 0;
+            if (focusIdx === i) {
+                FRONT.set(W / H > 1.05 ? 1.9 : 0, W / H > 1.05 ? .9 : 2.1, 3.6).applyMatrix4(INV.copy(rig.matrixWorld).invert());
+                tx = FRONT.x; ty = FRONT.y; tz = FRONT.z; ts = 1.7;
+            } else if (focusIdx > -1) ts = .72;
+            else if (hov) ts = 1.18;
+            if (focusIdx === i) it.g.position.lerp(TMP.set(tx, ty, tz), Math.min(1, dt * 6));
+            else it.g.position.set(it.home.x + (tx - it.home.x) * ek, it.home.y + (ty - it.home.y) * ek, it.home.z + (tz - it.home.z) * ek);
+            it.pop = Math.max(0, it.pop - dt * 2.2);
+            var pop = Math.sin(it.pop * Math.PI) * .25;
+            var sGoal = (.55 + (ts - .55) * ek) * (1 + pop);
+            it.g.scale.setScalar(it.g.scale.x + (sGoal - it.g.scale.x) * Math.min(1, dt * 9));
+            it.inner.rotation.y = focusIdx === i ? Math.sin(mt * .6) * .5 - rig.rotation.y * 0 : mt * it.spin + it.ph;
+            it.bob.position.y = hov ? Math.abs(Math.sin(t * 6)) * .15 : 0;
+            it.halo.material.opacity += (((hov || focusIdx === i) && open > .9 ? .9 : open > .9 ? .25 : 0) - it.halo.material.opacity) * Math.min(1, dt * 8);
+            it.halo.scale.setScalar(1 + Math.sin(t * 3 + i) * .06);
+            it.act(mt, focusIdx === i);
         });
 
-        /* minimap when zoomed in */
-        if (follow) {
-            var mw = Math.min(150, CW * .38), ms = mw / HW, mh = HH * ms, mx0 = CW - mw - 10, my0 = 10;
-            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-            ctx.fillStyle = 'rgba(255,255,255,.92)'; rr(ctx, mx0 - 4, my0 - 4, mw + 8, mh + 8, 8); ctx.fill();
-            ctx.fillStyle = '#B9BDC3'; racks.forEach(function (r) { ctx.fillRect(mx0 + r.x * ms, my0 + r.y * ms, r.w * ms, r.h * ms); });
-            S.tasks.forEach(function (tk) { var a = tk.steps[tk.step].at; ctx.fillStyle = tk.m.color; ctx.beginPath(); ctx.arc(mx0 + a.x * ms, my0 + a.y * ms, 3.5, 0, 7); ctx.fill(); });
-            ctx.fillStyle = '#1B1B1A'; ctx.beginPath(); ctx.arc(mx0 + P.x * ms, my0 + P.y * ms, 3.5, 0, 7); ctx.fill();
-            ctx.strokeStyle = 'rgba(27,27,26,.5)'; ctx.lineWidth = 1;
-            ctx.strokeRect(mx0 + (camX - CW / 2 / sc) * ms, my0 + (camY - CH / 2 / sc) * ms, CW / sc * ms, CH / sc * ms);
-        }
-        /* a red edge when a job is missed */
-        if (flash > 0) {
-            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-            var gr = ctx.createRadialGradient(CW / 2, CH / 2, Math.min(CW, CH) * .3, CW / 2, CH / 2, Math.max(CW, CH) * .7);
-            gr.addColorStop(0, 'rgba(229,55,43,0)'); gr.addColorStop(1, 'rgba(229,55,43,' + (.45 * flash) + ')');
-            ctx.fillStyle = gr; ctx.fillRect(0, 0, CW, CH);
-            flash = Math.max(0, flash - dt * 1.6);
-        }
-        drawHud();
+        bits.forEach(function (p) {
+            if (p.life <= 0) return;
+            p.life -= dt; p.v.y -= 18 * dt;
+            p.m.position.addScaledVector(p.v, dt);
+            var r2 = Math.hypot(p.m.position.x, p.m.position.z);
+            if (p.m.position.y < FLOOR + .1 && r2 < 4.9) { p.m.position.y = FLOOR + .1; p.v.y *= -.35; p.v.x *= .7; p.v.z *= .7; }
+            p.m.rotation.x += dt * 5; p.m.rotation.y += dt * 3;
+            if (p.life <= 0 || p.m.position.y < -8) { p.m.visible = false; p.life = 0; }
+        });
+
+        renderer.render(scene, camera);
+
+        items.forEach(function (it) {
+            v.setFromMatrixPosition(it.g.matrixWorld); v.y -= .3 * it.g.scale.x; v.project(camera);
+            it.el.style.transform = 'translate(' + ((v.x * .5 + .5) * W).toFixed(1) + 'px,' + ((-v.y * .5 + .5) * H + 10).toFixed(1) + 'px)';
+            it.el.classList.toggle('show', open > .85);
+            it.el.classList.toggle('hov', hoverIdx === items.indexOf(it));
+            it.el.tabIndex = open > .85 ? 0 : -1;
+        });
     }
-
-    /* ---- HUD ---- */
-    var hudTime = $('fgTime'), hudScore = $('fgScore'), hudDone = $('fgDone'), hudFlow = $('fgFlow'), hudCombo = $('fgCombo');
-    var shownScore = 0;
-    function drawHud() {
-        var sec = Math.max(0, Math.ceil(S.time)), mm = Math.floor(sec / 60), ss = sec % 60;
-        hudTime.textContent = mm + ':' + (ss < 10 ? '0' : '') + ss;
-        $('fgTimeP').classList.toggle('low', S.running && sec <= 15);
-        shownScore += (S.score - shownScore) * .2; if (Math.abs(S.score - shownScore) < 1) shownScore = S.score;
-        hudScore.textContent = Math.round(shownScore);
-        hudDone.textContent = S.done;
-        hudFlow.style.width = Math.max(0, S.flow) + '%';
-        $('fgFlowW').classList.toggle('bad', S.flow < 40);
-        hudCombo.textContent = 'Combo x' + S.combo;
-        hudCombo.classList.toggle('on', S.running && S.combo > 1);
-        if (S.running) drawCards();
-    }
-
-    /* ---- input ---- */
-    function worldAt(e) { var r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left - CW / 2) / sc + camX, y: (e.clientY - r.top - CH / 2) / sc + camY }; }
-    cv.addEventListener('pointerdown', function (e) {
-        if (!S.running) return;
-        var w = worldAt(e), best = null, bd = 1.8;
-        S.tasks.forEach(function (tk) { var a = tk.steps[tk.step].at, d = Math.hypot(a.x - w.x, a.y - w.y); if (d < bd) { bd = d; best = a; } });
-        route(best || w);
-    });
-    addEventListener('keydown', function (e) {
-        if (!S.running || !S.visible || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
-        var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].indexOf(k) > -1) { keys[k] = true; e.preventDefault(); }
-    });
-    addEventListener('keyup', function (e) { var k = e.key.length === 1 ? e.key.toLowerCase() : e.key; keys[k] = false; });
-    addEventListener('blur', function () { keys = {}; });
-
-    new IntersectionObserver(function (es) { S.visible = es[0].isIntersecting; }, { threshold: .3 }).observe(cv);
-    if (window.ResizeObserver) new ResizeObserver(resize).observe(cv); else addEventListener('resize', resize);
-    resize();
-    intro();
     requestAnimationFrame(frame);
+    return { open: openCrate, close: closeCrate, focus: focus, nudge: function (v) { if (inView && !reduce && !drag) velY = Math.max(-.12, Math.min(.12, velY + v * .0007)); } };
+}
+
+if (hasWebGL()) {
+    try { crateApi = crate3D(); } catch (e) { document.body.classList.add('no3d'); }
+} else document.body.classList.add('no3d');
+document.querySelectorAll('.st-3d').forEach(function (b) {
+    b.addEventListener('click', function () {
+        if (!crateApi) return;
+        $('crate').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        var i = +b.dataset.i;
+        setTimeout(function () { crateApi.focus(i); }, reduce ? 0 : 650);
+    });
+});
+var openBtn2 = $('openCrate');
+if (openBtn2) openBtn2.addEventListener('click', function () {
+    if (crateApi) { crateApi.open(); $('crate').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
+    else goToStation(0);
+});
+
+/* ------------------------------------------------------------
+   THE OPENING VIDEO
+   Full screen, nothing on top. Tap it for sound. As you scroll,
+   it settles back into a rounded card and the welcome takes over.
+   ------------------------------------------------------------ */
+var vid = $('vid'), vidTap = $('vidTap'), vidSnd = $('vidSnd');
+vid.src = VIDEO;
+var pl = vid.play(); if (pl && pl.catch) pl.catch(function () {});
+vidTap.addEventListener('click', function () {
+    vid.muted = !vid.muted;
+    if (vid.paused) vid.play();
+    vidTap.setAttribute('aria-pressed', String(!vid.muted));
+    vidTap.setAttribute('aria-label', vid.muted ? 'Turn the video sound on' : 'Turn the video sound off');
+    $('sndWave').setAttribute('opacity', vid.muted ? '.2' : '1');
+    vidSnd.classList.add('flash'); clearTimeout(vidSnd._t); vidSnd._t = setTimeout(function () { vidSnd.classList.remove('flash'); }, 1200);
+});
+
+/* welcome words, wrapped so each can light up; *starred* phrases get a marker */
+(function () {
+    var el = $('wBig'), raw = el.textContent, hl = false, out = [];
+    raw.split(/\s+/).forEach(function (w) {
+        var start = w.charAt(0) === '*', end = w.slice(-1) === '*' || w.slice(-2) === '*,' || w.slice(-2) === '*.';
+        if (start) hl = true;
+        var clean = w.replace(/\*/g, '');
+        out.push('<span class="wd' + (hl ? ' hl' : '') + '">' + clean + '</span>');
+        if (end) hl = false;
+    });
+    el.innerHTML = out.join(' ');
+    el.setAttribute('aria-label', raw.replace(/\*/g, ''));
+})();
+var words = [].slice.call(document.querySelectorAll('#wBig .wd')), chips = [].slice.call(document.querySelectorAll('#wChips li'));
+
+/* ------------------------------------------------------------
+   ONE SCROLL ENGINE FOR THE WHOLE PAGE
+   ------------------------------------------------------------ */
+var introEl = $('intro'), welEl = $('welcome'), hsWrap = $('stations'), hsTrack = $('stationGrid'), hsBar = $('hsBar');
+var frame = $('introFrame'), progressEl = $('progress'), nav = $('nav');
+var M = {};
+function measureAll() {
+    M.introTop = introEl.offsetTop; M.introH = introEl.offsetHeight;
+    M.welTop = welEl.offsetTop; M.welH = welEl.offsetHeight;
+    M.wide = innerWidth > 1000 && !reduce;
+    if (M.wide) {
+        hsTrack.style.transform = '';
+        M.hsDist = Math.max(0, hsTrack.scrollWidth - innerWidth);
+        hsWrap.style.height = (innerHeight + M.hsDist) + 'px';
+    } else { hsWrap.style.height = ''; M.hsDist = 0; }
+    M.hsTop = hsWrap.offsetTop;
+    M.docH = document.documentElement.scrollHeight - innerHeight;
+}
+var lastY = scrollY, scrollVel = 0, ticking = false;
+function onScroll() {
+    ticking = false;
+    var y = scrollY, H = innerHeight;
+    scrollVel = y - lastY; lastY = y;
+
+    /* video: shrink into a card */
+    var ip = Math.max(0, Math.min(1, (y - M.introTop) / (M.introH - H)));
+    frame.style.setProperty('--ip', ip.toFixed(4));
+    document.body.classList.toggle('intro-on', y < M.introTop + M.introH - H * 1.05);
+    nav.classList.toggle('stuck', y > M.introTop + M.introH - H);
+    if (ip > .98 && !vid.paused && y > M.introTop + M.introH) vid.pause();
+    else if (ip < .98 && vid.paused && !vid.ended) { var p2 = vid.play(); if (p2 && p2.catch) p2.catch(function () {}); }
+
+    /* welcome: words light up one by one */
+    var wp = Math.max(0, Math.min(1, (y - M.welTop + H * .3) / (M.welH - H * .7)));
+    welEl.style.setProperty('--wp', wp.toFixed(4));
+    var lit = Math.floor(wp * 1.25 * words.length);
+    words.forEach(function (w, i) { w.classList.toggle('on', i < lit); });
+    chips.forEach(function (c, i) { c.classList.toggle('on', wp > .78 + i * .05); });
+    $('wDown').classList.toggle('on', wp > .93);
+
+    /* stations: sideways */
+    if (M.wide) {
+        var hp = Math.max(0, Math.min(1, (y - M.hsTop) / Math.max(1, M.hsDist)));
+        hsTrack.style.transform = 'translate3d(' + (-hp * M.hsDist).toFixed(1) + 'px,0,0)';
+        hsBar.style.setProperty('--hp', hp.toFixed(4));
+    }
+    progressEl.style.setProperty('--p', (y / Math.max(1, M.docH)).toFixed(4));
+    if (crateApi && crateApi.nudge) crateApi.nudge(scrollVel);
+}
+addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+addEventListener('resize', function () { measureAll(); onScroll(); });
+addEventListener('load', function () { measureAll(); onScroll(); });
+measureAll(); onScroll();
+
+/* a cursor that follows you and grows over anything you can press */
+(function () {
+    var cur = $('cur'), dot = $('curDot');
+    if (!fine || reduce) { cur.style.display = dot.style.display = 'none'; return; }
+    var x = -100, y = -100, cxp = -100, cyp = -100;
+    addEventListener('pointermove', function (e) {
+        x = e.clientX; y = e.clientY;
+        dot.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+        var t = e.target.closest && e.target.closest('a,button,label,input,textarea,select,.opt,.st,.bn,canvas');
+        cur.classList.toggle('big', !!t);
+        cur.classList.toggle('hide', !!(e.target.closest && e.target.closest('input,textarea,select')));
+    }, { passive: true });
+    document.addEventListener('pointerleave', function () { cur.classList.add('hide'); });
+    (function loop() {
+        cxp += (x - cxp) * .2; cyp += (y - cyp) * .2;
+        cur.style.transform = 'translate(' + cxp.toFixed(1) + 'px,' + cyp.toFixed(1) + 'px)';
+        requestAnimationFrame(loop);
+    })();
 })();
 
-/* nav border once you scroll */
-var nav = $('nav'), stuck = false;
-addEventListener('scroll', function () {
-    var now = scrollY > 8;
-    if (now !== stuck) { stuck = now; nav.classList.toggle('stuck', now); }
-}, { passive: true });
 
 /* menu */
 var burger = $('burger'), menu = $('menu');
@@ -1589,15 +1775,6 @@ menu.addEventListener('click', function (e) {
 });
 
 /* video */
-var vid = $('vid'), sound = $('sound');
-vid.src = VIDEO;
-var pl = vid.play(); if (pl && pl.catch) pl.catch(function () {});
-sound.addEventListener('click', function () {
-    vid.muted = !vid.muted;
-    sound.querySelector('span').textContent = vid.muted ? 'Sound off' : 'Sound on';
-    $('wave').setAttribute('opacity', vid.muted ? '.25' : '1');
-    sound.setAttribute('aria-pressed', String(!vid.muted));
-});
 
 /* ------------------------------------------------------------
    STATION FIT
@@ -1736,9 +1913,64 @@ function openApp() {
     veil.classList.add('open');
     document.body.style.overflow = 'hidden';
     view(v1); alertBox.hidden = true;
-    sendBtn.disabled = false; sendBtn.textContent = 'Send my details';
+    sendBtn.disabled = false; sendBtn.textContent = 'Send my application';
+    goStep(0);
     $('name').focus();
 }
+
+/* ---- the three-step wizard ---- */
+var wzStep = 0, steps = [].slice.call(document.querySelectorAll('.wz-step')), bars = [].slice.call(document.querySelectorAll('.wz-bar i'));
+var nextBtn = $('next'), cancelBtn = $('cancel');
+function goStep(n) {
+    wzStep = n;
+    steps.forEach(function (f, i) { f.classList.toggle('on', i === n); });
+    bars.forEach(function (b, i) { b.classList.toggle('on', i <= n); });
+    nextBtn.hidden = n === steps.length - 1;
+    sendBtn.hidden = n !== steps.length - 1;
+    cancelBtn.textContent = n === 0 ? 'Cancel' : 'Back';
+    var first = steps[n].querySelector('input:not([type=radio]):not([type=checkbox]):not([type=file]), textarea, select');
+    if (first && n) setTimeout(function () { first.focus(); }, 50);
+}
+function stepValid(n) {
+    var ok = true, fields = steps[n].querySelectorAll('input[required], textarea[required], select[required]');
+    for (var i = 0; i < fields.length; i++) {
+        var f = fields[i];
+        if (f.type === 'radio') { if (!steps[n].querySelector('input[name="' + f.name + '"]:checked')) { f.reportValidity(); ok = false; break; } continue; }
+        if (!f.checkValidity()) { f.reportValidity(); ok = false; break; }
+    }
+    if (ok && n === 2 && !files.cv) { var d = $('dropCv'); d.classList.remove('bad'); void d.offsetWidth; d.classList.add('bad'); d.querySelector('small').textContent = 'Please add your CV to continue'; ok = false; }
+    return ok;
+}
+nextBtn.addEventListener('click', function () { if (stepValid(wzStep)) goStep(wzStep + 1); });
+
+/* ---- CV and letter: drop or pick a file ---- */
+var files = { cv: null, lt: null };
+var OKTYPES = /\.(pdf|docx?|jpe?g|png)$/i, MAXB = 10 * 1024 * 1024;
+function size(b) { return b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'; }
+[['cv', 'dropCv', 'fileCv', 'Drop your CV here', 'or tap to choose a file'], ['lt', 'dropLt', 'fileLt', 'Drop your letter here', 'or write a few lines below instead']].forEach(function (c) {
+    var key = c[0], drop = $(c[1]), input = $(c[2]), title = drop.querySelector('b'), sub = drop.querySelector('small');
+    function reset() { files[key] = null; input.value = ''; drop.classList.remove('has', 'bad'); title.textContent = c[3]; sub.textContent = c[4]; var rm = drop.querySelector('.rm'); if (rm) rm.remove(); }
+    function take(f) {
+        if (!f) return;
+        if (!OKTYPES.test(f.name) || f.size > MAXB) {
+            drop.classList.remove('bad'); void drop.offsetWidth; drop.classList.add('bad');
+            sub.textContent = f.size > MAXB ? 'That file is over 10 MB' : 'Use a PDF, Word file or photo';
+            return;
+        }
+        files[key] = f;
+        drop.classList.remove('bad'); drop.classList.add('has');
+        title.textContent = f.name; sub.textContent = size(f.size) + ', ready to send';
+        if (!drop.querySelector('.rm')) {
+            var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
+            rm.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); reset(); });
+            drop.appendChild(rm);
+        }
+    }
+    input.addEventListener('change', function () { take(input.files[0]); });
+    ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+    drop.addEventListener('drop', function (e) { take(e.dataTransfer.files[0]); });
+});
 function closeApp() {
     veil.classList.remove('open');
     document.body.style.overflow = '';
@@ -1746,7 +1978,7 @@ function closeApp() {
 }
 $('openBtn').addEventListener('click', openApp);
 $('x').addEventListener('click', closeApp);
-$('cancel').addEventListener('click', closeApp);
+$('cancel').addEventListener('click', function () { if (wzStep > 0) goStep(wzStep - 1); else closeApp(); });
 $('later').addEventListener('click', closeApp);
 veil.addEventListener('click', function (e) { if (e.target === veil) closeApp(); });
 addEventListener('keydown', function (e) { if (e.key === 'Escape' && veil.classList.contains('open')) closeApp(); });
@@ -1766,6 +1998,10 @@ function bodyText() {
         'Email: ' + app.email + '\n' +
         'Phone: ' + app.phone + '\n\n' +
         'WAREHOUSE EXPERIENCE\n' + app.exp + '\n\n' +
+        'Reach truck certificate: ' + app.cert + '\n' +
+        'Languages: ' + (app.langs || 'Not given') + '\n' +
+        'Could start: ' + app.start + '\n\n' +
+        'ATTACHED\n' + 'CV: ' + app.cvName + (app.ltName ? '\nMotivation letter: ' + app.ltName : '') + '\n\n' +
         'WHY KW SHIFT B\n' + app.mot + '\n\n' +
         'Kind regards,\n' + app.name;
 }
@@ -1823,36 +2059,51 @@ $('copyBtn').addEventListener('click', function () {
 $('form').addEventListener('submit', function (e) {
     e.preventDefault();
     if ($('hp').checked) return;
+    if (wzStep < steps.length - 1) { if (stepValid(wzStep)) goStep(wzStep + 1); return; }
+    if (!stepValid(wzStep)) return;
     var val = function (id) { return $(id).value.trim(); };
-    app = { name: val('name'), email: val('email'), phone: val('phone'), exp: val('exp'), mot: val('mot'), ref: makeRef() };
+    var cert = document.querySelector('input[name=cert]:checked');
+    app = { name: val('name'), email: val('email'), phone: val('phone'), exp: val('exp'), mot: val('mot'), ref: makeRef(),
+            cert: cert ? cert.value : 'Not given', start: val('start'),
+            langs: [].map.call(document.querySelectorAll('input[name=lang]:checked'), function (c) { return c.value; }).join(', '),
+            cvName: files.cv ? files.cv.name : '', ltName: files.lt ? files.lt.name : '' };
     alertBox.hidden = true;
+    var uploaded = FILE_UPLOADS && ACCESS_KEY.indexOf('PASTE_') !== 0;
+    function showDone() {
+        $('refOut').textContent = app.ref;
+        $('attachList').innerHTML = uploaded ? '' : [app.cvName, app.ltName].filter(Boolean).map(function (n) { return '<li>' + n.replace(/</g, '&lt;') + '</li>'; }).join('');
+        $('v3Title').textContent = uploaded ? 'Sent! Your CV is on its way.' : 'Sent. Now attach your CV.';
+        $('v3Note').textContent = uploaded ? 'Miroslaw has your details and your files. If you want a copy in your own outbox, you can also send it from here.' : 'Your full application is already written into the message. Pick where to send it from, attach these files, and press send.';
+        view(v3);
+        setTimeout(function () { burstAt(document.querySelector('.sheet'), 160); }, 150);
+    }
 
-    if (ACCESS_KEY.indexOf('PASTE_') === 0) { $('refOut').textContent = app.ref; view(v3); return; }
+    if (ACCESS_KEY.indexOf('PASTE_') === 0) { showDone(); return; }
 
     sendBtn.disabled = true;
     view(v2);
-    fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-            access_key: ACCESS_KEY,
-            from_name: 'KW Shift B careers page',
-            subject: subject(),
-            replyto: app.email,
-            Reference: app.ref,
-            Name: app.name,
-            Email: app.email,
-            Phone: app.phone,
-            'Warehouse experience': app.exp,
-            'Why KW Shift B': app.mot
-        })
-    })
+    var fields = {
+        access_key: ACCESS_KEY, from_name: 'KW Shift B careers page', subject: subject(), replyto: app.email,
+        Reference: app.ref, Name: app.name, Email: app.email, Phone: app.phone,
+        'Warehouse experience': app.exp, 'Reach truck certificate': app.cert, Languages: app.langs || 'Not given',
+        'Could start': app.start, 'Why KW Shift B': app.mot, 'CV file': app.cvName, 'Letter file': app.ltName || 'None'
+    };
+    var req;
+    if (uploaded) {
+        var fd = new FormData();
+        Object.keys(fields).forEach(function (k) { fd.append(k, fields[k]); });
+        fd.append('attachment', files.cv);
+        if (files.lt) fd.append('attachment_2', files.lt);
+        req = fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: fd });
+    } else {
+        req = fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(fields) });
+    }
+    req
     .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
     .then(function (res) {
         if (!res.ok || res.d.success === false) throw new Error('rejected');
-        $('refOut').textContent = app.ref;
         sendBtn.disabled = false;
-        view(v3);
+        showDone();
     })
     .catch(function () {
         alertBox.innerHTML = '<b>Your details did not send.</b>Check your connection and try again, or ' +
