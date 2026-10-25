@@ -585,6 +585,76 @@ body.intro-on .progress { opacity: 0; }
 }
 
 /* ============================================================
+   DEADLINE
+   ============================================================ */
+.dl-strip { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; background: var(--ink); color: #fff; text-decoration: none; padding: 8px var(--pad); font-size: .9rem; font-weight: 600; }
+.dl-strip svg { width: 18px; height: 18px; fill: none; stroke: var(--yellow); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.dl-strip b { color: var(--yellow); }
+.dl-strip .dl-cd { font-variant-numeric: tabular-nums; background: var(--yellow); color: var(--ink); border-radius: 999px; padding: 3px 12px; font-weight: 800; }
+.dl-strip .dl-go { text-decoration: underline; text-underline-offset: 3px; }
+.dl-strip:hover .dl-go { color: var(--yellow); }
+.dl-strip.urgent .dl-cd { background: #FF5A4F; color: #fff; animation: urgent 1.4s infinite; }
+@keyframes urgent { 50% { box-shadow: 0 0 0 6px rgba(255, 90, 79, .3); } }
+.dl-strip.closed .dl-cd, .dl-strip.closed .dl-go { display: none; }
+section { scroll-margin-top: 116px; }
+.hs-sticky { padding-top: 112px; }
+.cr-tools { top: 128px; }
+.facts li.dl { background: var(--ink); color: rgba(255, 255, 255, .7); position: relative; padding-left: 30px; }
+.facts li.dl strong { color: var(--yellow); }
+.facts li.dl::before { content: ''; position: absolute; left: 13px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 0 rgba(255, 212, 0, .7); animation: beacon 1.8s infinite; }
+@keyframes beacon { 70% { box-shadow: 0 0 0 8px rgba(255, 212, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 212, 0, 0); } }
+
+.deadline { position: relative; overflow: hidden; background: var(--ink); color: #fff; border-radius: clamp(24px, 3vw, 40px); padding: clamp(28px, 5vw, 64px); display: grid; grid-template-columns: 1fr auto; gap: clamp(24px, 4vw, 56px); align-items: center; margin-bottom: 18px; isolation: isolate; }
+.deadline::before { content: ''; position: absolute; z-index: -1; width: 520px; height: 520px; right: -160px; top: -220px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 212, 0, .35), transparent 65%); animation: float 10s ease-in-out infinite; }
+.deadline::after { content: ''; position: absolute; z-index: -1; inset: 0; background-image: repeating-linear-gradient(-45deg, transparent 0 22px, rgba(255, 212, 0, .05) 22px 44px); }
+.dl-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--yellow); color: var(--ink); border-radius: 999px; padding: 6px 14px 6px 10px; font-weight: 800; font-size: .85rem; letter-spacing: .02em; }
+.dl-tag svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.deadline h2 { margin-top: 16px; font-family: var(--head); font-weight: 800; font-size: clamp(1.9rem, 4vw, 3.2rem); line-height: 1.04; letter-spacing: -.03em; }
+.deadline h2 mark { background: none; color: var(--yellow); }
+.deadline p { margin-top: 12px; color: rgba(255, 255, 255, .7); max-width: 44ch; line-height: 1.6; }
+.dl-clock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.dl-u { background: #fff; color: var(--ink); border-radius: 20px; padding: 16px 10px 12px; min-width: clamp(68px, 8vw, 104px); text-align: center; box-shadow: 0 16px 30px -18px rgba(0, 0, 0, .8); position: relative; overflow: hidden; }
+.dl-u::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(27, 27, 26, .08); }
+.dl-u b { display: block; font-family: var(--head); font-weight: 800; font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.dl-u b.flip { animation: flip .45s cubic-bezier(.2, .9, .3, 1.3); }
+@keyframes flip { 0% { transform: translateY(-40%); opacity: 0; } 100% { transform: none; opacity: 1; } }
+.dl-u span { display: block; margin-top: 6px; font-size: .78rem; font-weight: 700; color: var(--muted); }
+.dl-u:first-child { background: var(--yellow); }
+.dl-u:first-child span { color: var(--ink); }
+.dl-closed { display: none; font-family: var(--head); font-weight: 800; font-size: 1.6rem; color: var(--yellow); }
+.deadline.closed .dl-clock { display: none; }
+.deadline.closed .dl-closed { display: block; }
+.ap-closed { text-align: center; padding: 16px 0 6px; }
+.ap-closed .tick { margin: 0 auto 16px; background: var(--ink); color: var(--yellow); }
+
+/* the attach reminder over the last step */
+.sheet { position: relative; }
+.attach-pop { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; padding: 18px; background: rgba(27, 27, 26, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-radius: inherit; opacity: 0; transition: opacity .25s; }
+.attach-pop.on { opacity: 1; }
+.attach-pop[hidden] { display: none; }
+.ap-card { width: 100%; max-width: 440px; background: #fff; border-radius: var(--r-lg); padding: clamp(22px, 3vw, 30px); text-align: center; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .5); transform: translateY(16px) scale(.96); transition: transform .4s cubic-bezier(.2, .9, .3, 1.3); }
+.attach-pop.on .ap-card { transform: none; }
+.ap-ic { width: 72px; height: 72px; margin: 0 auto 14px; border-radius: 22px; background: var(--yellow); display: grid; place-items: center; animation: wiggle 1.6s ease-in-out infinite; }
+.ap-ic svg { width: 36px; height: 36px; fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes wiggle { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-12deg); } 80% { transform: rotate(10deg); } 90% { transform: rotate(-6deg); } }
+.ap-card h3 { font-family: var(--head); font-weight: 800; font-size: 1.45rem; letter-spacing: -.02em; line-height: 1.15; }
+.ap-card p { margin-top: 10px; color: var(--muted); line-height: 1.55; }
+.ap-card p b { color: var(--ink); }
+.ap-clip { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: var(--wash); vertical-align: -6px; }
+.ap-clip svg { width: 15px; height: 15px; fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.ap-list { list-style: none; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 14px 0 4px; }
+.ap-list li { display: inline-flex; align-items: center; gap: 8px; background: var(--wash); border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: .92rem; }
+.ap-list li::before { content: ''; width: 10px; height: 12px; border-radius: 2px; background: var(--ink); clip-path: polygon(0 0, 70% 0, 100% 30%, 100% 100%, 0 100%); }
+@media (max-width: 1000px) { .deadline { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+    .dl-strip { font-size: .8rem; gap: 8px; padding: 7px 12px; }
+    .dl-strip .dl-long, .dl-strip .dl-go { display: none; }
+    .dl-clock { gap: 6px; }
+    .dl-u { min-width: 0; padding: 12px 4px 10px; border-radius: 16px; }
+    .cr-tools { top: auto; }
+}
+
+/* ============================================================
    DIALOG
    ============================================================ */
 .veil { position: fixed; inset: 0; z-index: 95; display: none; background: rgba(27, 27, 26, .5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); overflow-y: auto; padding: max(4vh, env(safe-area-inset-top, 0px)) 16px max(4vh, env(safe-area-inset-bottom, 0px)); }
@@ -681,6 +751,7 @@ body.intro-on .progress { opacity: 0; }
         </nav>
         <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
     </div>
+    <a class="dl-strip" id="dlStrip" href="#apply"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 2h6"/></svg><span id="dlText"><span class="dl-long">Applications close on </span><b>15 November 2026</b></span><span class="dl-cd" id="dlCd">...</span><span class="dl-go">Apply now</span></a>
 </header>
 
 <main id="top">
@@ -723,6 +794,7 @@ body.intro-on .progress { opacity: 0; }
                 <li>Shift<strong>KW, Shift B</strong></li>
                 <li>Stations<strong>Six, rotating</strong></li>
                 <li>Start<strong>When you are ready</strong></li>
+                <li class="dl">Apply before<strong>15 Nov 2026</strong></li>
             </ul>
         </div>
         <div class="crate" id="crate">
@@ -870,10 +942,26 @@ body.intro-on .progress { opacity: 0; }
 
 <section class="sec" id="apply" style="padding-top:0">
     <div class="wrap">
+        <div class="deadline rv-s" id="deadline">
+            <div>
+                <span class="dl-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 2h6"/></svg>Deadline</span>
+                <h2>Applications close on<br><mark>Sunday 15 November 2026</mark></h2>
+                <p>At 23:59. Do not wait for the last day. The sooner you apply, the sooner you can meet the team.</p>
+            </div>
+            <div>
+                <div class="dl-clock" aria-label="Time left to apply" id="dlClock">
+                    <div class="dl-u"><b id="cdD">00</b><span>days</span></div>
+                    <div class="dl-u"><b id="cdH">00</b><span>hours</span></div>
+                    <div class="dl-u"><b id="cdM">00</b><span>minutes</span></div>
+                    <div class="dl-u"><b id="cdS">00</b><span>seconds</span></div>
+                </div>
+                <p class="dl-closed">Applications for this round are closed.</p>
+            </div>
+        </div>
         <div class="apply rv">
             <div>
                 <h2>This is your shift. Make it count.</h2>
-                <p class="lead">Send your details in under a minute. You choose which email account sends your documents.</p>
+                <p class="lead">Send your details in under a minute, then email your CV from your own account. Deadline: 15 November 2026.</p>
                 <button class="btn k mag" id="openBtn">Start your application</button>
             </div>
             <ol class="steps">
@@ -910,6 +998,12 @@ body.intro-on .progress { opacity: 0; }
             <button class="x" id="x" aria-label="Close">&times;</button>
         </div>
         <div class="sheet-in">
+            <div class="stepv" id="v0">
+                <div class="ap-closed"><div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 2h6"/></svg></div>
+                <h2>Applications are closed</h2>
+                <p class="note">This round closed on 15 November 2026. Questions? Email Miroslaw at miroslaw.medrzechowski@jumbo.com.</p>
+                <div class="acts-d"><button type="button" class="bfill" id="closedOk">OK</button></div></div>
+            </div>
             <div class="stepv on" id="v1">
                 <div class="alert" id="alert" hidden></div>
                 <div class="wz-bar" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
@@ -945,16 +1039,9 @@ body.intro-on .progress { opacity: 0; }
                         </div>
                     </fieldset>
                     <fieldset class="wz-step" data-s="2">
-                        <legend>Your CV and motivation</legend>
-                        <p class="note">Step 3 of 3. PDF, Word or a photo, up to 10 MB each.</p>
-                        <p class="heads-up" id="headsUp"><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg><span><b>Good to know:</b> email apps do not let a website attach files for you. Pick your files here so we can remind you of them, and in the last step you attach your CV and motivation letter to the email yourself. We will show you how.</span></p>
-                        <div class="fld"><span class="fld-label">Your CV</span>
-                            <label class="drop" id="dropCv"><input type="file" id="fileCv" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><span class="dz-ic"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span><span class="dz-t"><b>Drop your CV here</b><small>or tap to choose a file</small></span></label>
-                        </div>
-                        <div class="fld"><span class="fld-label">Motivation letter <span style="color:var(--muted);font-weight:500">(optional)</span></span>
-                            <label class="drop" id="dropLt"><input type="file" id="fileLt" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><span class="dz-ic"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span><span class="dz-t"><b>Drop your letter here</b><small>or write a few lines below instead</small></span></label>
-                        </div>
-                        <div class="fld"><label for="mot">Why KW Shift B?</label><textarea id="mot" required placeholder="What draws you to this role"></textarea></div>
+                        <legend>Why you?</legend>
+                        <p class="note">Step 3 of 3. A few honest lines are enough. Your CV comes next, by email.</p>
+                        <div class="fld"><label for="mot">Why KW Shift B?</label><textarea id="mot" required placeholder="What draws you to this role, and what would you bring to the team?"></textarea></div>
                     </fieldset>
                     <input type="checkbox" class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <div class="acts-d">
@@ -969,18 +1056,8 @@ body.intro-on .progress { opacity: 0; }
             </div>
             <div class="stepv" id="v3">
                 <div class="tick" aria-hidden="true">&check;</div>
-                <h2 id="v3Title">Sent. Now attach your CV.</h2>
-                <p class="note" id="v3Note">Your full application is already written into the message. Pick where to send it from, attach these files, and press send.</p>
-                <div class="attach-how" id="attachHow">
-                    <h3><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg>Attach both files before you press send</h3>
-                    <ol>
-                        <li><span>Choose your email below. The message is already written for you.</span></li>
-                        <li><span>Tap the paperclip <span class="clip"><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg></span> or <b>Attach</b> in your email app.</span></li>
-                        <li><span>Add these two files:</span></li>
-                    </ol>
-                    <ul class="attach-list" id="attachList" style="margin:10px 0 0 36px"></ul>
-                    <ol start="4" style="counter-reset:a 3"><li><span>Check both files are attached, then press <b>Send</b>.</span></li></ol>
-                </div>
+                <h2 id="v3Title">Sent! Last step: email your CV.</h2>
+                <p class="note" id="v3Note">Miroslaw has your details. Now pick your email below. The message is already written for you, you only add your CV and motivation letter.</p>
                 <div class="refbox"><span>Your reference</span><b id="refOut">...</b></div>
                 <div class="mailers">
                     <button class="mailer" data-p="gmail"><svg viewBox="0 0 24 24" fill="none"><path d="M2 6.5 12 13l10-6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="4.5" width="20" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/></svg><span>Gmail<small>New tab</small></span></button>
@@ -989,6 +1066,15 @@ body.intro-on .progress { opacity: 0; }
                     <button class="mailer" data-p="app"><svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="2.5" width="15" height="19" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M10 18.5h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>My mail app<small>Default app</small></span></button>
                 </div>
                 <button class="copyline" id="copyBtn">Copy the message instead</button>
+                <div class="attach-pop" id="attachPop" role="alertdialog" aria-modal="true" aria-labelledby="apTitle" aria-describedby="apText" hidden>
+                    <div class="ap-card">
+                        <div class="ap-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg></div>
+                        <h3 id="apTitle">Attach your CV before you press send</h3>
+                        <p id="apText">The email that opens in <b id="apApp">your email app</b> is already written for you. Before sending it, tap the paperclip <span class="ap-clip" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m21.4 11-8.5 8.5a6 6 0 0 1-8.5-8.5l8.5-8.5a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8"/></svg></span> and add:</p>
+                        <ul class="ap-list"><li>Your CV</li><li>Your motivation letter</li></ul>
+                        <div class="acts-d"><button type="button" class="bline" id="apBack">Back</button><button type="button" class="bfill" id="apGo">Got it, open my email</button></div>
+                    </div>
+                </div>
                 <div class="acts-d"><button type="button" class="bline" id="later">I will send it later</button></div>
             </div>
         </div>
@@ -1009,10 +1095,11 @@ body.intro-on .progress { opacity: 0; }
    the link that arrives in that inbox. Free plan, no card needed.
    ============================================================ */
 var ACCESS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
-/* File uploads straight to the inbox need Web3Forms Pro. Leave this
-   false on the free plan: the applicant still picks their files here,
-   and the last step reminds them which ones to attach to the email. */
-var FILE_UPLOADS = false;
+/* Every email from this page has this in the subject, so Miroslaw can
+   add one rule in his inbox that moves them all into a folder. */
+var SUBJECT_TAG = 'Allrounder application';
+/* Applications close at the end of this day, Dutch time. */
+var DEADLINE = new Date('2026-11-15T23:59:59+01:00');
 var TO = 'miroslaw.medrzechowski@jumbo.com';
 var VIDEO = 'recruitment_video.mp4';
 
@@ -1943,11 +2030,12 @@ askQ();
 var v1 = $('v1'), v2 = $('v2'), v3 = $('v3'), alertBox = $('alert'), sendBtn = $('send');
 var veil = $('veil'), app = {}, lastFocus = null;
 
-function view(el) { [v1, v2, v3].forEach(function (s) { s.classList.toggle('on', s === el); }); }
+function view(el) { [$('v0'), v1, v2, v3].forEach(function (s) { s.classList.toggle('on', s === el); }); }
 function openApp() {
     lastFocus = document.activeElement;
     veil.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (Date.now() > DEADLINE.getTime()) { view($('v0')); $('closedOk').focus(); return; }
     view(v1); alertBox.hidden = true;
     sendBtn.disabled = false; sendBtn.textContent = 'Send my application';
     goStep(0);
@@ -1974,39 +2062,11 @@ function stepValid(n) {
         if (f.type === 'radio') { if (!steps[n].querySelector('input[name="' + f.name + '"]:checked')) { f.reportValidity(); ok = false; break; } continue; }
         if (!f.checkValidity()) { f.reportValidity(); ok = false; break; }
     }
-    if (ok && n === 2 && !files.cv) { var d = $('dropCv'); d.classList.remove('bad'); void d.offsetWidth; d.classList.add('bad'); d.querySelector('small').textContent = 'Please add your CV to continue'; ok = false; }
     return ok;
 }
 nextBtn.addEventListener('click', function () { if (stepValid(wzStep)) goStep(wzStep + 1); });
 
-/* ---- CV and letter: drop or pick a file ---- */
-var files = { cv: null, lt: null };
-var OKTYPES = /\.(pdf|docx?|jpe?g|png)$/i, MAXB = 10 * 1024 * 1024;
-function size(b) { return b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'; }
-[['cv', 'dropCv', 'fileCv', 'Drop your CV here', 'or tap to choose a file'], ['lt', 'dropLt', 'fileLt', 'Drop your letter here', 'or write a few lines below instead']].forEach(function (c) {
-    var key = c[0], drop = $(c[1]), input = $(c[2]), title = drop.querySelector('b'), sub = drop.querySelector('small');
-    function reset() { files[key] = null; input.value = ''; drop.classList.remove('has', 'bad'); title.textContent = c[3]; sub.textContent = c[4]; var rm = drop.querySelector('.rm'); if (rm) rm.remove(); }
-    function take(f) {
-        if (!f) return;
-        if (!OKTYPES.test(f.name) || f.size > MAXB) {
-            drop.classList.remove('bad'); void drop.offsetWidth; drop.classList.add('bad');
-            sub.textContent = f.size > MAXB ? 'That file is over 10 MB' : 'Use a PDF, Word file or photo';
-            return;
-        }
-        files[key] = f;
-        drop.classList.remove('bad'); drop.classList.add('has');
-        title.textContent = f.name; sub.textContent = size(f.size) + ', ready to send';
-        if (!drop.querySelector('.rm')) {
-            var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
-            rm.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); reset(); });
-            drop.appendChild(rm);
-        }
-    }
-    input.addEventListener('change', function () { take(input.files[0]); });
-    ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
-    ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
-    drop.addEventListener('drop', function (e) { take(e.dataTransfer.files[0]); });
-});
+
 function closeApp() {
     veil.classList.remove('open');
     document.body.style.overflow = '';
@@ -2082,19 +2142,44 @@ langQ.addEventListener('keydown', function (e) {
 langList.addEventListener('mousedown', function (e) { var li = e.target.closest('li'); if (li) { e.preventDefault(); pickShown(+li.dataset.i); } });
 langQ.addEventListener('blur', function () { setTimeout(closeList, 120); });
 $('lang').addEventListener('click', function (e) { if (e.target === this) langQ.focus(); });
-if (FILE_UPLOADS) $('headsUp').hidden = true;
 
 $('cancel').addEventListener('click', function () { if (wzStep > 0) goStep(wzStep - 1); else closeApp(); });
 $('later').addEventListener('click', closeApp);
+$('closedOk').addEventListener('click', closeApp);
+
+/* ---- deadline countdown, everywhere it appears ---- */
+(function countdown() {
+    var strip = $('dlStrip'), cd = $('dlCd'), box = $('deadline'), parts = { d: $('cdD'), h: $('cdH'), m: $('cdM'), s: $('cdS') }, prev = {};
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function set(k, v) {
+        if (prev[k] === v) return;
+        prev[k] = v; parts[k].textContent = v;
+        if (!reduce) { parts[k].classList.remove('flip'); void parts[k].offsetWidth; parts[k].classList.add('flip'); }
+    }
+    function step() {
+        var left = DEADLINE.getTime() - Date.now();
+        if (left <= 0) {
+            strip.classList.add('closed'); box.classList.add('closed');
+            $('dlText').innerHTML = 'Applications for this round closed on <b>15 November 2026</b>';
+            return;
+        }
+        var s = Math.floor(left / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+        set('d', pad(d)); set('h', pad(h)); set('m', pad(m)); set('s', pad(sec));
+        cd.textContent = (d ? d + (d === 1 ? ' day ' : ' days ') : '') + pad(h) + ':' + pad(m) + ':' + pad(sec);
+        strip.classList.toggle('urgent', d < 7);
+        setTimeout(step, 1000 - Date.now() % 1000 + 5);
+    }
+    step();
+})();
 veil.addEventListener('click', function (e) { if (e.target === veil) closeApp(); });
-addEventListener('keydown', function (e) { if (e.key === 'Escape' && veil.classList.contains('open') && $('langList').hidden) closeApp(); });
+addEventListener('keydown', function (e) { if (e.key === 'Escape' && veil.classList.contains('open') && $('langList').hidden && $('attachPop').hidden) closeApp(); });
 
 function makeRef() {
     return ('KWB' + Date.now().toString(36).slice(-3) + Math.random().toString(36).slice(2, 5)).toUpperCase();
 }
-function subject() { return 'Application ' + app.ref + ': All-Rounder, KW Shift B, ' + app.name; }
+function subject() { return SUBJECT_TAG + ': ' + app.name + ' (ref ' + app.ref + ')'; }
 function bodyText() {
-    return (FILE_UPLOADS ? '' : '>>> Before sending: attach your CV and motivation letter, then delete this line. <<<\n\n') +
+    return '>>> Before sending: attach your CV and motivation letter, then delete this line. <<<\n\n' +
         'Dear Miroslaw,\n\n' +
         'I would like to apply for the Warehouse All-Rounder position on KW Shift B. ' +
         'My CV and motivation letter are attached to this email.\n\n' +
@@ -2108,7 +2193,7 @@ function bodyText() {
         'Reach truck certificate: ' + app.cert + '\n' +
         'Languages: ' + (app.langs || 'Not given') + '\n' +
         'Could start: ' + app.start + '\n\n' +
-        'ATTACHED\n' + 'CV: ' + app.cvName + (app.ltName ? '\nMotivation letter: ' + app.ltName : '') + '\n\n' +
+
         'WHY KW SHIFT B\n' + app.mot + '\n\n' +
         'Kind regards,\n' + app.name;
 }
@@ -2141,9 +2226,22 @@ function compose(provider) {
         }[provider], web);
     } else { open(web, '_blank', 'noopener'); }
 }
+var pop = $('attachPop'), popFor = null, NAMES_APP = { gmail: 'Gmail', outlook: 'Outlook', yahoo: 'Yahoo Mail', app: 'your email app' };
+function showPop(provider) {
+    popFor = provider;
+    $('apApp').textContent = NAMES_APP[provider] || 'your email app';
+    $('apGo').textContent = 'Got it, open ' + (provider === 'app' ? 'my email' : NAMES_APP[provider]);
+    pop.hidden = false;
+    requestAnimationFrame(function () { pop.classList.add('on'); });
+    $('apGo').focus();
+}
+function hidePop() { pop.classList.remove('on'); setTimeout(function () { pop.hidden = true; }, 250); }
 document.querySelectorAll('.mailer').forEach(function (b) {
-    b.addEventListener('click', function () { compose(b.dataset.p); });
+    b.addEventListener('click', function () { showPop(b.dataset.p); });
 });
+$('apBack').addEventListener('click', hidePop);
+$('apGo').addEventListener('click', function () { var p = popFor; hidePop(); compose(p); });
+pop.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.stopPropagation(); hidePop(); } });
 if (PHONE) {
     var box = document.querySelector('.mailers');
     var appBtn = box.querySelector('[data-p="app"]');
@@ -2157,7 +2255,7 @@ $('copyBtn').addEventListener('click', function () {
     var btn = $('copyBtn');
     navigator.clipboard.writeText('To: ' + TO + '\nSubject: ' + subject() + '\n\n' + bodyText())
         .then(function () {
-            btn.textContent = 'Copied. Paste it into your email';
+            btn.textContent = 'Copied. Paste it, attach your CV, and send';
             setTimeout(function () { btn.textContent = 'Copy the message instead'; }, 3000);
         })
         .catch(function () { btn.textContent = 'Copy failed. Select the text manually'; });
@@ -2172,18 +2270,10 @@ $('form').addEventListener('submit', function (e) {
     var cert = document.querySelector('input[name=cert]:checked');
     app = { name: val('name'), email: val('email'), phone: val('phone'), exp: val('exp'), mot: val('mot'), ref: makeRef(),
             cert: cert ? cert.value : 'Not given', start: val('start'),
-            langs: langSel.join(', '),
-            cvName: files.cv ? files.cv.name : '', ltName: files.lt ? files.lt.name : '' };
+            langs: langSel.join(', ') };
     alertBox.hidden = true;
-    var uploaded = FILE_UPLOADS && ACCESS_KEY.indexOf('PASTE_') !== 0;
     function showDone() {
         $('refOut').textContent = app.ref;
-        var esc = function (n) { return n.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
-        $('attachList').innerHTML = '<li>Your CV: ' + esc(app.cvName || 'your CV file') + '</li>' +
-            '<li>Your motivation letter: ' + esc(app.ltName || 'your letter file, if you have one') + '</li>';
-        $('attachHow').hidden = uploaded;
-        $('v3Title').textContent = uploaded ? 'Sent! Your CV is on its way.' : 'Sent. Now attach your CV.';
-        $('v3Note').textContent = uploaded ? 'Miroslaw has your details and your files. If you want a copy in your own outbox, you can also send it from here.' : 'Your details reached Miroslaw. One last step: send the email with your files attached.';
         view(v3);
         setTimeout(function () { burstAt(document.querySelector('.sheet'), 160); }, 150);
     }
@@ -2196,19 +2286,9 @@ $('form').addEventListener('submit', function (e) {
         access_key: ACCESS_KEY, from_name: 'KW Shift B careers page', subject: subject(), replyto: app.email,
         Reference: app.ref, Name: app.name, Email: app.email, Phone: app.phone,
         'Warehouse experience': app.exp, 'Reach truck certificate': app.cert, Languages: app.langs || 'Not given',
-        'Could start': app.start, 'Why KW Shift B': app.mot, 'CV file': app.cvName, 'Letter file': app.ltName || 'None'
+        'Could start': app.start, 'Why KW Shift B': app.mot, 'CV': 'Coming by email from the applicant'
     };
-    var req;
-    if (uploaded) {
-        var fd = new FormData();
-        Object.keys(fields).forEach(function (k) { fd.append(k, fields[k]); });
-        fd.append('attachment', files.cv);
-        if (files.lt) fd.append('attachment_2', files.lt);
-        req = fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: fd });
-    } else {
-        req = fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(fields) });
-    }
-    req
+    fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(fields) })
     .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
     .then(function (res) {
         if (!res.ok || res.d.success === false) throw new Error('rejected');
