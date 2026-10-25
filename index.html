@@ -731,6 +731,70 @@ section { scroll-margin-top: 116px; }
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }
+/* ============================================================
+   PHONES
+   ============================================================ */
+/* the video shows in full on a tall screen, with a soft blurred fill around it */
+.vid-bg { position: absolute; inset: -10%; width: 120%; height: 120%; filter: blur(28px) saturate(1.2); opacity: .9; display: none; }
+@media (max-aspect-ratio: 1/1) {
+    .vid-bg { display: block; }
+    .intro-frame video { object-fit: contain; transform: none; }
+    .intro-frame { background: #111; }
+}
+.st-dots { display: none; }
+@media (max-width: 1000px) {
+    /* stations become a swipeable row */
+    .hs-sticky { padding-bottom: 8px; }
+    .hs-track.stations { flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding: 4px var(--pad) 18px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .hs-track.stations::-webkit-scrollbar { display: none; }
+    .hs-track .st { width: min(84vw, 380px); scroll-snap-align: center; }
+    .st:hover { transform: none; }
+    .st-dots { display: flex; justify-content: center; gap: 8px; margin-top: 4px; }
+    .st-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 99px; background: #DCD8CD; cursor: pointer; transition: width .3s var(--ease), background .3s; }
+    .st-dots button.on { width: 26px; background: var(--ink); }
+    .swipe-hint { display: block; text-align: center; font-size: .82rem; font-weight: 600; color: var(--muted); margin-top: 10px; }
+}
+.swipe-hint { display: none; }
+@media (max-width: 1000px) { .hero .facts { display: flex; margin-top: 14px; } .hero .facts li:not(.dl) { display: none; } }
+@media (max-width: 760px) {
+    /* the shift leaders sit side by side */
+    .team { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .lead-card { padding: 18px 6px; border-radius: 20px; }
+    .lead-card .av { width: 58px; height: 58px; font-size: 1.4rem; border-width: 3px; }
+    .lead-card h3 { font-size: 1.05rem; margin-top: 10px; }
+    .lead-card span { font-size: .8rem; }
+    .lead-card .hi { display: none; }
+    .contact { flex-direction: column; align-items: stretch; }
+    .contact-l { align-items: flex-start; }
+    .contact p { overflow-wrap: anywhere; font-size: .88rem; }
+    .contact h3 { font-size: 1.1rem; }
+    .nums { gap: 10px; }
+    .num { padding: 20px 18px; }
+    .why, .cards { gap: 10px; }
+    .w { padding: 20px; gap: 12px; }
+    .sec { padding-top: 64px; padding-bottom: 64px; }
+    .h2 { font-size: clamp(1.8rem, 8vw, 2.3rem); }
+    .lead { font-size: 1rem; }
+    .welcome-pin { padding-top: 110px; justify-content: flex-start; }
+    .w-big { font-size: clamp(1.9rem, 8.6vw, 2.6rem); margin-top: 18px; }
+    .w-chips { margin-top: 22px; gap: 8px; }
+    .w-chips li { padding: 8px 14px; font-size: .9rem; }
+    .w-down { margin-top: 22px; font-size: .9rem; }
+    .hero-txt { top: 118px; }
+    .hero h1 { font-size: clamp(2.1rem, 10vw, 2.7rem); }
+    .hero .badge, .hero .hello { font-size: .82rem; }
+    .deadline { padding: 24px 18px; }
+    .deadline h2 { font-size: 1.8rem; }
+    .apply { padding: 28px 20px; }
+    .apply h2 { font-size: 2.2rem; }
+    .bento { gap: 10px; }
+    .bn.big { min-height: 300px; }
+    .clock { width: 110px; }
+    .quiz-wrap { padding: 22px 14px; }
+    .quiz-body { padding: 18px 14px; }
+    .foot-row { flex-direction: column; }
+}
+
 </style>
 </head>
 <body class="intro-on">
@@ -759,6 +823,7 @@ section { scroll-margin-top: 116px; }
 <section class="intro" id="intro" aria-label="A look inside the KW Shift B warehouse">
     <div class="intro-pin">
         <div class="intro-frame" id="introFrame">
+            <canvas class="vid-bg" id="vidBg" width="32" height="18" aria-hidden="true"></canvas>
             <video id="vid" autoplay muted loop playsinline aria-label="A look inside the KW Shift B warehouse"></video>
             <button class="vid-tap" id="vidTap" aria-label="Turn the video sound on" aria-pressed="false"></button>
             <span class="vid-snd" id="vidSnd" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path id="sndWave" d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12" opacity=".2"/></svg></span>
@@ -825,6 +890,8 @@ section { scroll-margin-top: 116px; }
         </div>
         <div class="hs-track stations" id="stationGrid"></div>
         <div class="hs-bar" aria-hidden="true"><i id="hsBar"></i></div>
+        <div class="st-dots" id="stDots" aria-label="Choose a station"></div>
+        <p class="swipe-hint">Swipe to see all six</p>
     </div>
 </section>
 
@@ -1566,7 +1633,9 @@ function crate3D() {
         W = wrap.clientWidth; H = wrap.clientHeight;
         renderer.setSize(W, H, false);
         camera.aspect = W / H;
-        var fitH = 11.5 / (2 * Math.tan(16 * Math.PI / 180)), fitW = 13 / (2 * Math.tan(16 * Math.PI / 180) * (W > 1000 ? W / H * .62 : W / H));
+        camera.fov = W < 760 ? 46 : 32;
+        var half = Math.tan(camera.fov / 2 * Math.PI / 180);
+        var fitH = (W < 760 ? 9 : 11.5) / (2 * half), fitW = (W < 760 ? 9.6 : 13) / (2 * half * (W > 1000 ? W / H * .62 : W / H));
         var dist = Math.max(fitH, fitW, 13);
         camera.position.set(0, dist * .3, dist);
         camera.lookAt(0, -.2, 0);
@@ -1713,7 +1782,7 @@ function crate3D() {
         });
 
         /* stations: tucked in, then orbiting, then one in front */
-        var R = W / H < .9 ? 3.2 : 3.9;
+        var R = W < 760 ? 2.7 : W / H < .9 ? 3.2 : 3.9;
         items.forEach(function (it, i) {
             var k = Math.max(0, Math.min(1, (open - i * .06) / .7));
             var ek = openGoal ? backOut(k) : k * k;
@@ -1795,6 +1864,30 @@ vidTap.addEventListener('click', function () {
     $('sndWave').setAttribute('opacity', vid.muted ? '.2' : '1');
     vidSnd.classList.add('flash'); clearTimeout(vidSnd._t); vidSnd._t = setTimeout(function () { vidSnd.classList.remove('flash'); }, 1200);
 });
+
+(function () {
+    var bg = $('vidBg'), g = bg.getContext('2d'), tall = matchMedia('(max-aspect-ratio: 1/1)');
+    (function paint() {
+        if (tall.matches && vid.readyState >= 2 && !vid.paused) { try { g.drawImage(vid, 0, 0, 32, 18); } catch (e) {} }
+        setTimeout(function () { requestAnimationFrame(paint); }, 120);
+    })();
+})();
+
+(function () {
+    var track = $('stationGrid'), dots = $('stDots');
+    STATIONS.forEach(function (s, i) {
+        var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', s.name);
+        b.addEventListener('click', function () { var c = track.children[i]; track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' }); });
+        dots.appendChild(b);
+    });
+    function mark() {
+        var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = 1e9;
+        [].forEach.call(track.children, function (c, i) { var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } });
+        [].forEach.call(dots.children, function (d, i) { d.classList.toggle('on', i === best); });
+    }
+    track.addEventListener('scroll', function () { requestAnimationFrame(mark); }, { passive: true });
+    mark();
+})();
 
 /* welcome words, wrapped so each can light up; *starred* phrases get a marker */
 (function () {
